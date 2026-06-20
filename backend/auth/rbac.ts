@@ -17,7 +17,7 @@ export const ROLE_PERMISSIONS: Record<Role, Set<string>> = {
     'DELETE_RECORD',
     'VALIDATE_DATA',
     'EXPORT_DATA',
-    'APPROVE_BILLING',
+    'APPROVE_RECORD',
   ]),
   operator: new Set([
     'GET_RESOURCES',
@@ -36,7 +36,7 @@ export function extractAuthContext(event: APIGatewayProxyEvent): AuthContext {
   const authHeader = event.headers['Authorization'] || '';
   const token = authHeader.replace('Bearer ', '');
   
-  // Mock token parsing - in production, verify JWT
+  // Mock JWT parsing - in production, use proper JWT verification
   try {
     const decoded = JSON.parse(Buffer.from(token.split('.')[1], 'base64').toString());
     return {
@@ -46,9 +46,9 @@ export function extractAuthContext(event: APIGatewayProxyEvent): AuthContext {
     };
   } catch {
     return {
-      userId: 'anonymous',
+      userId: 'unknown',
       role: 'viewer',
-      email: 'anonymous@example.com',
+      email: 'unknown@example.com',
     };
   }
 }
@@ -59,27 +59,6 @@ export function hasPermission(role: Role, permission: string): boolean {
 
 export function requirePermission(role: Role, permission: string): void {
   if (!hasPermission(role, permission)) {
-    throw new ForbiddenError(`Permission denied: ${permission}`);
-  }
-}
-
-export class ForbiddenError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'ForbiddenError';
-  }
-}
-
-export class NotFoundError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'NotFoundError';
-  }
-}
-
-export class ValidationError extends Error {
-  constructor(message: string) {
-    super(message);
-    this.name = 'ValidationError';
+    throw new Error(`FORBIDDEN: ${permission}`);
   }
 }
