@@ -1,7 +1,7 @@
 {
   "systemId": "itg-3",
   "systemName": "契約・提案資料管理システム",
-  "cssTheme": "```css\n:root {\n  --primary: #d4af37;\n  --primary-hover: #f4d03f;\n  --bg-main: #0a0a0a;\n  --bg-card: #1a1a1a;\n  --bg-sidebar: #121212;\n  --border: #2a2a2a;\n  --text: #f5f5f5;\n  --text-muted: #a0a0a0;\n  --top-bar-bg: #1a1a1a;\n  --top-bar-border: #2a2a2a;\n  --accent-red: #c41e3a;\n  --accent-red-hover: #e63946;\n  --font-size-base: 16px;\n  --font-size-lg: 18px;\n  --font-size-xl: 20px;\n  --font-size-heading: 24px;\n}\n```",
+  "cssTheme": "```css\n:root {\n  --primary: #d4af37;\n  --primary-hover: #f4d03f;\n  --bg-main: #0f0f0f;\n  --bg-card: #1a1a1a;\n  --bg-sidebar: #161616;\n  --border: #2a2a2a;\n  --text: #f5f5f5;\n  --text-muted: #a0a0a0;\n  --top-bar-bg: #1a1a1a;\n  --top-bar-border: #2a2a2a;\n  --accent-red: #e63946;\n  --accent-red-hover: #f77f88;\n  --font-size-base: 16px;\n  --font-size-large: 18px;\n  --font-size-xl: 20px;\n  --font-size-heading: 24px;\n}\n```",
   "screens": [
     {
       "id": "scr-1781954440904",
