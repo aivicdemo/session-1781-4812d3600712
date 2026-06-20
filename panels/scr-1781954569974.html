@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>契約書・提案資料検索画面 - バックオフィサー</title>
+  <script>
+window.AIVIC_API_URL = "https://mkwmoife37uqyv4zhy4yhweozq0oddxn.lambda-url.us-east-1.on.aws/";
+window.AIVIC_APP_ID = "session-1781935010162";
+window.AIVIC_SYSTEM_NAME = "契約・提案資料管理システム";
+window.AIVIC_TABLES = [{"tableName":"ユーザー","purpose":"営業データ品質管理・請求自動化システムのユーザー管理。ユーザー認証、権限管理、監査ログ記録に必要なマスターテーブル","columns":[{"name":"ユーザーID","type":"uuid","required":true,"description":"ユーザーの一意識別子"},{"name":"ユーザー名","type":"varchar(100)","required":true,"description":"ログイン用のユーザー名"},{"name":"メールアドレス","type":"varchar(100)","required":true,"description":"ユーザーのメールアドレス"},{"name":"パスワードハッシュ","type":"varchar(255)","required":true,"description":"ハッシュ化されたパスワード"},{"name":"氏名","type":"varchar(100)","required":true,"description":"ユーザーの氏名"},{"name":"部門","type":"varchar(100)","required":false,"description":"ユーザーが属する部門"},{"name":"役割","type":"varchar(50)","required":true,"description":"ユーザーの役割（管理者/営業/品質管理者/請求担当者等）"},{"name":"ステータス","type":"varchar(20)","required":true,"description":"ユーザーステータス（有効/無効/休止）"},{"name":"最終ログイン日時","type":"timestamp","required":false,"description":"最後にログインした日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"ユーザーレコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"ユーザーレコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"ユーザーレコード作成者"},{"name":"更新者","type":"varchar(100)","required":false,"description":"ユーザーレコード最終更新者"}]},{"tableName":"契約書","purpose":"契約・提案資料管理システムにおける契約書の基本情報を管理するマスタテーブル","columns":[{"name":"契約書ID","type":"uuid","required":true,"description":"契約書の一意識別子"},{"name":"契約書名","type":"varchar(100)","required":true,"description":"契約書のタイトル"},{"name":"契約書説明","type":"text","required":false,"description":"契約書の詳細説明"},{"name":"契約種別","type":"varchar(100)","required":true,"description":"契約の種類（例：売買契約、サービス契約、NDA等）"},{"name":"契約相手先ID","type":"uuid","required":true,"description":"契約相手先企業の識別子"},{"name":"契約開始日","type":"timestamp","required":true,"description":"契約の開始日"},{"name":"契約終了日","type":"timestamp","required":false,"description":"契約の終了日"},{"name":"契約金額","type":"integer","required":false,"description":"契約金額（円）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"契約状態（例：草案、承認待ち、有効、終了、キャンセル）"},{"name":"担当者ID","type":"uuid","required":true,"description":"契約の担当ユーザーID"},{"name":"ファイルパス","type":"varchar(100)","required":false,"description":"契約書ファイルの保存パス"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]},{"tableName":"提案資料","purpose":"契約・提案資料管理システムにおいて、顧客への提案資料の情報を一元管理し、提案から契約への進捗を追跡するためのマスタテーブル","columns":[{"name":"提案資料ID","type":"uuid","required":true,"description":"提案資料の一意識別子"},{"name":"提案資料名","type":"varchar(100)","required":true,"description":"提案資料のタイトル・名称"},{"name":"説明","type":"text","required":false,"description":"提案資料の詳細説明"},{"name":"ユーザーID","type":"uuid","required":true,"description":"提案資料を作成・管理するユーザーの外部キー"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"提案資料のステータス（下書き、提案中、承認待ち、契約済み、却下等）"},{"name":"提案日","type":"timestamp","required":true,"description":"顧客への提案実施日時"},{"name":"契約書ID","type":"uuid","required":false,"description":"関連する契約書の外部キー（契約成立時に設定）"},{"name":"作成日時","type":"timestamp","required":true,"description":"提案資料レコードの作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"提案資料レコードの最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"提案資料を作成したユーザーの外部キー"}]},{"tableName":"契約書バージョン","purpose":"契約書の版管理。同一契約書の複数バージョンを追跡し、変更履歴と承認状況を記録する。","columns":[{"name":"バージョンID","type":"uuid","required":true,"description":"バージョンレコードの一意識別子"},{"name":"契約書ID","type":"uuid","required":true,"description":"親契約書テーブルへの外部キー"},{"name":"バージョン番号","type":"integer","required":true,"description":"同一契約書内での版番号（1, 2, 3...）"},{"name":"ファイルパス","type":"varchar(100)","required":true,"description":"契約書ドキュメントの保存先パスまたはURL"},{"name":"変更内容","type":"text","required":false,"description":"前バージョンからの変更点の説明"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"バージョンの状態（下書き/レビュー中/承認済み/却下等）"},{"name":"作成者ID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー。バージョン作成者"},{"name":"作成日時","type":"timestamp","required":true,"description":"バージョン作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"バージョン最終更新日時"},{"name":"承認者ID","type":"uuid","required":false,"description":"ユーザーテーブルへの外部キー。承認実施者"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認実施日時"}]},{"tableName":"提案資料バージョン","purpose":"提案資料の変更履歴を管理し、各バージョンの内容、ステータス、作成者を追跡する","columns":[{"name":"バージョンID","type":"uuid","required":true,"description":"提案資料バージョンの一意識別子"},{"name":"提案資料ID","type":"uuid","required":true,"description":"親の提案資料を参照する外部キー"},{"name":"バージョン番号","type":"integer","required":true,"description":"提案資料内での連番（1, 2, 3...）"},{"name":"タイトル","type":"varchar(100)","required":true,"description":"このバージョンの提案資料タイトル"},{"name":"内容","type":"text","required":true,"description":"提案資料の本文・詳細内容"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"バージョンのステータス（下書き、承認待ち、承認済み、却下等）"},{"name":"作成者ID","type":"uuid","required":true,"description":"このバージョンを作成したユーザーを参照する外部キー"},{"name":"作成日時","type":"timestamp","required":true,"description":"バージョンの作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"バージョンの最終更新日時"},{"name":"備考","type":"text","required":false,"description":"このバージョンの変更内容や特記事項"}]},{"tableName":"変更履歴","purpose":"契約書と提案資料の変更内容を追跡・監査するための履歴管理テーブル","columns":[{"name":"変更履歴ID","type":"uuid","required":true,"description":"変更履歴レコードの一意識別子"},{"name":"対象テーブル","type":"varchar(100)","required":true,"description":"変更対象のテーブル名（契約書 または 提案資料）"},{"name":"対象ID","type":"uuid","required":true,"description":"変更対象レコードのID（契約書ID または 提案資料ID）"},{"name":"変更種別","type":"varchar(100)","required":true,"description":"変更の種類（作成/更新/削除/ステータス変更 等）"},{"name":"変更フィールド","type":"varchar(100)","required":false,"description":"変更されたフィールド名"},{"name":"変更前値","type":"text","required":false,"description":"変更前の値"},{"name":"変更後値","type":"text","required":false,"description":"変更後の値"},{"name":"変更理由","type":"text","required":false,"description":"変更の理由・備考"},{"name":"作成者ID","type":"uuid","required":true,"description":"変更を実施したユーザーID"},{"name":"作成日時","type":"timestamp","required":true,"description":"変更が記録された日時"}]}];
+window.AIVIC_PRESET_SEED = {};
+window.AIVIC_PAGE_SCREEN_ID = "scr-1781954569974";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // テーブルインデックス（契約書と提案資料を統合）\n  const contractTableIndex = 0;  // 契約書\n  const proposalTableIndex = 1;  // 提案資料\n  const userTableIndex = 2;      // ユーザー（作成者フィルタ用）\n\n  // 統合データ（契約書 + 提案資料）\n  let allRecords = [];\n\n  // 1. 再描画関数\n  function renderRows(rows) {\n    const tbody = container.querySelector(\"#result-tbody\");\n    const countEl = container.querySelector(\"#result-count\");\n    \n    countEl.textContent = rows.length;\n\n    if (rows.length === 0) {\n      tbody.innerHTML = `<tr style=\"height: 2rem;\"><td colspan=\"6\" style=\"padding: 1rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;\">検索結果がありません</td></tr>`;\n      return;\n    }\n\n    tbody.innerHTML = rows.map(r => {\n      const name = r.契約書名 || r.提案資料名 || \"（名前なし）\";\n      const type = r.契約種別 ? \"契約書\" : \"提案資料\";\n      const status = r.ステータス || \"—\";\n      const creatorName = r.作成者名 || \"—\";\n      const createdDate = r.作成日時 ? new Date(r.作成日時).toLocaleDateString(\"ja-JP\") : \"—\";\n      const recordId = r.契約書ID || r.提案資料ID || r.id;\n      const isContract = !!r.契約書ID;\n\n      return `\n        <tr data-id=\"${recordId}\" data-type=\"${isContract ? 'contract' : 'proposal'}\" style=\"border-bottom: 1px solid rgba(255,255,255,0.08); cursor: pointer; transition: background 0.15s;\">\n          <td style=\"padding: 0.75rem; color: var(--text);\">${name}</td>\n          <td style=\"padding: 0.75rem; color: var(--text-muted); font-size: 0.9rem;\">${type}</td>\n          <td style=\"padding: 0.75rem;\">\n            <span style=\"display: inline-block; padding: 0.25rem 0.625rem; border-radius: 0.25rem; font-size: 0.85rem; font-weight: 600; background: ${getStatusBgColor(status)}; color: ${getStatusTextColor(status)};\">\n              ${status}\n            </span>\n          </td>\n          <td style=\"padding: 0.75rem; color: var(--text-muted); font-size: 0.9rem;\">${creatorName}</td>\n          <td style=\"padding: 0.75rem; color: var(--text-muted); font-size: 0.9rem;\">${createdDate}</td>\n          <td style=\"padding: 0.75rem; text-align: center;\">\n            <button class=\"action-btn secondary detail-btn\" data-id=\"${recordId}\" data-type=\"${isContract ? 'contract' : 'proposal'}\" style=\"padding: 0.375rem 0.75rem; font-size: 0.85rem; border: 1px solid rgba(255,255,255,0.18); background: transparent; color: var(--text); cursor: pointer;\">\n              詳細\n            </button>\n          </td>\n        </tr>\n      `;\n    }).join(\"\");\n\n    // 行ホバー効果\n    tbody.querySelectorAll(\"tr\").forEach(tr => {\n      tr.addEventListener(\"mouseenter\", () => {\n        tr.style.background = \"rgba(255,255,255,0.05)\";\n      });\n      tr.addEventListener(\"mouseleave\", () => {\n        tr.style.background = \"\";\n      });\n    });\n  }\n\n  // ステータスの背景色\n  function getStatusBgColor(status) {\n    const colors = {\n      \"有効\": \"rgba(76, 175, 80, 0.2)\",\n      \"契約済み\": \"rgba(76, 175, 80, 0.2)\",\n      \"承認済み\": \"rgba(76, 175, 80, 0.2)\",\n      \"承認待ち\": \"rgba(255, 193, 7, 0.2)\",\n      \"レビュー中\": \"rgba(255, 193, 7, 0.2)\",\n      \"提案中\": \"rgba(255, 193, 7, 0.2)\",\n      \"草案\": \"rgba(158, 158, 158, 0.2)\",\n      \"下書き\": \"rgba(158, 158, 158, 0.2)\",\n      \"終了\": \"rgba(244, 67, 54, 0.2)\",\n      \"キャンセル\": \"rgba(244, 67, 54, 0.2)\",\n      \"却下\": \"rgba(244, 67, 54, 0.2)\"\n    };\n    return colors[status] || \"rgba(158, 158, 158, 0.2)\";\n  }\n\n  function getStatusTextColor(status) {\n    const colors = {\n      \"有効\": \"#4caf50\",\n      \"契約済み\": \"#4caf50\",\n      \"承認済み\": \"#4caf50\",\n      \"承認待ち\": \"#ffc107\",\n      \"レビュー中\": \"#ffc107\",\n      \"提案中\": \"#ffc107\",\n      \"草案\": \"#9e9e9e\",\n      \"下書き\": \"#9e9e9e\",\n      \"終了\": \"#f44336\",\n      \"キャンセル\": \"#f44336\",\n      \"却下\": \"#f44336\"\n    };\n    return colors[status] || \"#9e9e9e\";\n  }\n\n  // 2. 初期データ読み込み\n  async function loadInitialData() {\n    try {\n      // 契約書データ取得\n      const contracts = await window.aivicApi.list(contractTableIndex);\n      const contractRecords = (contracts || []).map(c => ({\n        ...c,\n        種別: \"契約書\",\n        資料名: c.契約書名,\n        作成者名: c.作成者 || \"—\"\n      }));\n\n      // 提案資料データ取得\n      const proposals = await window.aivicApi.list(proposalTableIndex);\n      const proposalRecords = (proposals || []).map(p => ({\n        ...p,\n        種別: \"提案資料\",\n        資料名: p.提案資料名,\n        作成者名: p.作成者 || \"—\"\n      }));\n\n      // ユーザーデータ取得（作成者フィルタ用）\n      const users = await window.aivicApi.list(userTableIndex);\n      const creatorSelect = container.querySelector(\"#select-creator\");\n      if (users && users.length > 0) {\n        users.forEach(u => {\n          const opt = document.createElement(\"option\");\n          opt.value = u.氏名 || u.ユーザー名;\n          opt.textContent = u.氏名 || u.ユーザー名;\n          creatorSelect.appendChild(opt);\n        });\n      }\n\n      // 統合\n      allRecords = [...contractRecords, ...proposalRecords];\n      renderRows([]);\n    } catch (err) {\n      console.error(\"初期データ読み込みエラー:\", err);\n      renderRows([]);\n    }\n  }\n\n  // 3. 検索フィルタ関数\n  function applyFilters() {\n    const keyword = container.querySelector(\"#input-keyword\").value.toLowerCase();\n    const type = container.querySelector(\"#select-type\").value;\n    const status = container.querySelector(\"#select-status\").value;\n    const creator = container.querySelector(\"#select-creator\").value;\n    const createdFrom = container.querySelector(\"#input-created-from\").value;\n    const createdTo = container.querySelector(\"#input-created-to\").value;\n    const updatedFrom = container.querySelector(\"#input-updated-from\").value;\n    const updatedTo = container.querySelector(\"#input-updated-to\").value;\n\n    let filtered = allRecords;\n\n    // キーワード検索\n    if (keyword) {\n      filtered = filtered.filter(r => {\n        const name = (r.契約書名 || r.提案資料名 || \"\").toLowerCase();\n        const desc = (r.契約書説明 || r.説明 || \"\").toLowerCase();\n        return name.includes(keyword) || desc.includes(keyword);\n      });\n    }\n\n    // 種別フィルタ\n    if (type) {\n      filtered = filtered.filter(r => {\n        if (type === \"契約書\") return !!r.契約書ID;\n        if (type === \"提案資料\") return !!r.提案資料ID;\n        return true;\n      });\n    }\n\n    // ステータスフィルタ\n    if (status) {\n      filtered = filtered.filter(r => r.ステータス === status);\n    }\n\n    // 作成者フィルタ\n    if (creator) {\n      filtered = filtered.filter(r => r.作成者名 === creator);\n    }\n\n    // 作成日範囲フィルタ\n    if (createdFrom) {\n      const fromDate = new Date(createdFrom);\n      filtered = filtered.filter(r => {\n        const rDate = new Date(r.作成日時);\n        return rDate >= fromDate;\n      });\n    }\n    if (createdTo) {\n      const toDate = new Date(createdTo);\n      toDate.setHours(23, 59, 59, 999);\n      filtered = filtered.filter(r => {\n        const rDate = new Date(r.作成日時);\n        return rDate <= toDate;\n      });\n    }\n\n    // 更新日範囲フィルタ\n    if (updatedFrom) {\n      const fromDate = new Date(updatedFrom);\n      filtered = filtered.filter(r => {\n        const rDate = new Date(r.更新日時);\n        return rDate >= fromDate;\n      });\n    }\n    if (updatedTo) {\n      const toDate = new Date(updatedTo);\n      toDate.setHours(23, 59, 59, 999);\n      filtered = filtered.filter(r => {\n        const rDate = new Date(r.更新日時);\n        return rDate <= toDate;\n      });\n    }\n\n    renderRows(filtered);\n  }\n\n  // 4. 検索ボタンのイベントリスナー\n  container.querySelector(\"#btn-search\").addEventListener(\"click\", () => {\n    applyFilters();\n  });\n\n  // 5. リセットボタンのイベントリスナー\n  container.querySelector(\"#btn-reset\").addEventListener(\"click\", () => {\n    container.querySelector(\"#input-keyword\").value = \"\";\n    container.querySelector(\"#select-type\").value = \"\";\n    container.querySelector(\"#select-status\").value = \"\";\n    container.querySelector(\"#select-creator\").value = \"\";\n    container.querySelector(\"#input-created-from\").value = \"\";\n    container.querySelector(\"#input-created-to\").value = \"\";\n    container.querySelector(\"#input-updated-from\").value = \"\";\n    container.querySelector(\"#input-updated-to\").value = \"\";\n    renderRows([]);\n  });\n\n  // 6. CSVエクスポートボタン\n  container.querySelector(\"#btn-export\").addEventListener(\"click\", () => {\n    const tbody = container.querySelector(\"#result-tbody\");\n    const rows = Array.from(tbody.querySelectorAll(\"tr\"));\n\n    if (rows.length === 0) {\n      alert(\"エクスポートするデータがありません\");\n      return;\n    }\n\n    // ヘッダー\n    const headers = [\"資料名\", \"種別\", \"ステータス\", \"作成者\", \"作成日\"];\n    const csvContent = [\n      \"\\uFEFF\" + headers.map(h => `\"${h}\"`).join(\",\"),\n      ...rows.map(tr => {\n        const cells = tr.querySelectorAll(\"td\");\n        return [\n          cells[0].textContent.trim(),\n          cells[1].textContent.trim(),\n          cells[2].textContent.trim(),\n          cells[3].textContent.trim(),\n          cells[4].textContent.trim()\n        ].map(c => `\"${c.replace(/\"/g, '\"\"')}\"`).join(\",\");\n      })\n    ].join(\"\\n\");\n\n    const blob = new Blob([csvContent], { type: \"text/csv;charset=utf-8;\" });\n    const link = document.createElement(\"a\");\n    link.href = URL.createObjectURL(blob);\n    link.download = `contract-proposal-search-${new Date().toISOString().split(\"T\")[0]}.csv`;\n    link.click();\n  });\n\n  // 7. 詳細ボタンのイベントデリゲーション\n  container.addEventListener(\"click\", (e) => {\n    const detailBtn = e.target.closest(\".detail-btn\");\n    if (detailBtn) {\n      const recordId = detailBtn.dataset.id;\n      const recordType = detailBtn.dataset.type;\n\n      // 詳細画面へ遷移（契約書管理画面または提案資料管理画面）\n      if (recordType === \"contract\") {\n        window.showScreen(\"scr-1781954440904\"); // 契約書管理画面\n      } else {\n        window.showScreen(\"scr-1781954457288\"); // 提案資料管理画面\n      }\n    }\n  });\n\n  // 8. 初期化\n  loadInitialData();\n}";
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+```css
+:root {
+  --primary: #d4af37;
+  --primary-hover: #f0c856;
+  --bg-main: #0a0a0a;
+  --bg-card: #1a1a1a;
+  --bg-sidebar: #141414;
+  --border: #2a2a2a;
+  --text: #f5f5f5;
+  --text-muted: #a0a0a0;
+  --top-bar-bg: #121212;
+  --top-bar-border: #2a2a2a;
+  --accent-red: #e63946;
+  --accent-red-hover: #f44c5e;
+  --success: #06d6a0;
+  --warning: #f77f00;
+  --error: #d62828;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 32px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 8px 24px rgba(212, 175, 55, 0.15);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+```
+*, *::before, *::after { box-sizing: border-box; }
+body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg-main); color:var(--text); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+.top-bar { display:flex; align-items:center; gap:0; background:var(--top-bar-bg, var(--bg-sidebar)); border-bottom:1px solid var(--top-bar-border, var(--border)); padding:0 16px; height:48px; flex-shrink:0; }
+.top-bar .app-name { font-size:14px; font-weight:700; color:var(--text); margin-right:20px; white-space:nowrap; }
+.sys-tab { background:transparent; color:var(--text); opacity:0.6; border:none; border-bottom:2px solid transparent; padding:0 16px; height:48px; cursor:pointer; font-size:13px; white-space:nowrap; transition:color .15s, border-color .15s, opacity .15s; text-decoration:none; display:flex; align-items:center; }
+.sys-tab:hover { opacity:0.85; }
+.sys-tab.active, .sys-tab.aivic-active { color:var(--text); opacity:1; border-bottom-color:var(--primary); font-weight:600; }
+.app-body { display:flex; flex:1; overflow:hidden; }
+.sidebar { width:220px; background:var(--bg-sidebar); border-right:1px solid var(--border); padding:12px 8px; overflow-y:auto; flex-shrink:0; }
+.sidebar-sys-name { margin:0 0 8px; padding:4px 8px; font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.06em; }
+.nav-btn { display:block; width:100%; text-align:left; background:transparent; color:var(--text); opacity:0.65; border:none; border-radius:8px; padding:8px 12px; cursor:pointer; font-size:13px; margin-bottom:2px; transition:opacity .15s,background .15s; text-decoration:none; }
+.nav-btn:hover { background:var(--border); opacity:0.9; }
+.nav-btn.active, .nav-btn.aivic-active { background:var(--primary); color:#fff; opacity:1; }
+.main { flex:1; padding:16px; overflow-y:auto; }
+.card { border:1px solid var(--border); border-radius:12px; padding:16px; background:var(--bg-card); margin-bottom:12px; }
+.hidden { display:none !important; }
+.action-btn { background:var(--primary); color:#fff; border:0; border-radius:8px; padding:8px 14px; cursor:pointer; font-size:13px; }
+.action-btn:hover { background:var(--primary-hover, #1a55ef); }
+.action-btn.secondary { background:var(--border); color:var(--text); }
+.input { background:var(--bg-main); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:7px 10px; font-size:13px; }
+.muted { color:var(--text-muted); font-size:13px; }
+.table-wrap { overflow:auto; border:1px solid var(--border); border-radius:8px; }
+table { width:100%; border-collapse:collapse; }
+th, td { border-bottom:1px solid var(--border); padding:8px 10px; text-align:left; font-size:13px; }
+th { color:var(--text); background:var(--bg-sidebar); position:sticky; top:0; font-weight:600; }
+tr:hover { background:var(--bg-sidebar); cursor:pointer; }
+canvas { display:block; max-height:280px !important; }
+.chart-wrap, .chart-container, [class*="chart"] { position:relative; height:260px; max-height:280px; }
+@media (max-width:768px) {
+  .top-bar { overflow-x:auto; }
+  .app-body { flex-direction:column; }
+  .sidebar { width:100%; height:auto; display:flex; flex-wrap:wrap; gap:4px; padding:8px; }
+  .sidebar-sys-name { display:none; }
+  .nav-btn { width:auto; border-radius:999px; padding:5px 12px; }
+}
+  </style>
+</head>
+<body>
+<header class="top-bar">
+  <span class="app-name">バックオフィサー</span>
+    <a href="./scr-1781954440904.html" class="sys-tab active" data-aivic-nav-system="itg-3">契約・提案資料管理システム</a>
+    <a href="./scr-1781956713866.html" class="sys-tab" data-aivic-nav-system="itg-4">顧客企業向け契約・成果管理ポータル</a>
+    <a href="./scr-1781957451550.html" class="sys-tab" data-aivic-nav-system="itg-5">契約変更・請求検証管理システム</a>
+    <a href="./scr-1781953462575.html" class="sys-tab" data-aivic-nav-system="itg-1">営業データ品質管理・請求自動化システム</a>
+</header>
+<div class="app-body">
+  <aside class="sidebar">
+    <p class="sidebar-sys-name">契約・提案資料管理システム</p>
+      <a href="./scr-1781954440904.html" class="nav-btn" data-aivic-nav="scr-1781954440904">契約書管理画面</a>
+      <a href="./scr-1781954457288.html" class="nav-btn" data-aivic-nav="scr-1781954457288">提案資料管理画面</a>
+      <a href="./scr-1781954473088.html" class="nav-btn" data-aivic-nav="scr-1781954473088">バージョン比較画面</a>
+      <a href="./scr-1781954506701.html" class="nav-btn" data-aivic-nav="scr-1781954506701">資料管理画面でバージョン情報入力</a>
+      <a href="./scr-1781954521059.html" class="nav-btn" data-aivic-nav="scr-1781954521059">最新版フラグ設定・旧版アーカイブ処理</a>
+      <a href="./scr-1781954537094.html" class="nav-btn" data-aivic-nav="scr-1781954537094">資料検索・表示画面</a>
+      <a href="./scr-1781954553437.html" class="nav-btn" data-aivic-nav="scr-1781954553437">契約・提案資料管理システム連携</a>
+      <a href="./scr-1781954569974.html" class="nav-btn active" data-aivic-nav="scr-1781954569974">契約書・提案資料検索画面</a>
+      <a href="./scr-1781954585625.html" class="nav-btn" data-aivic-nav="scr-1781954585625">契約・提案資料検索画面</a>
+      <a href="./scr-1781954605747.html" class="nav-btn" data-aivic-nav="scr-1781954605747">契約書テンプレート・管理ルール定義</a>
+      <a href="./scr-1781954622731.html" class="nav-btn" data-aivic-nav="scr-1781954622731">ドキュメント管理画面</a>
+  </aside>
+  <main class="main">
+    <section class="card" data-aivic-panel="scr-1781954569974" style="margin-top:0">
+<div style="display: flex; flex-direction: column; height: 100%; gap: 0.75rem; padding: 1rem;">
+  
+  <!-- ヘッダー -->
+  <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 2px solid var(--primary); padding-bottom: 0.75rem;">
+    <h1 style="font-size: 1.75rem; font-weight: 700; color: var(--primary); margin: 0;">契約書・提案資料検索</h1>
+    <div style="font-size: 0.875rem; color: var(--text-muted);">
+      検索結果: <span id="result-count" style="font-weight: 600; color: var(--primary);">0</span> 件
+    </div>
+  </div>
+
+  <!-- フィルタバー -->
+  <div class="card" style="padding: 1rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+    
+    <!-- 行1: 検索キーワード + 種別フィルタ -->
+    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+      <label style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">キーワード</label>
+      <input 
+        id="input-keyword" 
+        data-testid="keyword-input"
+        type="text" 
+        placeholder="資料名、説明で検索..." 
+        style="padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.95rem;"
+      />
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+      <label style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">資料種別</label>
+      <select 
+        id="select-type" 
+        data-testid="type-select"
+        style="padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.95rem; cursor: pointer;"
+      >
+        <option value="">すべて</option>
+        <option value="契約書">契約書</option>
+        <option value="提案資料">提案資料</option>
+      </select>
+    </div>
+
+    <!-- 行2: ステータス + 作成者 -->
+    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+      <label style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">ステータス</label>
+      <select 
+        id="select-status" 
+        data-testid="status-select"
+        style="padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.95rem; cursor: pointer;"
+      >
+        <option value="">すべて</option>
+        <option value="草案">草案</option>
+        <option value="承認待ち">承認待ち</option>
+        <option value="有効">有効</option>
+        <option value="終了">終了</option>
+        <option value="キャンセル">キャンセル</option>
+        <option value="下書き">下書き</option>
+        <option value="提案中">提案中</option>
+        <option value="契約済み">契約済み</option>
+        <option value="却下">却下</option>
+      </select>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+      <label style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">作成者</label>
+      <select 
+        id="select-creator" 
+        data-testid="creator-select"
+        style="padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.95rem; cursor: pointer;"
+      >
+        <option value="">すべて</option>
+      </select>
+    </div>
+
+    <!-- 行3: 作成日範囲 + 更新日範囲 -->
+    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+      <label style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">作成日範囲</label>
+      <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <input 
+          id="input-created-from" 
+          data-testid="created-from-input"
+          type="date" 
+          style="flex: 1; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.9rem;"
+        />
+        <span style="color: var(--text-muted); font-size: 0.875rem;">〜</span>
+        <input 
+          id="input-created-to" 
+          data-testid="created-to-input"
+          type="date" 
+          style="flex: 1; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.9rem;"
+        />
+      </div>
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 0.25rem;">
+      <label style="font-size: 0.75rem; font-weight: 600; color: var(--text-muted); text-transform: uppercase;">更新日範囲</label>
+      <div style="display: flex; gap: 0.5rem; align-items: center;">
+        <input 
+          id="input-updated-from" 
+          data-testid="updated-from-input"
+          type="date" 
+          style="flex: 1; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.9rem;"
+        />
+        <span style="color: var(--text-muted); font-size: 0.875rem;">〜</span>
+        <input 
+          id="input-updated-to" 
+          data-testid="updated-to-input"
+          type="date" 
+          style="flex: 1; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.9rem;"
+        />
+      </div>
+    </div>
+  </div>
+
+  <!-- アクションバー -->
+  <div style="display: flex; gap: 0.75rem; justify-content: flex-start;">
+    <button 
+      id="btn-search" 
+      data-testid="search-button"
+      class="action-btn" 
+      style="background: var(--primary); color: #fff; border: none; padding: 0.625rem 1.25rem; border-radius: 0.375rem; font-weight: 600; font-size: 0.95rem; cursor: pointer;"
+    >
+      🔍 検索
+    </button>
+    <button 
+      id="btn-reset" 
+      data-testid="reset-button"
+      class="action-btn secondary" 
+      style="background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); padding: 0.625rem 1.25rem; border-radius: 0.375rem; font-weight: 600; font-size: 0.95rem; cursor: pointer;"
+    >
+      ↻ リセット
+    </button>
+    <button 
+      id="btn-export" 
+      data-testid="export-button"
+      class="action-btn secondary" 
+      style="background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); padding: 0.625rem 1.25rem; border-radius: 0.375rem; font-weight: 600; font-size: 0.95rem; cursor: pointer; margin-left: auto;"
+    >
+      📥 CSVエクスポート
+    </button>
+  </div>
+
+  <!-- 検索結果テーブル -->
+  <div class="table-wrap" style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 0.5rem;">
+    <table data-testid="record-list" style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
+      <thead style="background: rgba(0,0,0,0.3); position: sticky; top: 0;">
+        <tr>
+          <th style="padding: 0.75rem; text-align: left; font-weight: 700; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.12); width: 35%;">資料名</th>
+          <th style="padding: 0.75rem; text-align: left; font-weight: 700; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.12); width: 12%;">種別</th>
+          <th style="padding: 0.75rem; text-align: left; font-weight: 700; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.12); width: 15%;">ステータス</th>
+          <th style="padding: 0.75rem; text-align: left; font-weight: 700; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.12); width: 15%;">作成者</th>
+          <th style="padding: 0.75rem; text-align: left; font-weight: 700; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.12); width: 13%;">作成日</th>
+          <th style="padding: 0.75rem; text-align: center; font-weight: 700; color: var(--text); border-bottom: 1px solid rgba(255,255,255,0.12); width: 10%;">操作</th>
+        </tr>
+      </thead>
+      <tbody id="result-tbody" style="background: var(--bg-card);">
+        <tr style="height: 2rem;">
+          <td colspan="6" style="padding: 1rem; text-align: center; color: var(--text-muted); font-size: 0.9rem;">検索条件を入力して「検索」ボタンをクリックしてください</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+    </section>
+  </main>
+</div>
+<script>
+(function() {
+  var TABLE_DEFS = window.AIVIC_TABLES || [];
+  var PRESET_SEED = window.AIVIC_PRESET_SEED || {};
+  var SYSTEM_NAME = window.AIVIC_SYSTEM_NAME || "";
+  var APP_ID = window.AIVIC_APP_ID || "";
+  var API_URL = (window.AIVIC_API_URL && window.AIVIC_API_URL !== "REPLACE_WITH_API_URL")
+    ? window.AIVIC_API_URL : window.location.origin;
+
+  // 通知 helper ( SPA 版と同じ )
+  window.aivicNotify = (function() {
+    function ensureContainer() {
+      var c = document.getElementById("aivic-toast-container");
+      if (c) return c;
+      c = document.createElement("div");
+      c.id = "aivic-toast-container";
+      c.style.cssText = "position:fixed;top:16px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:360px;";
+      document.body.appendChild(c);
+      return c;
+    }
+    function show(msg, type) {
+      var c = ensureContainer();
+      var el = document.createElement("div");
+      el.textContent = msg;
+      el.style.cssText = "padding:10px 16px;border-radius:8px;font-size:13px;line-height:1.4;pointer-events:auto;color:#fff;background:" + (type === "error" ? "#dc2626" : "#d97706");
+      c.appendChild(el);
+      setTimeout(function() {
+        el.style.transition = "opacity .3s";
+        el.style.opacity = "0";
+        setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 320);
+      }, type === "error" ? 6000 : 4500);
+    }
+    return {
+      error: function(msg) { show("❌ " + msg, "error"); },
+      warn:  function(msg) { show("⚠️ " + msg, "warn"); },
+    };
+  })();
+
+  // CRUD API ( SPA 版と同じ )
+  window.aivicApi = (function() {
+    function dbErr(op) { window.aivicNotify.error("データベースエラー ( " + op + " ): APIサーバーに接続できません。"); }
+    function newId() { return typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : "id-" + Date.now() + "-" + Math.random().toString(36).slice(2); }
+    function q(i) {
+      var t = TABLE_DEFS[i];
+      var dbP = (window.AIVIC_DB_TYPE && window.AIVIC_DB_TYPE !== "dynamodb") ? "&db=" + encodeURIComponent(window.AIVIC_DB_TYPE) : "";
+      return "?app=" + encodeURIComponent(APP_ID) + "&system=" + encodeURIComponent(SYSTEM_NAME) + "&table=" + encodeURIComponent(t ? t.tableName : "table" + i) + dbP;
+    }
+    return {
+      list: async function(tableIndex) {
+        if (!API_URL) return [];
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + q(tableIndex)); var d = await r.json(); return Array.isArray(d) ? d : (d.items || []); }
+        catch(e) { dbErr("データ取得"); return []; }
+      },
+      save: async function(tableIndex, item) {
+        if (!API_URL) { dbErr("保存"); return null; }
+        var now = new Date().toISOString();
+        var rec = Object.assign({}, item, { id: item.id || newId(), createdAt: item.createdAt || now, updatedAt: now });
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + q(tableIndex), { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(rec) }); return await r.json(); }
+        catch(e) { dbErr("保存"); return null; }
+      },
+      update: async function(tableIndex, id, changes) {
+        if (!API_URL) { dbErr("更新"); return null; }
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + "/" + id + q(tableIndex), { method:"PUT", headers:{"Content-Type":"application/json"}, body:JSON.stringify(Object.assign({}, changes, {updatedAt: new Date().toISOString()})) }); return await r.json(); }
+        catch(e) { dbErr("更新"); return null; }
+      },
+      delete: async function(tableIndex, id) {
+        if (!API_URL) { dbErr("削除"); return {deleted:false}; }
+        try { await fetch(API_URL + "/api/" + tableIndex + "/" + id + q(tableIndex), {method:"DELETE"}); return {deleted:true}; }
+        catch(e) { dbErr("削除"); return {deleted:false}; }
+      },
+    };
+  })();
+
+  // showScreen はマルチページ構成ではページ遷移として動く。
+  var _aivicNavLastTime = 0;
+  var _aivicNavLastTarget = "";
+  var _aivicReady = false;
+  window.showScreen = function(screenId) {
+    if (!screenId) return;
+    if (screenId === window.AIVIC_PAGE_SCREEN_ID) return;
+    var targetPath = './' + encodeURIComponent(screenId) + '.html';
+    var currentName = (window.location.pathname.split('/').pop() || '');
+    if (currentName === (encodeURIComponent(screenId) + '.html') ||
+        currentName === (screenId + '.html')) {
+      return;
+    }
+    var now = Date.now();
+    if (_aivicNavLastTarget === targetPath && (now - _aivicNavLastTime) < 100) {
+      console.warn('[aivic] showScreen 連続呼び出し検知。 無限ループ防止のため抑制:', screenId);
+      return;
+    }
+    if (!_aivicReady) {
+      console.warn('[aivic] DOMContentLoaded 前の showScreen 呼び出し。 抑制:', screenId);
+      return;
+    }
+    _aivicNavLastTime = now;
+    _aivicNavLastTarget = targetPath;
+    window.location.href = targetPath;
+  };
+
+  function seedAllIfEmpty() {
+    if (!API_URL) return Promise.resolve();
+    return Promise.all(TABLE_DEFS.map(function(t, i) {
+      var preset = PRESET_SEED[t.tableName];
+      if (!Array.isArray(preset) || preset.length === 0) return Promise.resolve();
+      return window.aivicApi.list(i).then(function(existing) {
+        if (existing && existing.length > 0) return;
+        return Promise.all(preset.map(function(row) { return window.aivicApi.save(i, row); }));
+      }).catch(function() {});
+    }));
+  }
+
+  // ── 初期表示: このページ専用の panel に initFn を実行 ──
+  document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(function() { _aivicReady = true; }, 1500);
+    var pageScreenId = window.AIVIC_PAGE_SCREEN_ID;
+    if (!pageScreenId) return;
+
+    document.querySelectorAll('[data-aivic-nav]').forEach(function(btn) {
+      var isActive = btn.getAttribute("data-aivic-nav") === pageScreenId;
+      btn.classList.toggle("aivic-active", isActive);
+      btn.setAttribute("aria-current", isActive ? "page" : "false");
+    });
+
+    var container = document.querySelector('[data-aivic-panel="' + pageScreenId + '"]');
+    if (!container) return;
+
+    // content 要素の hidden 強制除去 ( 2026-05-24 Playwright 大量 fail 対応 )
+    var isModalLike = function(el) {
+      if (!el || !el.classList) return false;
+      var cn = String(el.className || "");
+      if (/\bmodal\b|\bdialog\b|\boverlay\b|\bpopup\b|\bdropdown\b|\btooltip\b/i.test(cn)) return true;
+      var role = el.getAttribute && el.getAttribute("role");
+      if (role === "dialog" || role === "alertdialog" || role === "tooltip" || role === "menu") return true;
+      if (el.hasAttribute && (el.hasAttribute("data-modal") || el.hasAttribute("data-dropdown") || el.hasAttribute("data-popup"))) return true;
+      return false;
+    };
+    var unhideContentElements = function(root) {
+      var all = root.querySelectorAll('.hidden, [hidden], [style*="display:none"], [style*="display: none"]');
+      for (var k = 0; k < all.length; k++) {
+        var el = all[k];
+        if (isModalLike(el)) continue;
+        var p = el.parentElement;
+        var insideModal = false;
+        while (p && p !== root) {
+          if (isModalLike(p)) { insideModal = true; break; }
+          p = p.parentElement;
+        }
+        if (insideModal) continue;
+        el.classList.remove('hidden');
+        el.removeAttribute('hidden');
+        if (el.style && el.style.display === 'none') el.style.display = '';
+      }
+    };
+    try { unhideContentElements(container); } catch (e) { console.warn('[aivic] unhideContent failed:', e); }
+
+    var initJsSource = window.AIVIC_PAGE_INIT_JS;
+    if (!initJsSource) {
+      seedAllIfEmpty();
+      return;
+    }
+    var initFn = null;
+    try {
+      initFn = (new Function("return (" + initJsSource + ")"))();
+    } catch (e) {
+      console.error("[aivic] initJs compile error:", pageScreenId, e);
+      return;
+    }
+    if (typeof initFn !== "function") return;
+
+    seedAllIfEmpty().then(function() {
+      return Promise.all(TABLE_DEFS.map(function(t, i) {
+        return window.aivicApi.list(i)
+          .then(function(records) { return Object.assign({}, t, { records: records }); })
+          .catch(function() { return Object.assign({}, t, { records: [] }); });
+      }));
+    }).then(function(tables) {
+      try { initFn(container, API_URL, tables); } catch (e) { console.error("[aivic] initFn error:", pageScreenId, e); }
+      _aivicReady = true;
+    });
+  });
+})();
+
+</script>
+</body>
+</html>

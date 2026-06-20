@@ -1,0 +1,435 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>契約・成果管理ポータル画面 - バックオフィサー</title>
+  <script>
+window.AIVIC_API_URL = "https://mkwmoife37uqyv4zhy4yhweozq0oddxn.lambda-url.us-east-1.on.aws/";
+window.AIVIC_APP_ID = "session-1781935010162";
+window.AIVIC_SYSTEM_NAME = "顧客企業向け契約・成果管理ポータル";
+window.AIVIC_TABLES = [{"tableName":"顧客企業","purpose":"営業成果レポート自動生成・配信システムにおける顧客企業の基本情報を管理し、営業活動の対象企業として機能する","columns":[{"name":"顧客企業ID","type":"uuid","required":true,"description":"顧客企業の一意識別子"},{"name":"企業名","type":"varchar(100)","required":true,"description":"顧客企業の正式名称"},{"name":"業種","type":"varchar(100)","required":false,"description":"顧客企業の業種分類"},{"name":"所在地","type":"varchar(100)","required":false,"description":"顧客企業の本社所在地"},{"name":"代表者名","type":"varchar(100)","required":false,"description":"顧客企業の代表者名"},{"name":"電話番号","type":"varchar(100)","required":false,"description":"顧客企業の代表電話番号"},{"name":"メールアドレス","type":"varchar(100)","required":false,"description":"顧客企業の代表メールアドレス"},{"name":"担当営業ユーザーID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（担当営業）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"顧客企業のステータス（見込み客/既存顧客/休止中等）"},{"name":"作成日時","type":"timestamp","required":true,"description":"顧客企業レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"顧客企業レコード最終更新日時"},{"name":"作成者ユーザーID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（作成者）"}]},{"tableName":"契約書","purpose":"契約・提案資料管理システムにおける契約書の基本情報を管理するマスタテーブル","columns":[{"name":"契約書ID","type":"uuid","required":true,"description":"契約書の一意識別子"},{"name":"契約書名","type":"varchar(100)","required":true,"description":"契約書のタイトル"},{"name":"契約書説明","type":"text","required":false,"description":"契約書の詳細説明"},{"name":"契約種別","type":"varchar(100)","required":true,"description":"契約の種類（例：売買契約、サービス契約、NDA等）"},{"name":"契約相手先ID","type":"uuid","required":true,"description":"契約相手先企業の識別子"},{"name":"契約開始日","type":"timestamp","required":true,"description":"契約の開始日"},{"name":"契約終了日","type":"timestamp","required":false,"description":"契約の終了日"},{"name":"契約金額","type":"integer","required":false,"description":"契約金額（円）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"契約状態（例：草案、承認待ち、有効、終了、キャンセル）"},{"name":"担当者ID","type":"uuid","required":true,"description":"契約の担当ユーザーID"},{"name":"ファイルパス","type":"varchar(100)","required":false,"description":"契約書ファイルの保存パス"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]},{"tableName":"提案資料","purpose":"契約・提案資料管理システムにおいて、顧客への提案資料の情報を一元管理し、提案から契約への進捗を追跡するためのマスタテーブル","columns":[{"name":"提案資料ID","type":"uuid","required":true,"description":"提案資料の一意識別子"},{"name":"提案資料名","type":"varchar(100)","required":true,"description":"提案資料のタイトル・名称"},{"name":"説明","type":"text","required":false,"description":"提案資料の詳細説明"},{"name":"ユーザーID","type":"uuid","required":true,"description":"提案資料を作成・管理するユーザーの外部キー"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"提案資料のステータス（下書き、提案中、承認待ち、契約済み、却下等）"},{"name":"提案日","type":"timestamp","required":true,"description":"顧客への提案実施日時"},{"name":"契約書ID","type":"uuid","required":false,"description":"関連する契約書の外部キー（契約成立時に設定）"},{"name":"作成日時","type":"timestamp","required":true,"description":"提案資料レコードの作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"提案資料レコードの最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"提案資料を作成したユーザーの外部キー"}]},{"tableName":"契約","purpose":"顧客企業との契約情報を一元管理し、契約の締結、更新、ステータス追跡、成果管理を支援するマスタテーブル","columns":[{"name":"契約ID","type":"uuid","required":true,"description":"契約の一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"顧客企業テーブルへの外部キー"},{"name":"契約書ID","type":"uuid","required":false,"description":"契約書テーブルへの外部キー"},{"name":"提案資料ID","type":"uuid","required":false,"description":"提案資料テーブルへの外部キー"},{"name":"契約名","type":"varchar(100)","required":true,"description":"契約の名称"},{"name":"契約ステータス","type":"varchar(100)","required":true,"description":"契約状態（提案中/承認待ち/契約済/完了/終了等）"},{"name":"契約開始日","type":"timestamp","required":true,"description":"契約の開始日"},{"name":"契約終了日","type":"timestamp","required":true,"description":"契約の終了日"},{"name":"契約金額","type":"integer","required":true,"description":"契約金額（円）"},{"name":"契約内容","type":"text","required":false,"description":"契約の詳細内容"},{"name":"成果目標","type":"text","required":false,"description":"契約に基づく成果目標"},{"name":"作成日時","type":"timestamp","required":true,"description":"契約レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"契約レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"契約レコード作成者"},{"name":"更新者","type":"varchar(100)","required":false,"description":"契約レコード最終更新者"}]},{"tableName":"契約変更履歴","purpose":"契約の変更内容を時系列で記録し、変更前後の状態を追跡管理するための履歴テーブル","columns":[{"name":"変更履歴ID","type":"uuid","required":true,"description":"変更履歴レコードの一意識別子"},{"name":"契約ID","type":"uuid","required":true,"description":"変更対象の契約を特定するための外部キー"},{"name":"変更種別","type":"varchar(100)","required":true,"description":"変更の種類（金額変更、期間延長、条件変更、解除等）"},{"name":"変更前値","type":"text","required":false,"description":"変更前の値または状態"},{"name":"変更後値","type":"text","required":false,"description":"変更後の値または状態"},{"name":"変更理由","type":"text","required":false,"description":"変更の理由や背景"},{"name":"変更ステータス","type":"varchar(100)","required":true,"description":"変更の状態（申請中、承認済、却下、実行済等）"},{"name":"申請者ID","type":"uuid","required":true,"description":"変更を申請したユーザーの識別子"},{"name":"承認者ID","type":"uuid","required":false,"description":"変更を承認したユーザーの識別子"},{"name":"承認日時","type":"timestamp","required":false,"description":"変更が承認された日時"},{"name":"実行日時","type":"timestamp","required":false,"description":"変更が実際に反映された日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"変更履歴レコードが作成された日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"変更履歴レコードが最後に更新された日時"},{"name":"備考","type":"text","required":false,"description":"その他の補足情報"}]},{"tableName":"成果物","purpose":"顧客企業向け契約に基づいて納品される成果物の管理。納品状況、品質、変更履歴を追跡し、契約の履行状況を把握するための中核テーブル","columns":[{"name":"成果物ID","type":"uuid","required":true,"description":"成果物の一意識別子"},{"name":"契約ID","type":"uuid","required":true,"description":"親契約への外部キー"},{"name":"成果物名","type":"varchar(100)","required":true,"description":"成果物の名称"},{"name":"説明","type":"text","required":false,"description":"成果物の詳細説明"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"成果物の状態（計画中/進行中/完了/承認待ち/却下等）"},{"name":"納期","type":"timestamp","required":true,"description":"予定納期"},{"name":"実納期","type":"timestamp","required":false,"description":"実際の納期"},{"name":"品質評価","type":"varchar(100)","required":false,"description":"品質評価結果（合格/不合格/要修正等）"},{"name":"顧客承認状況","type":"varchar(100)","required":true,"description":"顧客による承認状況（未承認/承認/却下）"},{"name":"顧客承認日時","type":"timestamp","required":false,"description":"顧客が承認した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"成果物レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"成果物レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"成果物を作成したユーザー"},{"name":"更新者","type":"varchar(100)","required":true,"description":"成果物を最後に更新したユーザー"}]},{"tableName":"成果物納期","purpose":"成果物の納期管理と進捗追跡を行い、契約上の納期義務を履行するための基本台帳","columns":[{"name":"成果物納期ID","type":"uuid","required":true,"description":"成果物納期レコードの一意識別子"},{"name":"成果物ID","type":"uuid","required":true,"description":"成果物テーブルへの外部キー"},{"name":"契約ID","type":"uuid","required":true,"description":"契約テーブルへの外部キー"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"顧客企業テーブルへの外部キー"},{"name":"予定納期日","type":"timestamp","required":true,"description":"契約で定められた成果物の納期予定日"},{"name":"実績納期日","type":"timestamp","required":false,"description":"実際に成果物が納期された日付"},{"name":"納期ステータス","type":"varchar(100)","required":true,"description":"納期状況（予定通り/遅延/完了等）"},{"name":"遅延日数","type":"integer","required":false,"description":"予定納期からの遅延日数（負数は早期納期）"},{"name":"遅延理由","type":"text","required":false,"description":"納期遅延が発生した場合の理由"},{"name":"納期変更履歴ID","type":"uuid","required":false,"description":"契約変更履歴テーブルへの外部キー（納期変更がある場合）"},{"name":"備考","type":"text","required":false,"description":"納期に関する追加情報やメモ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"納期変更履歴","purpose":"成果物の納期変更を履歴として記録し、変更の経緯、理由、承認状況を管理するテーブル","columns":[{"name":"納期変更履歴ID","type":"uuid","required":true,"description":"納期変更履歴の一意識別子"},{"name":"成果物納期ID","type":"uuid","required":true,"description":"成果物納期テーブルへの外部キー"},{"name":"契約ID","type":"uuid","required":true,"description":"契約テーブルへの外部キー"},{"name":"変更前納期","type":"timestamp","required":true,"description":"変更前の納期日時"},{"name":"変更後納期","type":"timestamp","required":true,"description":"変更後の納期日時"},{"name":"変更理由","type":"text","required":true,"description":"納期変更の理由"},{"name":"承認状況","type":"varchar(100)","required":true,"description":"承認状況（申請中/承認/却下）"},{"name":"承認者ID","type":"varchar(100)","required":false,"description":"承認者のユーザーID"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認日時"},{"name":"承認コメント","type":"text","required":false,"description":"承認時のコメント"},{"name":"作成日時","type":"timestamp","required":true,"description":"変更申請の作成日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"変更申請の作成者ユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"最終更新日時"}]},{"tableName":"請求書","purpose":"顧客企業への請求書を管理し、契約に基づく成果物納期と請求内容を紐付け、請求状況を追跡するトランザクションテーブル","columns":[{"name":"請求書ID","type":"uuid","required":true,"description":"請求書の一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"請求対象の顧客企業ID（顧客企業テーブルへの外部キー）"},{"name":"契約ID","type":"uuid","required":true,"description":"請求対象の契約ID（契約テーブルへの外部キー）"},{"name":"請求書番号","type":"varchar(100)","required":true,"description":"請求書の一意な番号（顧客向け表示用）"},{"name":"請求日","type":"timestamp","required":true,"description":"請求書発行日"},{"name":"請求期間開始日","type":"timestamp","required":true,"description":"請求対象期間の開始日"},{"name":"請求期間終了日","type":"timestamp","required":true,"description":"請求対象期間の終了日"},{"name":"請求金額","type":"integer","required":true,"description":"請求総額（税抜き、単位：円）"},{"name":"税額","type":"integer","required":true,"description":"消費税額（単位：円）"},{"name":"請求金額合計","type":"integer","required":true,"description":"請求総額（税込み、単位：円）"},{"name":"請求ステータス","type":"varchar(100)","required":true,"description":"請求状況（未送付/送付済/支払済/期限超過等）"},{"name":"支払期限日","type":"timestamp","required":true,"description":"支払期限日"},{"name":"支払日","type":"timestamp","required":false,"description":"実際の支払日（支払済の場合のみ）"},{"name":"備考","type":"text","required":false,"description":"請求書に関する備考・特記事項"},{"name":"作成日時","type":"timestamp","required":true,"description":"請求書レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"請求書レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"請求書を作成したユーザーID"}]},{"tableName":"メール履歴","purpose":"顧客企業との契約・成果に関するメール送受信の記録を管理し、コミュニケーション履歴の追跡と監査証跡を提供する","columns":[{"name":"メール履歴ID","type":"uuid","required":true,"description":"メール履歴の一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"関連する顧客企業への外部キー"},{"name":"契約ID","type":"uuid","required":false,"description":"関連する契約への外部キー（契約関連のメールの場合）"},{"name":"成果物ID","type":"uuid","required":false,"description":"関連する成果物への外部キー（成果物関連のメールの場合）"},{"name":"請求書ID","type":"uuid","required":false,"description":"関連する請求書への外部キー（請求関連のメールの場合）"},{"name":"送信者メールアドレス","type":"varchar(100)","required":true,"description":"メール送信者のメールアドレス"},{"name":"受信者メールアドレス","type":"varchar(100)","required":true,"description":"メール受信者のメールアドレス"},{"name":"CC","type":"text","required":false,"description":"CC対象のメールアドレス（複数の場合はカンマ区切り）"},{"name":"BCC","type":"text","required":false,"description":"BCC対象のメールアドレス（複数の場合はカンマ区切り）"},{"name":"件名","type":"varchar(100)","required":true,"description":"メールの件名"},{"name":"本文","type":"text","required":true,"description":"メール本文"},{"name":"メール種別","type":"varchar(100)","required":true,"description":"メールの種別（提案、契約確認、成果物納期通知、請求書送付、変更通知等）"},{"name":"送受信区分","type":"varchar(100)","required":true,"description":"送信または受信"},{"name":"送受信日時","type":"timestamp","required":true,"description":"メール送受信の日時"},{"name":"添付ファイル有無","type":"boolean","required":true,"description":"添付ファイルの有無"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"}]},{"tableName":"通知履歴","purpose":"顧客企業向けポータルで送信した通知の履歴を管理し、通知内容、送信状況、受信者情報を追跡する","columns":[{"name":"通知履歴ID","type":"uuid","required":true,"description":"通知履歴の一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"通知対象の顧客企業ID（外部キー）"},{"name":"通知タイプ","type":"varchar(100)","required":true,"description":"通知の種類（契約更新、成果物納期、請求書発行、契約変更等）"},{"name":"関連エンティティタイプ","type":"varchar(100)","required":false,"description":"通知の対象エンティティ種別（契約、成果物、請求書等）"},{"name":"関連エンティティID","type":"uuid","required":false,"description":"通知の対象エンティティID"},{"name":"通知タイトル","type":"varchar(100)","required":true,"description":"通知のタイトル"},{"name":"通知内容","type":"text","required":true,"description":"通知の本文内容"},{"name":"送信方法","type":"varchar(100)","required":true,"description":"通知の送信方法（メール、ポータル画面内通知等）"},{"name":"送信状態","type":"varchar(100)","required":true,"description":"送信状態（送信済、送信失敗、保留中等）"},{"name":"受信者メールアドレス","type":"varchar(100)","required":false,"description":"メール送信の場合の受信者メールアドレス"},{"name":"送信日時","type":"timestamp","required":true,"description":"通知の送信日時"},{"name":"既読フラグ","type":"boolean","required":true,"description":"ポータル内通知の既読状態"},{"name":"既読日時","type":"timestamp","required":false,"description":"通知が既読になった日時"},{"name":"エラーメッセージ","type":"text","required":false,"description":"送信失敗時のエラー内容"},{"name":"作成日時","type":"timestamp","required":true,"description":"通知履歴レコードの作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"通知履歴レコードの最終更新日時"}]},{"tableName":"ログインユーザー","purpose":"顧客企業向けポータルのログインユーザー管理。ユーザー認証、アクセス制御、監査ログの基盤となる。","columns":[{"name":"ユーザーID","type":"uuid","required":true,"description":"ログインユーザーの一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"所属する顧客企業への外部キー"},{"name":"メールアドレス","type":"varchar(100)","required":true,"description":"ログインID兼連絡先。企業内で一意"},{"name":"ユーザー名","type":"varchar(100)","required":true,"description":"ポータル上に表示されるユーザー名"},{"name":"パスワードハッシュ","type":"varchar(100)","required":true,"description":"認証用のハッシュ化されたパスワード"},{"name":"ロール","type":"varchar(100)","required":true,"description":"ユーザーの権限レベル（管理者/担当者/閲覧者等）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"ユーザーの状態（有効/無効/招待待機等）"},{"name":"最終ログイン日時","type":"timestamp","required":false,"description":"最後にログインした日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"ユーザーアカウント作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"ユーザー情報最終更新日時"},{"name":"作成者","type":"uuid","required":true,"description":"ユーザーを作成したユーザーID"}]},{"tableName":"ユーザー権限","purpose":"ログインユーザーが顧客企業ポータル内で実行可能な操作を制御するための権限管理テーブル。ユーザーごとに契約書閲覧、成果物確認、請求書確認などの権限を付与・管理する。","columns":[{"name":"ユーザー権限ID","type":"uuid","required":true,"description":"ユーザー権限レコードの一意識別子"},{"name":"ログインユーザーID","type":"uuid","required":true,"description":"権限を付与されるログインユーザーへの外部キー"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"権限が適用される顧客企業への外部キー"},{"name":"権限種別","type":"varchar(100)","required":true,"description":"付与する権限の種別（例：契約書閲覧、成果物確認、請求書確認、契約変更申請、通知受信等）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"権限が有効か無効かを示すフラグ"},{"name":"権限開始日","type":"timestamp","required":false,"description":"権限の有効開始日時"},{"name":"権限終了日","type":"timestamp","required":false,"description":"権限の有効終了日時"},{"name":"備考","type":"text","required":false,"description":"権限付与の理由や特記事項"},{"name":"作成日時","type":"timestamp","required":true,"description":"権限レコード作成日時"},{"name":"作成者","type":"uuid","required":true,"description":"権限を作成したユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"権限レコード最終更新日時"},{"name":"更新者","type":"uuid","required":true,"description":"権限を最後に更新したユーザーID"}]}];
+window.AIVIC_PRESET_SEED = {};
+window.AIVIC_PAGE_SCREEN_ID = "scr-1781957210092";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  const contractTbody = container.querySelector(\"#contract-tbody\");\n  const detailPanel = container.querySelector(\"#detail-panel\");\n  const deliverableProgress = container.querySelector(\"#deliverable-progress\");\n  const deadlineInfo = container.querySelector(\"#deadline-info\");\n  const historyTimeline = container.querySelector(\"#history-timeline\");\n  \n  let allContracts = [];\n  let selectedContractId = null;\n\n  // 1. 再描画関数\n  function renderContracts(rows) {\n    allContracts = rows || [];\n    contractTbody.innerHTML = rows && rows.length > 0 \n      ? rows.map(r => `\n        <tr data-id=\"${r.id}\" style=\"cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.08); transition: background 0.2s;\" \n            onmouseover=\"this.style.background='rgba(255,255,255,0.05)'\" \n            onmouseout=\"this.style.background=''\">\n          <td style=\"padding: 8px; color: var(--text);\">${r.契約名 || \"\"}</td>\n          <td style=\"padding: 8px; color: var(--text-muted); font-size: 12px;\">${r.顧客企業ID ? r.顧客企業ID.substring(0, 8) : \"\"}</td>\n          <td style=\"padding: 8px; text-align: center;\">\n            <span style=\"display: inline-block; padding: 3px 8px; border-radius: 3px; font-size: 11px; font-weight: 600; \n              ${r.契約ステータス === '契約済' ? 'background: rgba(212, 165, 116, 0.2); color: #d4a574;' : \n                r.契約ステータス === '完了' ? 'background: rgba(200, 90, 84, 0.2); color: #c85a54;' :\n                r.契約ステータス === '提案中' ? 'background: rgba(232, 185, 35, 0.2); color: #e8b923;' :\n                'background: rgba(159, 176, 209, 0.2); color: #9fb0d1;'}\">${r.契約ステータス || \"\"}</span>\n          </td>\n          <td style=\"padding: 8px; text-align: right; color: var(--text); font-weight: 600;\">¥${(r.契約金額 || 0).toLocaleString()}</td>\n          <td style=\"padding: 8px; text-align: center; color: var(--text-muted); font-size: 12px;\">${r.契約開始日 ? new Date(r.契約開始日).toLocaleDateString('ja-JP') : \"\"}</td>\n        </tr>\n      `).join(\"\")\n      : `<tr style=\"background: rgba(0,0,0,0.1);\"><td colspan=\"5\" style=\"padding: 20px; text-align: center; color: var(--text-muted);\">契約がありません</td></tr>`;\n  }\n\n  // 2. 初期データ描画\n  renderContracts(tables[0]?.records || []);\n\n  // 3. 行クリックで詳細表示\n  container.addEventListener(\"click\", e => {\n    const row = e.target.closest(\"tbody tr\");\n    if (row) {\n      selectedContractId = row.dataset.id;\n      const contract = allContracts.find(c => c.id === selectedContractId);\n      if (contract) {\n        // 詳細パネル更新\n        detailPanel.innerHTML = `\n          <div style=\"display: grid; gap: 6px;\">\n            <div><span style=\"color: var(--text-muted);\">契約ID:</span> <span style=\"color: var(--text); font-weight: 600;\">${contract.id}</span></div>\n            <div><span style=\"color: var(--text-muted);\">契約名:</span> <span style=\"color: var(--text);\">${contract.契約名 || \"\"}</span></div>\n            <div><span style=\"color: var(--text-muted);\">ステータス:</span> <span style=\"color: #d4a574; font-weight: 600;\">${contract.契約ステータス || \"\"}</span></div>\n            <div><span style=\"color: var(--text-muted);\">金額:</span> <span style=\"color: var(--text); font-weight: 600;\">¥${(contract.契約金額 || 0).toLocaleString()}</span></div>\n            <div><span style=\"color: var(--text-muted);\">期間:</span> <span style=\"color: var(--text);\">${new Date(contract.契約開始日).toLocaleDateString('ja-JP')} ～ ${new Date(contract.契約終了日).toLocaleDateString('ja-JP')}</span></div>\n          </div>\n        `;\n        \n        // 成果物進捗（ダミー計算）\n        const completionRate = Math.floor(Math.random() * 100);\n        deliverableProgress.innerHTML = `\n          <div style=\"display: grid; gap: 6px;\">\n            <div style=\"display: flex; justify-content: space-between; align-items: center;\">\n              <span style=\"color: var(--text-muted);\">完了率</span>\n              <span style=\"color: #d4a574; font-weight: 700; font-size: 16px;\">${completionRate}%</span>\n            </div>\n            <div style=\"width: 100%; height: 6px; background: rgba(0,0,0,0.3); border-radius: 3px; overflow: hidden;\">\n              <div style=\"width: ${completionRate}%; height: 100%; background: linear-gradient(90deg, #d4a574, #e8b923); transition: width 0.3s;\"></div>\n            </div>\n          </div>\n        `;\n\n        // 納期情報\n        deadlineInfo.innerHTML = `\n          <div style=\"display: grid; gap: 6px;\">\n            <div><span style=\"color: var(--text-muted);\">予定納期:</span> <span style=\"color: var(--text);\">${new Date(contract.契約終了日).toLocaleDateString('ja-JP')}</span></div>\n            <div><span style=\"color: var(--text-muted);\">ステータス:</span> <span style=\"color: #9fb0d1;\">予定通り</span></div>\n          </div>\n        `;\n\n        // 履歴タイムライン（ダミー）\n        historyTimeline.innerHTML = `\n          <div style=\"display: grid; gap: 8px; font-size: 11px;\">\n            <div style=\"display: flex; gap: 8px;\">\n              <div style=\"width: 3px; background: var(--primary); border-radius: 2px; flex-shrink: 0;\"></div>\n              <div>\n                <div style=\"color: var(--text); font-weight: 600;\">契約ステータス変更</div>\n                <div style=\"color: var(--text-muted); margin-top: 2px;\">提案中 → 契約済</div>\n                <div style=\"color: var(--text-muted); margin-top: 2px; font-size: 10px;\">2024-01-15</div>\n              </div>\n            </div>\n            <div style=\"display: flex; gap: 8px;\">\n              <div style=\"width: 3px; background: #e8b923; border-radius: 2px; flex-shrink: 0;\"></div>\n              <div>\n                <div style=\"color: var(--text); font-weight: 600;\">納期変更申請</div>\n                <div style=\"color: var(--text-muted); margin-top: 2px;\">2024-02-28 → 2024-03-15</div>\n                <div style=\"color: var(--text-muted); margin-top: 2px; font-size: 10px;\">2024-01-20</div>\n              </div>\n            </div>\n          </div>\n        `;\n      }\n    }\n  });\n\n  // 4. 検索ボタン\n  container.querySelector(\"#btn-search\").addEventListener(\"click\", async () => {\n    const nameFilter = container.querySelector(\"#filter-contract-name\").value.toLowerCase();\n    const statusFilter = container.querySelector(\"#filter-status\").value;\n    const dateFilter = container.querySelector(\"#filter-date-from\").value;\n\n    const filtered = allContracts.filter(r => {\n      const nameMatch = !nameFilter || (r.契約名 || \"\").toLowerCase().includes(nameFilter);\n      const statusMatch = !statusFilter || r.契約ステータス === statusFilter;\n      const dateMatch = !dateFilter || new Date(r.契約開始日) >= new Date(dateFilter);\n      return nameMatch && statusMatch && dateMatch;\n    });\n\n    renderContracts(filtered);\n  });\n\n  // 5. リセットボタン\n  container.querySelector(\"#btn-reset\").addEventListener(\"click\", () => {\n    container.querySelector(\"#filter-contract-name\").value = \"\";\n    container.querySelector(\"#filter-status\").value = \"\";\n    container.querySelector(\"#filter-date-from\").value = \"\";\n    renderContracts(allContracts);\n  });\n\n  // 6. 詳細表示ボタン\n  container.querySelector(\"#btn-view-detail\").addEventListener(\"click\", () => {\n    if (selectedContractId) {\n      window.showScreen(\"scr-1781957110390\");\n    } else {\n      alert(\"契約を選択してください\");\n    }\n  });\n\n  // 7. 提案資料DLボタン\n  container.querySelector(\"#btn-download-proposal\").addEventListener(\"click\", () => {\n    if (selectedContractId) {\n      alert(\"提案資料をダウンロードしました\");\n    } else {\n      alert(\"契約を選択してください\");\n    }\n  });\n\n  // 8. 成果物DLボタン\n  container.querySelector(\"#btn-download-deliverable\").addEventListener(\"click\", () => {\n    if (selectedContractId) {\n      alert(\"成果物をダウンロードしました\");\n    } else {\n      alert(\"契約を選択してください\");\n    }\n  });\n\n  // 9. CSVエクスポート\n  container.querySelector(\"#export-csv-button\").addEventListener(\"click\", () => {\n    const headers = [\"契約ID\", \"契約名\", \"顧客企業ID\", \"ステータス\", \"契約金額\", \"開始日\", \"終了日\"];\n    const rows = allContracts.map(r => [\n      r.id,\n      r.契約名 || \"\",\n      r.顧客企業ID || \"\",\n      r.契約ステータス || \"\",\n      r.契約金額 || 0,\n      new Date(r.契約開始日).toLocaleDateString('ja-JP'),\n      new Date(r.契約終了日).toLocaleDateString('ja-JP')\n    ]);\n    \n    const csv = \"\\uFEFF\" + [headers, ...rows].map(r => \n      r.map(v => typeof v === 'string' && v.includes(',') ? `\"${v}\"` : v).join(',')\n    ).join('\\n');\n    \n    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });\n    const link = document.createElement('a');\n    link.href = URL.createObjectURL(blob);\n    link.download = `contracts_${new Date().toISOString().split('T')[0]}.csv`;\n    link.click();\n  });\n\n  // 10. KPI 更新\n  const kpiContractCount = allContracts.length;\n  const kpiCompletionRate = Math.floor(Math.random() * 100);\n  const kpiPendingInvoice = Math.floor(Math.random() * 5);\n  const kpiOverdue = Math.floor(Math.random() * 3);\n\n  container.querySelector(\"[data-testid='kpi-contract-count']\").textContent = kpiContractCount;\n  container.querySelector(\"[data-testid='kpi-completion-rate']\").textContent = kpiCompletionRate + \"%\";\n  container.querySelector(\"[data-testid='kpi-pending-invoice']\").textContent = kpiPendingInvoice + \"件\";\n  container.querySelector(\"[data-testid='kpi-overdue']\").textContent = kpiOverdue + \"件\";\n}";
+</script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+```css
+:root {
+  --primary: #d4af37;
+  --primary-hover: #f0c856;
+  --bg-main: #0a0a0a;
+  --bg-card: #1a1a1a;
+  --bg-sidebar: #141414;
+  --border: #2a2a2a;
+  --text: #f5f5f5;
+  --text-muted: #a0a0a0;
+  --top-bar-bg: #121212;
+  --top-bar-border: #2a2a2a;
+  --accent-red: #e63946;
+  --accent-red-hover: #f44c5e;
+  --success: #06d6a0;
+  --warning: #f77f00;
+  --error: #d62828;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 12px;
+  --spacing-lg: 16px;
+  --spacing-xl: 24px;
+  --spacing-2xl: 32px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 8px 24px rgba(212, 175, 55, 0.15);
+  --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+```
+*, *::before, *::after { box-sizing: border-box; }
+body { margin:0; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif; background:var(--bg-main); color:var(--text); display:flex; flex-direction:column; height:100vh; overflow:hidden; }
+.top-bar { display:flex; align-items:center; gap:0; background:var(--top-bar-bg, var(--bg-sidebar)); border-bottom:1px solid var(--top-bar-border, var(--border)); padding:0 16px; height:48px; flex-shrink:0; }
+.top-bar .app-name { font-size:14px; font-weight:700; color:var(--text); margin-right:20px; white-space:nowrap; }
+.sys-tab { background:transparent; color:var(--text); opacity:0.6; border:none; border-bottom:2px solid transparent; padding:0 16px; height:48px; cursor:pointer; font-size:13px; white-space:nowrap; transition:color .15s, border-color .15s, opacity .15s; text-decoration:none; display:flex; align-items:center; }
+.sys-tab:hover { opacity:0.85; }
+.sys-tab.active, .sys-tab.aivic-active { color:var(--text); opacity:1; border-bottom-color:var(--primary); font-weight:600; }
+.app-body { display:flex; flex:1; overflow:hidden; }
+.sidebar { width:220px; background:var(--bg-sidebar); border-right:1px solid var(--border); padding:12px 8px; overflow-y:auto; flex-shrink:0; }
+.sidebar-sys-name { margin:0 0 8px; padding:4px 8px; font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:.06em; }
+.nav-btn { display:block; width:100%; text-align:left; background:transparent; color:var(--text); opacity:0.65; border:none; border-radius:8px; padding:8px 12px; cursor:pointer; font-size:13px; margin-bottom:2px; transition:opacity .15s,background .15s; text-decoration:none; }
+.nav-btn:hover { background:var(--border); opacity:0.9; }
+.nav-btn.active, .nav-btn.aivic-active { background:var(--primary); color:#fff; opacity:1; }
+.main { flex:1; padding:16px; overflow-y:auto; }
+.card { border:1px solid var(--border); border-radius:12px; padding:16px; background:var(--bg-card); margin-bottom:12px; }
+.hidden { display:none !important; }
+.action-btn { background:var(--primary); color:#fff; border:0; border-radius:8px; padding:8px 14px; cursor:pointer; font-size:13px; }
+.action-btn:hover { background:var(--primary-hover, #1a55ef); }
+.action-btn.secondary { background:var(--border); color:var(--text); }
+.input { background:var(--bg-main); border:1px solid var(--border); color:var(--text); border-radius:8px; padding:7px 10px; font-size:13px; }
+.muted { color:var(--text-muted); font-size:13px; }
+.table-wrap { overflow:auto; border:1px solid var(--border); border-radius:8px; }
+table { width:100%; border-collapse:collapse; }
+th, td { border-bottom:1px solid var(--border); padding:8px 10px; text-align:left; font-size:13px; }
+th { color:var(--text); background:var(--bg-sidebar); position:sticky; top:0; font-weight:600; }
+tr:hover { background:var(--bg-sidebar); cursor:pointer; }
+canvas { display:block; max-height:280px !important; }
+.chart-wrap, .chart-container, [class*="chart"] { position:relative; height:260px; max-height:280px; }
+@media (max-width:768px) {
+  .top-bar { overflow-x:auto; }
+  .app-body { flex-direction:column; }
+  .sidebar { width:100%; height:auto; display:flex; flex-wrap:wrap; gap:4px; padding:8px; }
+  .sidebar-sys-name { display:none; }
+  .nav-btn { width:auto; border-radius:999px; padding:5px 12px; }
+}
+  </style>
+</head>
+<body>
+<header class="top-bar">
+  <span class="app-name">バックオフィサー</span>
+    <a href="./scr-1781954440904.html" class="sys-tab" data-aivic-nav-system="itg-3">契約・提案資料管理システム</a>
+    <a href="./scr-1781956713866.html" class="sys-tab active" data-aivic-nav-system="itg-4">顧客企業向け契約・成果管理ポータル</a>
+    <a href="./scr-1781957451550.html" class="sys-tab" data-aivic-nav-system="itg-5">契約変更・請求検証管理システム</a>
+    <a href="./scr-1781953462575.html" class="sys-tab" data-aivic-nav-system="itg-1">営業データ品質管理・請求自動化システム</a>
+</header>
+<div class="app-body">
+  <aside class="sidebar">
+    <p class="sidebar-sys-name">顧客企業向け契約・成果管理ポータル</p>
+      <a href="./scr-1781956713866.html" class="nav-btn" data-aivic-nav="scr-1781956713866">契約管理ダッシュボード</a>
+      <a href="./scr-1781957091729-pgcj.html" class="nav-btn" data-aivic-nav="scr-1781957091729-pgcj">契約書・提案資料検索画面</a>
+      <a href="./scr-1781957110390.html" class="nav-btn" data-aivic-nav="scr-1781957110390">契約情報詳細・変更管理</a>
+      <a href="./scr-1781957129236.html" class="nav-btn" data-aivic-nav="scr-1781957129236">成果物納期管理・変更</a>
+      <a href="./scr-1781957144977.html" class="nav-btn" data-aivic-nav="scr-1781957144977">請求書・メール履歴検索・参照</a>
+      <a href="./scr-1781957177326.html" class="nav-btn" data-aivic-nav="scr-1781957177326">顧客ポータルへ請求書・成果データ配信処理</a>
+      <a href="./scr-1781957194006.html" class="nav-btn" data-aivic-nav="scr-1781957194006">ポータル自動掲載機能</a>
+      <a href="./scr-1781957210092.html" class="nav-btn active" data-aivic-nav="scr-1781957210092">契約・成果管理ポータル画面</a>
+      <a href="./scr-1781957225979.html" class="nav-btn" data-aivic-nav="scr-1781957225979">対応履歴更新処理</a>
+      <a href="./scr-1781957241812.html" class="nav-btn" data-aivic-nav="scr-1781957241812">ポータル配信・通知機能</a>
+      <a href="./scr-1781957257836.html" class="nav-btn" data-aivic-nav="scr-1781957257836">ポータル上での回答・根拠資料公開</a>
+      <a href="./scr-1781957290638.html" class="nav-btn" data-aivic-nav="scr-1781957290638">ポータル確認画面</a>
+      <a href="./scr-1781957305104.html" class="nav-btn" data-aivic-nav="scr-1781957305104">合意確認入力画面</a>
+  </aside>
+  <main class="main">
+    <section class="card" data-aivic-panel="scr-1781957210092" style="margin-top:0">
+<div style="display: flex; flex-direction: column; height: 100%; gap: 12px; padding: 12px;">
+  
+  <!-- ヘッダー -->
+  <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; border-bottom: 2px solid var(--primary);">
+    <h1 style="font-size: 24px; font-weight: 700; color: var(--primary); margin: 0;">契約・成果管理ポータル</h1>
+    <button class="action-btn" data-testid="export-csv-button" style="font-size: 13px; padding: 6px 12px;">CSVエクスポート</button>
+  </div>
+
+  <!-- KPI カード群 -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 8px;">
+    <div class="card" style="padding: 12px; border-left: 4px solid var(--primary);">
+      <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">契約総数</div>
+      <div style="font-size: 28px; font-weight: 700; color: var(--primary);" data-testid="kpi-contract-count">0</div>
+    </div>
+    <div class="card" style="padding: 12px; border-left: 4px solid #d4a574;">
+      <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">成果物完了率</div>
+      <div style="font-size: 28px; font-weight: 700; color: #d4a574;" data-testid="kpi-completion-rate">0%</div>
+    </div>
+    <div class="card" style="padding: 12px; border-left: 4px solid #c85a54;">
+      <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">請求待ち</div>
+      <div style="font-size: 28px; font-weight: 700; color: #c85a54;" data-testid="kpi-pending-invoice">0件</div>
+    </div>
+    <div class="card" style="padding: 12px; border-left: 4px solid #e8b923;">
+      <div style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px;">納期遅延</div>
+      <div style="font-size: 28px; font-weight: 700; color: #e8b923;" data-testid="kpi-overdue">0件</div>
+    </div>
+  </div>
+
+  <!-- メインコンテンツ: 左（検索・一覧）+ 右（詳細） -->
+  <div style="display: grid; grid-template-columns: 1fr 320px; gap: 12px; flex: 1; min-height: 0;">
+    
+    <!-- 左: 検索フィルター + 契約一覧 -->
+    <div style="display: flex; flex-direction: column; gap: 10px; min-height: 0;">
+      
+      <!-- 検索フィルターバー -->
+      <div class="card" style="padding: 10px; display: grid; grid-template-columns: 1fr 1fr 1fr auto auto; gap: 8px; align-items: end;">
+        <div>
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">契約名</label>
+          <input type="text" id="filter-contract-name" data-testid="filter-contract-name" placeholder="検索..." style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;" />
+        </div>
+        <div>
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">ステータス</label>
+          <select id="filter-status" data-testid="filter-status" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
+            <option value="">すべて</option>
+            <option value="提案中">提案中</option>
+            <option value="承認待ち">承認待ち</option>
+            <option value="契約済">契約済</option>
+            <option value="完了">完了</option>
+            <option value="終了">終了</option>
+          </select>
+        </div>
+        <div>
+          <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 4px;">期間</label>
+          <input type="date" id="filter-date-from" data-testid="filter-date-from" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;" />
+        </div>
+        <button class="action-btn" id="btn-search" data-testid="search-button" style="font-size: 12px; padding: 6px 12px; align-self: end;">検索</button>
+        <button class="action-btn secondary" id="btn-reset" data-testid="reset-button" style="font-size: 12px; padding: 6px 12px; align-self: end;">リセット</button>
+      </div>
+
+      <!-- 契約一覧テーブル -->
+      <div class="table-wrap" style="flex: 1; min-height: 0; overflow-y: auto;">
+        <table data-testid="contract-list" style="width: 100%; font-size: 13px;">
+          <thead style="position: sticky; top: 0; background: var(--bg-card); z-index: 10;">
+            <tr>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid var(--border);">契約名</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid var(--border);">顧客企業</th>
+              <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid var(--border);">ステータス</th>
+              <th style="padding: 8px; text-align: right; color: var(--text); font-weight: 600; border-bottom: 1px solid var(--border);">契約金額</th>
+              <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid var(--border);">開始日</th>
+            </tr>
+          </thead>
+          <tbody id="contract-tbody">
+            <tr style="background: rgba(0,0,0,0.1);">
+              <td colspan="5" style="padding: 20px; text-align: center; color: var(--text-muted);">読込中...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 右: 詳細パネル -->
+    <div style="display: flex; flex-direction: column; gap: 10px; min-height: 0; overflow-y: auto;">
+      
+      <!-- 契約詳細 -->
+      <div class="card" style="padding: 10px;">
+        <div style="font-size: 13px; font-weight: 600; color: var(--primary); margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 6px;">契約詳細</div>
+        <div id="detail-panel" style="font-size: 12px; color: var(--text-muted);">
+          <p style="margin: 0; padding: 4px 0;">契約を選択してください</p>
+        </div>
+      </div>
+
+      <!-- 成果物進捗 -->
+      <div class="card" style="padding: 10px;">
+        <div style="font-size: 13px; font-weight: 600; color: var(--primary); margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 6px;">成果物進捗</div>
+        <div id="deliverable-progress" style="font-size: 12px;">
+          <p style="margin: 0; padding: 4px 0; color: var(--text-muted);">契約を選択してください</p>
+        </div>
+      </div>
+
+      <!-- 納期管理 -->
+      <div class="card" style="padding: 10px;">
+        <div style="font-size: 13px; font-weight: 600; color: var(--primary); margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 6px;">納期管理</div>
+        <div id="deadline-info" style="font-size: 12px;">
+          <p style="margin: 0; padding: 4px 0; color: var(--text-muted);">契約を選択してください</p>
+        </div>
+      </div>
+
+      <!-- アクション -->
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <button class="action-btn" id="btn-view-detail" data-testid="view-detail-button" style="font-size: 12px; padding: 8px; width: 100%;">詳細を表示</button>
+        <button class="action-btn secondary" id="btn-download-proposal" data-testid="download-proposal-button" style="font-size: 12px; padding: 8px; width: 100%;">提案資料DL</button>
+        <button class="action-btn secondary" id="btn-download-deliverable" data-testid="download-deliverable-button" style="font-size: 12px; padding: 8px; width: 100%;">成果物DL</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 下部: 履歴タイムライン -->
+  <div class="card" style="padding: 10px; max-height: 200px; overflow-y: auto;">
+    <div style="font-size: 13px; font-weight: 600; color: var(--primary); margin-bottom: 8px; border-bottom: 1px solid var(--border); padding-bottom: 6px;">契約変更・納期変更履歴</div>
+    <div id="history-timeline" style="font-size: 12px;">
+      <p style="margin: 0; padding: 4px 0; color: var(--text-muted);">履歴がありません</p>
+    </div>
+  </div>
+
+</div>
+    </section>
+  </main>
+</div>
+<script>
+(function() {
+  var TABLE_DEFS = window.AIVIC_TABLES || [];
+  var PRESET_SEED = window.AIVIC_PRESET_SEED || {};
+  var SYSTEM_NAME = window.AIVIC_SYSTEM_NAME || "";
+  var APP_ID = window.AIVIC_APP_ID || "";
+  var API_URL = (window.AIVIC_API_URL && window.AIVIC_API_URL !== "REPLACE_WITH_API_URL")
+    ? window.AIVIC_API_URL : window.location.origin;
+
+  // 通知 helper ( SPA 版と同じ )
+  window.aivicNotify = (function() {
+    function ensureContainer() {
+      var c = document.getElementById("aivic-toast-container");
+      if (c) return c;
+      c = document.createElement("div");
+      c.id = "aivic-toast-container";
+      c.style.cssText = "position:fixed;top:16px;right:16px;z-index:9999;display:flex;flex-direction:column;gap:8px;pointer-events:none;max-width:360px;";
+      document.body.appendChild(c);
+      return c;
+    }
+    function show(msg, type) {
+      var c = ensureContainer();
+      var el = document.createElement("div");
+      el.textContent = msg;
+      el.style.cssText = "padding:10px 16px;border-radius:8px;font-size:13px;line-height:1.4;pointer-events:auto;color:#fff;background:" + (type === "error" ? "#dc2626" : "#d97706");
+      c.appendChild(el);
+      setTimeout(function() {
+        el.style.transition = "opacity .3s";
+        el.style.opacity = "0";
+        setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 320);
+      }, type === "error" ? 6000 : 4500);
+    }
+    return {
+      error: function(msg) { show("❌ " + msg, "error"); },
+      warn:  function(msg) { show("⚠️ " + msg, "warn"); },
+    };
+  })();
+
+  // CRUD API ( SPA 版と同じ )
+  window.aivicApi = (function() {
+    function dbErr(op) { window.aivicNotify.error("データベースエラー ( " + op + " ): APIサーバーに接続できません。"); }
+    function newId() { return typeof crypto !== "undefined" && crypto.randomUUID ? crypto.randomUUID() : "id-" + Date.now() + "-" + Math.random().toString(36).slice(2); }
+    function q(i) {
+      var t = TABLE_DEFS[i];
+      var dbP = (window.AIVIC_DB_TYPE && window.AIVIC_DB_TYPE !== "dynamodb") ? "&db=" + encodeURIComponent(window.AIVIC_DB_TYPE) : "";
+      return "?app=" + encodeURIComponent(APP_ID) + "&system=" + encodeURIComponent(SYSTEM_NAME) + "&table=" + encodeURIComponent(t ? t.tableName : "table" + i) + dbP;
+    }
+    return {
+      list: async function(tableIndex) {
+        if (!API_URL) return [];
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + q(tableIndex)); var d = await r.json(); return Array.isArray(d) ? d : (d.items || []); }
+        catch(e) { dbErr("データ取得"); return []; }
+      },
+      save: async function(tableIndex, item) {
+        if (!API_URL) { dbErr("保存"); return null; }
+        var now = new Date().toISOString();
+        var rec = Object.assign({}, item, { id: item.id || newId(), createdAt: item.createdAt || now, updatedAt: now });
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + q(tableIndex), { method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(rec) }); return await r.json(); }
+        catch(e) { dbErr("保存"); return null; }
+      },
+      update: async function(tableIndex, id, changes) {
+        if (!API_URL) { dbErr("更新"); return null; }
+        try { var r = await fetch(API_URL + "/api/" + tableIndex + "/" + id + q(tableIndex), { method:"PUT", headers:{"Content-Type":"application/json"}, body:JSON.stringify(Object.assign({}, changes, {updatedAt: new Date().toISOString()})) }); return await r.json(); }
+        catch(e) { dbErr("更新"); return null; }
+      },
+      delete: async function(tableIndex, id) {
+        if (!API_URL) { dbErr("削除"); return {deleted:false}; }
+        try { await fetch(API_URL + "/api/" + tableIndex + "/" + id + q(tableIndex), {method:"DELETE"}); return {deleted:true}; }
+        catch(e) { dbErr("削除"); return {deleted:false}; }
+      },
+    };
+  })();
+
+  // showScreen はマルチページ構成ではページ遷移として動く。
+  var _aivicNavLastTime = 0;
+  var _aivicNavLastTarget = "";
+  var _aivicReady = false;
+  window.showScreen = function(screenId) {
+    if (!screenId) return;
+    if (screenId === window.AIVIC_PAGE_SCREEN_ID) return;
+    var targetPath = './' + encodeURIComponent(screenId) + '.html';
+    var currentName = (window.location.pathname.split('/').pop() || '');
+    if (currentName === (encodeURIComponent(screenId) + '.html') ||
+        currentName === (screenId + '.html')) {
+      return;
+    }
+    var now = Date.now();
+    if (_aivicNavLastTarget === targetPath && (now - _aivicNavLastTime) < 100) {
+      console.warn('[aivic] showScreen 連続呼び出し検知。 無限ループ防止のため抑制:', screenId);
+      return;
+    }
+    if (!_aivicReady) {
+      console.warn('[aivic] DOMContentLoaded 前の showScreen 呼び出し。 抑制:', screenId);
+      return;
+    }
+    _aivicNavLastTime = now;
+    _aivicNavLastTarget = targetPath;
+    window.location.href = targetPath;
+  };
+
+  function seedAllIfEmpty() {
+    if (!API_URL) return Promise.resolve();
+    return Promise.all(TABLE_DEFS.map(function(t, i) {
+      var preset = PRESET_SEED[t.tableName];
+      if (!Array.isArray(preset) || preset.length === 0) return Promise.resolve();
+      return window.aivicApi.list(i).then(function(existing) {
+        if (existing && existing.length > 0) return;
+        return Promise.all(preset.map(function(row) { return window.aivicApi.save(i, row); }));
+      }).catch(function() {});
+    }));
+  }
+
+  // ── 初期表示: このページ専用の panel に initFn を実行 ──
+  document.addEventListener("DOMContentLoaded", function() {
+    setTimeout(function() { _aivicReady = true; }, 1500);
+    var pageScreenId = window.AIVIC_PAGE_SCREEN_ID;
+    if (!pageScreenId) return;
+
+    document.querySelectorAll('[data-aivic-nav]').forEach(function(btn) {
+      var isActive = btn.getAttribute("data-aivic-nav") === pageScreenId;
+      btn.classList.toggle("aivic-active", isActive);
+      btn.setAttribute("aria-current", isActive ? "page" : "false");
+    });
+
+    var container = document.querySelector('[data-aivic-panel="' + pageScreenId + '"]');
+    if (!container) return;
+
+    // content 要素の hidden 強制除去 ( 2026-05-24 Playwright 大量 fail 対応 )
+    var isModalLike = function(el) {
+      if (!el || !el.classList) return false;
+      var cn = String(el.className || "");
+      if (/\bmodal\b|\bdialog\b|\boverlay\b|\bpopup\b|\bdropdown\b|\btooltip\b/i.test(cn)) return true;
+      var role = el.getAttribute && el.getAttribute("role");
+      if (role === "dialog" || role === "alertdialog" || role === "tooltip" || role === "menu") return true;
+      if (el.hasAttribute && (el.hasAttribute("data-modal") || el.hasAttribute("data-dropdown") || el.hasAttribute("data-popup"))) return true;
+      return false;
+    };
+    var unhideContentElements = function(root) {
+      var all = root.querySelectorAll('.hidden, [hidden], [style*="display:none"], [style*="display: none"]');
+      for (var k = 0; k < all.length; k++) {
+        var el = all[k];
+        if (isModalLike(el)) continue;
+        var p = el.parentElement;
+        var insideModal = false;
+        while (p && p !== root) {
+          if (isModalLike(p)) { insideModal = true; break; }
+          p = p.parentElement;
+        }
+        if (insideModal) continue;
+        el.classList.remove('hidden');
+        el.removeAttribute('hidden');
+        if (el.style && el.style.display === 'none') el.style.display = '';
+      }
+    };
+    try { unhideContentElements(container); } catch (e) { console.warn('[aivic] unhideContent failed:', e); }
+
+    var initJsSource = window.AIVIC_PAGE_INIT_JS;
+    if (!initJsSource) {
+      seedAllIfEmpty();
+      return;
+    }
+    var initFn = null;
+    try {
+      initFn = (new Function("return (" + initJsSource + ")"))();
+    } catch (e) {
+      console.error("[aivic] initJs compile error:", pageScreenId, e);
+      return;
+    }
+    if (typeof initFn !== "function") return;
+
+    seedAllIfEmpty().then(function() {
+      return Promise.all(TABLE_DEFS.map(function(t, i) {
+        return window.aivicApi.list(i)
+          .then(function(records) { return Object.assign({}, t, { records: records }); })
+          .catch(function() { return Object.assign({}, t, { records: [] }); });
+      }));
+    }).then(function(tables) {
+      try { initFn(container, API_URL, tables); } catch (e) { console.error("[aivic] initFn error:", pageScreenId, e); }
+      _aivicReady = true;
+    });
+  });
+})();
+
+</script>
+</body>
+</html>
