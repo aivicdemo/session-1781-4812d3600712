@@ -18,19 +18,42 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f0c856;
-  --bg-main: #0a0a0a;
+  --primary-hover: #f4d03f;
+  --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
-  --bg-sidebar: #141414;
-  --border: #8b0000;
-  --text: #ffffff;
-  --text-muted: #b0b0b0;
+  --bg-sidebar: #161616;
+  --border: #2a2a2a;
+  --text: #f5f5f5;
+  --text-muted: #a0a0a0;
   --top-bar-bg: #1a1a1a;
-  --top-bar-border: #8b0000;
+  --top-bar-border: #2a2a2a;
+  --accent-red: #dc143c;
+  --accent-red-hover: #ff1744;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
   --font-size-base: 16px;
-  --font-size-large: 18px;
+  --font-size-lg: 18px;
   --font-size-xl: 20px;
-  --font-size-heading: 24px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(212, 175, 55, 0.1);
+  --shadow-md: 0 4px 12px rgba(212, 175, 55, 0.15);
+  --shadow-lg: 0 8px 24px rgba(212, 175, 55, 0.2);
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 250ms ease-in-out;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -73,7 +96,7 @@ canvas { display:block; max-height:280px !important; }
 <body>
 <header class="top-bar">
   <span class="app-name">バックオフィサー</span>
-    <a href="./scr-1781954440904.html" class="sys-tab" data-aivic-nav-system="itg-3">契約・提案資料管理システム</a>
+    <a href="./scr-1781954055121.html" class="sys-tab" data-aivic-nav-system="itg-2">営業成果レポート自動生成・配信システム</a>
     <a href="./scr-1781956713866.html" class="sys-tab" data-aivic-nav-system="itg-4">顧客企業向け契約・成果管理ポータル</a>
     <a href="./scr-1781957451550.html" class="sys-tab" data-aivic-nav-system="itg-5">契約変更・請求検証管理システム</a>
     <a href="./scr-1781953462575.html" class="sys-tab active" data-aivic-nav-system="itg-1">営業データ品質管理・請求自動化システム</a>
@@ -115,278 +138,389 @@ canvas { display:block; max-height:280px !important; }
     <section class="card" data-aivic-panel="scr-1781953507064" style="margin-top:0">
 <div style="display: flex; flex-direction: column; height: 100%; gap: 0;">
   <!-- ヘッダー領域 -->
-  <div style="padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); background: var(--bg-card);">
+  <div style="padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.1); background: var(--bg-main);">
     <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">
-      バックオフィサー / 営業データ品質管理・請求自動化システム / 営業データメタデータ管理画面
+      バックオフィサー › 営業データ品質管理・請求自動化システム › 営業データメタデータ管理画面
     </div>
-    <h1 style="font-size: 18px; font-weight: 600; color: var(--text); margin: 0;">営業データメタデータ管理</h1>
+    <h1 style="margin: 0; font-size: 20px; font-weight: 700; color: var(--text);">営業データメタデータ管理</h1>
   </div>
 
-  <!-- メインコンテンツ（split layout） -->
-  <div style="display: flex; flex: 1; gap: 0; overflow: hidden;">
+  <!-- メインコンテンツ -->
+  <div style="display: flex; flex: 1; gap: 12px; padding: 12px; overflow: hidden;">
     
-    <!-- 左パネル：メタデータ一覧 -->
-    <div style="width: 35%; border-right: 1px solid rgba(255,255,255,0.08); display: flex; flex-direction: column; overflow: hidden;">
-      
-      <!-- 検索・フィルタバー -->
-      <div style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); background: var(--bg-main);">
+    <!-- 左パネル: メタデータ一覧 -->
+    <div style="width: 35%; display: flex; flex-direction: column; gap: 8px; overflow: hidden; background: var(--bg-card); border-radius: 6px; padding: 12px; border: 1px solid rgba(255,255,255,0.08);">
+      <div style="display: flex; gap: 6px; flex-wrap: wrap;">
         <input 
           type="text" 
           id="search-metadata" 
           data-testid="search-metadata"
           placeholder="項目名で検索..." 
-          style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);"
+          style="flex: 1; min-width: 120px; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 4px; color: var(--text); font-size: 12px;"
         />
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 8px;">
-          <select 
-            id="filter-datatype" 
-            data-testid="filter-datatype"
-            style="padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);"
-          >
-            <option value="">データ型すべて</option>
-            <option value="integer">integer</option>
-            <option value="varchar">varchar</option>
-            <option value="timestamp">timestamp</option>
-            <option value="boolean">boolean</option>
-            <option value="text">text</option>
-          </select>
-          <select 
-            id="filter-required" 
-            data-testid="filter-required"
-            style="padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text);"
-          >
-            <option value="">必須フラグすべて</option>
-            <option value="true">必須</option>
-            <option value="false">任意</option>
-          </select>
+        <button 
+          id="btn-search-metadata" 
+          data-testid="search-button"
+          class="action-btn" 
+          style="padding: 6px 12px; font-size: 12px; background: var(--primary); color: #fff; border: none; border-radius: 4px; cursor: pointer;"
+        >検索</button>
+      </div>
+      
+      <div style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; background: rgba(0,0,0,0.15);">
+        <div id="metadata-list" style="list-style: none; padding: 0; margin: 0;">
+          <!-- メタデータ一覧がここに動的に挿入される -->
         </div>
       </div>
 
-      <!-- メタデータ一覧テーブル -->
-      <div style="flex: 1; overflow-y: auto;">
-        <table data-testid="metadata-list" style="width: 100%; border-collapse: collapse; font-size: 12px;">
-          <thead style="position: sticky; top: 0; background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.12);">
-            <tr>
-              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-right: 1px solid rgba(255,255,255,0.08);">項目名</th>
-              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600;">型</th>
-            </tr>
-          </thead>
-          <tbody id="metadata-tbody">
-            <!-- 動的に生成 -->
-          </tbody>
-        </table>
-      </div>
-
-      <!-- 新規作成ボタン -->
-      <div style="padding: 12px; border-top: 1px solid rgba(255,255,255,0.08); background: var(--bg-card);">
-        <button 
-          id="btn-new-metadata" 
-          data-testid="btn-new-metadata"
-          class="action-btn" 
-          style="width: 100%; background: var(--primary); color: #fff; border: none; padding: 8px; border-radius: 3px; font-size: 12px; font-weight: 600; cursor: pointer;"
-        >
-          + 新規メタデータ作成
-        </button>
-      </div>
+      <button 
+        id="btn-new-metadata" 
+        data-testid="new-metadata-button"
+        class="action-btn" 
+        style="padding: 8px 12px; font-size: 12px; background: var(--primary); color: #fff; border: none; border-radius: 4px; cursor: pointer; width: 100%;"
+      >+ 新規メタデータ</button>
     </div>
 
-    <!-- 右パネル：詳細編集 + 検証ルール -->
-    <div style="flex: 1; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-main);">
+    <!-- 右パネル: 詳細編集 -->
+    <div style="flex: 1; display: flex; flex-direction: column; gap: 8px; overflow: hidden;">
       
-      <!-- 詳細フォーム -->
-      <div style="flex: 1; overflow-y: auto; padding: 16px;">
-        <div id="detail-panel" style="display: none;">
-          <h2 style="font-size: 14px; font-weight: 600; color: var(--text); margin: 0 0 12px 0;">メタデータ詳細</h2>
-          
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 16px;">
-            <!-- データ項目名 -->
+      <!-- タブ -->
+      <div style="display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.1); background: var(--bg-card); border-radius: 6px 6px 0 0; padding: 0;">
+        <button 
+          class="tab-btn active" 
+          data-tab="basic" 
+          style="flex: 1; padding: 10px; font-size: 12px; font-weight: 600; color: var(--text); background: transparent; border: none; border-bottom: 2px solid var(--primary); cursor: pointer;"
+        >基本情報</button>
+        <button 
+          class="tab-btn" 
+          data-tab="validation" 
+          style="flex: 1; padding: 10px; font-size: 12px; font-weight: 600; color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer;"
+        >検証ルール</button>
+        <button 
+          class="tab-btn" 
+          data-tab="billing" 
+          style="flex: 1; padding: 10px; font-size: 12px; font-weight: 600; color: var(--text-muted); background: transparent; border: none; border-bottom: 2px solid transparent; cursor: pointer;"
+        >請求設定</button>
+      </div>
+
+      <!-- タブコンテンツ -->
+      <div style="flex: 1; overflow-y: auto; background: var(--bg-card); border-radius: 0 6px 6px 6px; padding: 12px; border: 1px solid rgba(255,255,255,0.08); border-top: none;">
+        
+        <!-- タブ1: 基本情報 -->
+        <div id="tab-basic" class="tab-content" style="display: block;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
             <div>
-              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">データ項目名 *</label>
+              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">データ項目名 *</label>
               <input 
                 type="text" 
                 id="field-item-name" 
-                data-testid="field-item-name"
-                placeholder="例：受注金額" 
-                style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); box-sizing: border-box;"
+                data-testid="item-name-input"
+                placeholder="例: 受注金額" 
+                style="width: 100%; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 4px; color: var(--text); font-size: 12px; box-sizing: border-box;"
               />
             </div>
-
-            <!-- データ型 -->
             <div>
-              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">データ型 *</label>
+              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">データ型 *</label>
               <select 
-                id="field-datatype" 
-                data-testid="field-datatype"
-                style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); box-sizing: border-box;"
+                id="field-data-type" 
+                data-testid="data-type-select"
+                style="width: 100%; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 4px; color: var(--text); font-size: 12px; box-sizing: border-box;"
               >
                 <option value="">選択してください</option>
                 <option value="integer">integer</option>
                 <option value="varchar">varchar</option>
                 <option value="timestamp">timestamp</option>
                 <option value="boolean">boolean</option>
+                <option value="decimal">decimal</option>
                 <option value="text">text</option>
               </select>
             </div>
+          </div>
 
-            <!-- 最大文字数 -->
+          <div style="margin-top: 12px;">
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">データ項目説明</label>
+            <textarea 
+              id="field-description" 
+              data-testid="description-input"
+              placeholder="項目の詳細説明・ビジネス定義" 
+              style="width: 100%; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 4px; color: var(--text); font-size: 12px; box-sizing: border-box; min-height: 60px; resize: vertical;"
+            ></textarea>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
             <div>
-              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">最大文字数</label>
+              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">最大文字数</label>
               <input 
                 type="number" 
                 id="field-max-length" 
-                data-testid="field-max-length"
-                placeholder="例：100" 
-                style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); box-sizing: border-box;"
+                data-testid="max-length-input"
+                placeholder="varchar型の場合のみ" 
+                style="width: 100%; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 4px; color: var(--text); font-size: 12px; box-sizing: border-box;"
               />
             </div>
-
-            <!-- データソース -->
             <div>
-              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">データソース *</label>
+              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">データソース *</label>
               <input 
                 type="text" 
-                id="field-datasource" 
-                data-testid="field-datasource"
-                placeholder="例：営業データテーブル" 
-                style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); box-sizing: border-box;"
+                id="field-data-source" 
+                data-testid="data-source-input"
+                placeholder="例: sales_transactions" 
+                style="width: 100%; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 4px; color: var(--text); font-size: 12px; box-sizing: border-box;"
               />
             </div>
           </div>
 
-          <!-- チェックボックス群 -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; padding: 12px; background: rgba(0,0,0,0.15); border-radius: 3px;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px;">
+            <div>
+              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">更新頻度</label>
+              <select 
+                id="field-update-frequency" 
+                data-testid="update-frequency-select"
+                style="width: 100%; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 4px; color: var(--text); font-size: 12px; box-sizing: border-box;"
+              >
+                <option value="">選択してください</option>
+                <option value="日次">日次</option>
+                <option value="週次">週次</option>
+                <option value="月次">月次</option>
+                <option value="随時">随時</option>
+              </select>
+            </div>
+            <div style="display: flex; align-items: flex-end; gap: 8px;">
+              <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text); cursor: pointer;">
+                <input 
+                  type="checkbox" 
+                  id="field-required" 
+                  data-testid="required-checkbox"
+                  style="accent-color: var(--primary); cursor: pointer;"
+                />
+                必須フラグ
+              </label>
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-top: 12px;">
             <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text); cursor: pointer;">
-              <input type="checkbox" id="field-required" data-testid="field-required" style="accent-color: var(--primary);" />
-              必須フラグ
-            </label>
-            <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text); cursor: pointer;">
-              <input type="checkbox" id="field-quality-check" data-testid="field-quality-check" style="accent-color: var(--primary);" />
+              <input 
+                type="checkbox" 
+                id="field-quality-check" 
+                data-testid="quality-check-checkbox"
+                style="accent-color: var(--primary); cursor: pointer;"
+              />
               品質検証ルール適用
             </label>
             <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text); cursor: pointer;">
-              <input type="checkbox" id="field-anomaly-target" data-testid="field-anomaly-target" style="accent-color: var(--primary);" />
+              <input 
+                type="checkbox" 
+                id="field-anomaly-detection" 
+                data-testid="anomaly-detection-checkbox"
+                style="accent-color: var(--primary); cursor: pointer;"
+              />
               異常検出対象
             </label>
             <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text); cursor: pointer;">
-              <input type="checkbox" id="field-billing-target" data-testid="field-billing-target" style="accent-color: var(--primary);" />
-              請求対象フラグ
+              <input 
+                type="checkbox" 
+                id="field-billing-target" 
+                data-testid="billing-target-checkbox"
+                style="accent-color: var(--primary); cursor: pointer;"
+              />
+              請求対象
             </label>
           </div>
 
-          <!-- 請求対象の場合の追加フィールド -->
-          <div id="billing-section" style="display: none; padding: 12px; background: rgba(255,165,0,0.08); border-left: 3px solid #ffa500; border-radius: 3px; margin-bottom: 16px;">
-            <h3 style="font-size: 12px; font-weight: 600; color: var(--text); margin: 0 0 8px 0;">請求対象設定</h3>
+          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 8px;">
+            <button 
+              id="btn-save-metadata" 
+              data-testid="save-button"
+              class="action-btn" 
+              style="flex: 1; padding: 8px 12px; font-size: 12px; background: var(--primary); color: #fff; border: none; border-radius: 4px; cursor: pointer;"
+            >保存</button>
+            <button 
+              id="btn-delete-metadata" 
+              data-testid="delete-button"
+              class="action-btn secondary" 
+              style="flex: 1; padding: 8px 12px; font-size: 12px; background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; cursor: pointer;"
+            >削除</button>
+            <button 
+              id="btn-cancel-metadata" 
+              data-testid="cancel-button"
+              class="action-btn secondary" 
+              style="flex: 1; padding: 8px 12px; font-size: 12px; background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; cursor: pointer;"
+            >キャンセル</button>
+          </div>
+        </div>
+
+        <!-- タブ2: 検証ルール -->
+        <div id="tab-validation" class="tab-content" style="display: none;">
+          <div style="margin-bottom: 12px;">
+            <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600;">適用検証ルール</div>
+            <div id="validation-rules-list" style="border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; background: rgba(0,0,0,0.15); max-height: 150px; overflow-y: auto; padding: 8px;">
+              <!-- 検証ルール一覧 -->
+            </div>
+          </div>
+
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px;">
+            <div>
+              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">検証タイプ</label>
+              <select 
+                id="field-validation-type" 
+                data-testid="validation-type-select"
+                style="width: 100%; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 4px; color: var(--text); font-size: 12px; box-sizing: border-box;"
+              >
+                <option value="">選択してください</option>
+                <option value="必須チェック">必須チェック</option>
+                <option value="形式チェック">形式チェック</option>
+                <option value="範囲チェック">範囲チェック</option>
+                <option value="重複チェック">重複チェック</option>
+                <option value="参照整合性">参照整合性</option>
+              </select>
+            </div>
+            <div>
+              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">重要度</label>
+              <select 
+                id="field-validation-severity" 
+                data-testid="severity-select"
+                style="width: 100%; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 4px; color: var(--text); font-size: 12px; box-sizing: border-box;"
+              >
+                <option value="">選択してください</option>
+                <option value="エラー">エラー</option>
+                <option value="警告">警告</option>
+                <option value="情報">情報</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">検証条件</label>
+            <textarea 
+              id="field-validation-condition" 
+              data-testid="validation-condition-input"
+              placeholder="検証ルールの詳細条件・パラメータ（例: 0 < value <= 1000000）" 
+              style="width: 100%; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 4px; color: var(--text); font-size: 12px; box-sizing: border-box; min-height: 50px; resize: vertical;"
+            ></textarea>
+          </div>
+
+          <div style="margin-top: 12px;">
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">エラーメッセージ</label>
+            <input 
+              type="text" 
+              id="field-error-message" 
+              data-testid="error-message-input"
+              placeholder="検証失敗時に表示するメッセージ" 
+              style="width: 100%; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 4px; color: var(--text); font-size: 12px; box-sizing: border-box;"
+            />
+          </div>
+
+          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 8px;">
+            <button 
+              id="btn-add-validation-rule" 
+              data-testid="add-rule-button"
+              class="action-btn" 
+              style="flex: 1; padding: 8px 12px; font-size: 12px; background: var(--primary); color: #fff; border: none; border-radius: 4px; cursor: pointer;"
+            >+ 検証ルール追加</button>
+          </div>
+        </div>
+
+        <!-- タブ3: 請求設定 -->
+        <div id="tab-billing" class="tab-content" style="display: none;">
+          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+            <div>
+              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">請求項目カテゴリ</label>
+              <select 
+                id="field-billing-category" 
+                data-testid="billing-category-select"
+                style="width: 100%; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 4px; color: var(--text); font-size: 12px; box-sizing: border-box;"
+              >
+                <option value="">選択してください</option>
+                <option value="サービス料金">サービス料金</option>
+                <option value="手数料">手数料</option>
+                <option value="税金">税金</option>
+                <option value="割引">割引</option>
+                <option value="その他">その他</option>
+              </select>
+            </div>
+            <div>
+              <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">集計方法</label>
+              <select 
+                id="field-aggregation-method" 
+                data-testid="aggregation-select"
+                style="width: 100%; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 4px; color: var(--text); font-size: 12px; box-sizing: border-box;"
+              >
+                <option value="">選択してください</option>
+                <option value="SUM">SUM（合計）</option>
+                <option value="COUNT">COUNT（件数）</option>
+                <option value="AVG">AVG（平均）</option>
+                <option value="MAX">MAX（最大）</option>
+                <option value="MIN">MIN（最小）</option>
+                <option value="DIRECT">DIRECT（直接値）</option>
+              </select>
+            </div>
+          </div>
+
+          <div style="margin-top: 12px;">
+            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">有効期間</label>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
               <div>
-                <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">請求項目カテゴリ</label>
-                <select 
-                  id="field-billing-category" 
-                  data-testid="field-billing-category"
-                  style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); box-sizing: border-box;"
-                >
-                  <option value="">選択してください</option>
-                  <option value="サービス料金">サービス料金</option>
-                  <option value="手数料">手数料</option>
-                  <option value="税金">税金</option>
-                  <option value="その他">その他</option>
-                </select>
+                <label style="display: block; font-size: 10px; color: var(--text-muted); margin-bottom: 2px;">開始日 *</label>
+                <input 
+                  type="date" 
+                  id="field-valid-from" 
+                  data-testid="valid-from-input"
+                  style="width: 100%; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 4px; color: var(--text); font-size: 12px; box-sizing: border-box;"
+                />
               </div>
               <div>
-                <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">集計方法</label>
-                <select 
-                  id="field-aggregation" 
-                  data-testid="field-aggregation"
-                  style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); box-sizing: border-box;"
-                >
-                  <option value="">選択してください</option>
-                  <option value="SUM">SUM（合計）</option>
-                  <option value="AVG">AVG（平均）</option>
-                  <option value="COUNT">COUNT（件数）</option>
-                  <option value="DIRECT">DIRECT（直接値）</option>
-                </select>
+                <label style="display: block; font-size: 10px; color: var(--text-muted); margin-bottom: 2px;">終了日</label>
+                <input 
+                  type="date" 
+                  id="field-valid-to" 
+                  data-testid="valid-to-input"
+                  style="width: 100%; padding: 6px 10px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); border-radius: 4px; color: var(--text); font-size: 12px; box-sizing: border-box;"
+                />
               </div>
             </div>
           </div>
 
-          <!-- 説明 -->
-          <div style="margin-bottom: 16px;">
-            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">データ項目説明</label>
-            <textarea 
-              id="field-description" 
-              data-testid="field-description"
-              placeholder="このデータ項目の詳細説明・ビジネス定義を入力してください" 
-              style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); box-sizing: border-box; min-height: 60px; resize: vertical;"
-            ></textarea>
+          <div style="margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.08);">
+            <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text); cursor: pointer;">
+              <input 
+                type="checkbox" 
+                id="field-billing-enabled" 
+                data-testid="billing-enabled-checkbox"
+                style="accent-color: var(--primary); cursor: pointer;"
+              />
+              請求対象として有効
+            </label>
           </div>
 
-          <!-- 備考 -->
-          <div style="margin-bottom: 16px;">
-            <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">備考</label>
-            <textarea 
-              id="field-notes" 
-              data-testid="field-notes"
-              placeholder="その他の注記・運用上の注意事項" 
-              style="width: 100%; padding: 6px 8px; font-size: 12px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); box-sizing: border-box; min-height: 60px; resize: vertical;"
-            ></textarea>
-          </div>
-
-          <!-- 保存・削除ボタン -->
-          <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-            <button 
-              id="btn-save-metadata" 
-              data-testid="btn-save-metadata"
-              class="action-btn" 
-              style="background: var(--primary); color: #fff; border: none; padding: 8px; border-radius: 3px; font-size: 12px; font-weight: 600; cursor: pointer;"
-            >
-              保存
-            </button>
-            <button 
-              id="btn-delete-metadata" 
-              data-testid="btn-delete-metadata"
-              class="action-btn secondary" 
-              style="background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); padding: 8px; border-radius: 3px; font-size: 12px; font-weight: 600; cursor: pointer;"
-            >
-              削除
-            </button>
+          <div style="margin-top: 12px; padding: 8px; background: rgba(255,165,0,0.1); border-left: 3px solid #ffa500; border-radius: 4px;">
+            <div style="font-size: 11px; color: var(--text); line-height: 1.4;">
+              <strong>注意:</strong> 請求対象フラグが有効な場合、このメタデータは請求集計に自動的に含まれます。有効期間を正確に設定してください。
+            </div>
           </div>
         </div>
 
-        <!-- 初期状態：メタデータを選択してください -->
-        <div id="empty-state" style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); font-size: 13px; text-align: center;">
-          <div>
-            <div style="font-size: 32px; margin-bottom: 8px; opacity: 0.5;">📋</div>
-            左側のリストからメタデータを選択するか、<br />新規メタデータを作成してください
-          </div>
-        </div>
-      </div>
-
-      <!-- 検証ルール設定パネル（タブ） -->
-      <div style="border-top: 1px solid rgba(255,255,255,0.08); background: var(--bg-card); padding: 12px; max-height: 40%; overflow-y: auto;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
-          <h3 style="font-size: 12px; font-weight: 600; color: var(--text); margin: 0;">検証ルール設定</h3>
-          <button 
-            id="btn-add-rule" 
-            data-testid="btn-add-rule"
-            class="action-btn" 
-            style="background: var(--primary); color: #fff; border: none; padding: 4px 8px; border-radius: 3px; font-size: 11px; font-weight: 600; cursor: pointer;"
-          >
-            + ルール追加
-          </button>
-        </div>
-        <div id="rules-list" style="font-size: 11px;">
-          <!-- 動的に生成 -->
-        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<!-- 検証結果確認へのナビゲーション（ヘッダーに隠し要素） -->
-<button 
-  id="btn-check-validation" 
-  data-testid="btn-check-validation"
-  style="display: none;"
-></button>
+  </div>
+
+  <!-- フッター: アクション -->
+  <div style="padding: 12px 16px; border-top: 1px solid rgba(255,255,255,0.1); background: var(--bg-main); display: flex; gap: 8px; justify-content: flex-end;">
+    <button 
+      id="btn-export-csv" 
+      data-testid="export-csv-button"
+      class="action-btn secondary" 
+      style="padding: 8px 16px; font-size: 12px; background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; cursor: pointer;"
+    >📥 CSVエクスポート</button>
+    <button 
+      id="btn-validation-results" 
+      data-testid="validation-results-button"
+      class="action-btn" 
+      style="padding: 8px 16px; font-size: 12px; background: var(--primary); color: #fff; border: none; border-radius: 4px; cursor: pointer;"
+    >✓ 検証結果確認</button>
+  </div>
+
+</div>
     </section>
   </main>
 </div>

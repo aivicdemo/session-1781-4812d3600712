@@ -18,19 +18,42 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f0c856;
-  --bg-main: #0a0a0a;
+  --primary-hover: #f4d03f;
+  --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
-  --bg-sidebar: #141414;
-  --border: #8b0000;
-  --text: #ffffff;
-  --text-muted: #b0b0b0;
+  --bg-sidebar: #161616;
+  --border: #2a2a2a;
+  --text: #f5f5f5;
+  --text-muted: #a0a0a0;
   --top-bar-bg: #1a1a1a;
-  --top-bar-border: #8b0000;
+  --top-bar-border: #2a2a2a;
+  --accent-red: #dc143c;
+  --accent-red-hover: #ff1744;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
   --font-size-base: 16px;
-  --font-size-large: 18px;
+  --font-size-lg: 18px;
   --font-size-xl: 20px;
-  --font-size-heading: 24px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(212, 175, 55, 0.1);
+  --shadow-md: 0 4px 12px rgba(212, 175, 55, 0.15);
+  --shadow-lg: 0 8px 24px rgba(212, 175, 55, 0.2);
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 250ms ease-in-out;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -73,7 +96,7 @@ canvas { display:block; max-height:280px !important; }
 <body>
 <header class="top-bar">
   <span class="app-name">バックオフィサー</span>
-    <a href="./scr-1781954440904.html" class="sys-tab" data-aivic-nav-system="itg-3">契約・提案資料管理システム</a>
+    <a href="./scr-1781954055121.html" class="sys-tab" data-aivic-nav-system="itg-2">営業成果レポート自動生成・配信システム</a>
     <a href="./scr-1781956713866.html" class="sys-tab active" data-aivic-nav-system="itg-4">顧客企業向け契約・成果管理ポータル</a>
     <a href="./scr-1781957451550.html" class="sys-tab" data-aivic-nav-system="itg-5">契約変更・請求検証管理システム</a>
     <a href="./scr-1781953462575.html" class="sys-tab" data-aivic-nav-system="itg-1">営業データ品質管理・請求自動化システム</a>
@@ -97,69 +120,23 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781957225979" style="margin-top:0">
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; height: 100vh; padding: 12px; background: var(--bg-main); overflow: hidden;">
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; height: 100vh; overflow: hidden; padding: 1rem;">
   
-  <!-- 左パネル: 対応履歴タイムライン -->
-  <div style="display: flex; flex-direction: column; gap: 8px; overflow: hidden;">
-    <!-- フィルタバー -->
-    <div style="background: var(--bg-card); padding: 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.12);">
-      <div style="font-size: 12px; font-weight: 600; color: var(--text); margin-bottom: 6px;">対応履歴検索</div>
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
-        <input 
-          type="text" 
-          placeholder="顧客企業名で検索" 
-          data-testid="customer-search"
-          style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px; border-radius: 3px;"
-        />
-        <select 
-          data-testid="status-filter"
-          style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px; border-radius: 3px;"
-        >
-          <option value="">全対応種別</option>
-          <option value="提案">提案</option>
-          <option value="契約確認">契約確認</option>
-          <option value="成果物納期通知">成果物納期通知</option>
-          <option value="請求書送付">請求書送付</option>
-          <option value="変更通知">変更通知</option>
-          <option value="その他">その他</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- タイムライン -->
-    <div style="flex: 1; overflow-y: auto; background: var(--bg-card); border-radius: 4px; border: 1px solid rgba(255,255,255,0.12); padding: 8px;">
-      <div id="timeline-container" style="display: flex; flex-direction: column; gap: 8px;">
-        <!-- タイムラインアイテムはここに動的に挿入 -->
-      </div>
-    </div>
-  </div>
-
-  <!-- 右パネル: 対応入力フォーム + プレビュー -->
-  <div style="display: flex; flex-direction: column; gap: 8px; overflow: hidden;">
-    <!-- 対応入力フォーム -->
-    <div style="background: var(--bg-card); padding: 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.12); flex: 1; overflow-y: auto;">
-      <div style="font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 10px;">新規対応記録</div>
+  <!-- 左パネル: 入力フォーム -->
+  <div style="display: flex; flex-direction: column; gap: 1rem; overflow-y: auto; padding-right: 0.5rem;">
+    
+    <!-- セクション: 対応基本情報 -->
+    <div class="card" style="padding: 1rem;">
+      <h3 style="font-size: 1.1rem; font-weight: 600; margin: 0 0 1rem 0; color: var(--text);">対応基本情報</h3>
       
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
-        <!-- 対応日時 -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
         <div>
-          <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 3px; font-weight: 500;">対応日時</label>
-          <input 
-            type="datetime-local" 
-            id="interaction-datetime"
-            data-testid="interaction-datetime"
-            style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px; border-radius: 3px; box-sizing: border-box;"
-          />
+          <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">対応日時</label>
+          <input type="datetime-local" id="response-datetime" data-testid="response-datetime" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.95rem;" />
         </div>
-        
-        <!-- 対応種別 -->
         <div>
-          <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 3px; font-weight: 500;">対応種別</label>
-          <select 
-            id="interaction-type"
-            data-testid="interaction-type"
-            style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px; border-radius: 3px; box-sizing: border-box;"
-          >
+          <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">対応種別</label>
+          <select id="response-type" data-testid="response-type-select" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.95rem;">
             <option value="">選択してください</option>
             <option value="提案">提案</option>
             <option value="契約確認">契約確認</option>
@@ -171,156 +148,168 @@ canvas { display:block; max-height:280px !important; }
         </div>
       </div>
 
-      <!-- 顧客企業名検索 -->
-      <div style="margin-bottom: 8px;">
-        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 3px; font-weight: 500;">顧客企業名</label>
-        <input 
-          type="text" 
-          id="customer-name-input"
-          data-testid="customer-name-input"
-          placeholder="企業名で検索"
-          style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px; border-radius: 3px; box-sizing: border-box;"
-        />
-        <div id="customer-dropdown" style="display: none; position: absolute; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; max-height: 120px; overflow-y: auto; z-index: 10; width: 200px; margin-top: 2px;">
-          <!-- 顧客企業リストはここに動的に挿入 -->
+      <div style="margin-bottom: 1rem;">
+        <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">顧客企業名</label>
+        <input type="text" id="customer-search" data-testid="customer-search" placeholder="企業名で検索..." style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.95rem;" />
+        <div id="customer-dropdown" style="display: none; position: absolute; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; max-height: 150px; overflow-y: auto; z-index: 10; width: 45%; margin-top: 0.25rem;">
+          <!-- 動的に顧客企業リストを表示 -->
         </div>
-        <input type="hidden" id="selected-customer-id" />
+        <input type="hidden" id="customer-id" data-testid="customer-id" />
       </div>
 
-      <!-- 契約書選択 -->
-      <div style="margin-bottom: 8px;">
-        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 3px; font-weight: 500;">契約書</label>
-        <select 
-          id="contract-select"
-          data-testid="contract-select"
-          style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px; border-radius: 3px; box-sizing: border-box;"
-        >
+      <div style="margin-bottom: 1rem;">
+        <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">契約書</label>
+        <select id="contract-select" data-testid="contract-select" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.95rem;">
           <option value="">選択してください</option>
-          <option value="contract-001">契約書A（2024年度）</option>
-          <option value="contract-002">契約書B（保守契約）</option>
-          <option value="contract-003">契約書C（NDA）</option>
+          <option value="contract-001">契約書 A（2024年度）</option>
+          <option value="contract-002">契約書 B（保守契約）</option>
+          <option value="contract-003">契約書 C（NDA）</option>
         </select>
-      </div>
-
-      <!-- 対応内容 -->
-      <div style="margin-bottom: 8px;">
-        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 3px; font-weight: 500;">対応内容</label>
-        <textarea 
-          id="interaction-content"
-          data-testid="interaction-content"
-          placeholder="対応内容を記入してください"
-          style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px; border-radius: 3px; box-sizing: border-box; resize: vertical; min-height: 60px;"
-        ></textarea>
-      </div>
-
-      <!-- 添付ファイル -->
-      <div style="margin-bottom: 8px;">
-        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 3px; font-weight: 500;">添付ファイル</label>
-        <input 
-          type="file" 
-          id="attachment-file"
-          data-testid="attachment-file"
-          style="width: 100%; padding: 4px; font-size: 11px;"
-        />
-      </div>
-
-      <!-- 提案資料リンク -->
-      <div style="margin-bottom: 8px;">
-        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 3px; font-weight: 500;">提案資料</label>
-        <select 
-          id="proposal-select"
-          data-testid="proposal-select"
-          style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px; border-radius: 3px; box-sizing: border-box;"
-        >
-          <option value="">選択してください</option>
-          <option value="proposal-001">提案資料A（営業提案）</option>
-          <option value="proposal-002">提案資料B（技術仕様）</option>
-          <option value="proposal-003">提案資料C（価格表）</option>
-        </select>
-      </div>
-
-      <!-- 成果物関連チェックボックス -->
-      <div style="margin-bottom: 8px; padding: 8px; background: rgba(0,0,0,0.15); border-radius: 3px;">
-        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">成果物関連</label>
-        <div style="display: flex; gap: 12px;">
-          <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text);">
-            <input type="checkbox" id="deliverable-related" data-testid="deliverable-related" style="accent-color: var(--primary);" />
-            成果物関連
-          </label>
-          <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text);">
-            <input type="checkbox" id="invoice-related" data-testid="invoice-related" style="accent-color: var(--primary);" />
-            請求書関連
-          </label>
-        </div>
-      </div>
-
-      <!-- 納期変更有無 -->
-      <div style="margin-bottom: 8px; padding: 8px; background: rgba(0,0,0,0.15); border-radius: 3px;">
-        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 500;">納期変更</label>
-        <div style="display: flex; gap: 12px;">
-          <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text);">
-            <input type="radio" name="deadline-change" value="no" checked data-testid="deadline-no" style="accent-color: var(--primary);" />
-            なし
-          </label>
-          <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; color: var(--text);">
-            <input type="radio" name="deadline-change" value="yes" data-testid="deadline-yes" style="accent-color: var(--primary);" />
-            あり
-          </label>
-        </div>
-        <div id="deadline-change-detail" style="display: none; margin-top: 6px; padding: 6px; background: rgba(0,0,0,0.25); border-radius: 3px;">
-          <input 
-            type="datetime-local" 
-            id="new-deadline"
-            data-testid="new-deadline"
-            placeholder="新納期"
-            style="width: 100%; padding: 4px 6px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); font-size: 11px; border-radius: 2px; box-sizing: border-box;"
-          />
-          <textarea 
-            id="deadline-reason"
-            data-testid="deadline-reason"
-            placeholder="変更理由"
-            style="width: 100%; padding: 4px 6px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); font-size: 11px; border-radius: 2px; box-sizing: border-box; resize: vertical; min-height: 40px; margin-top: 4px;"
-          ></textarea>
-        </div>
-      </div>
-
-      <!-- メール送信チェックボックス -->
-      <div style="margin-bottom: 8px; padding: 8px; background: rgba(0,0,0,0.15); border-radius: 3px;">
-        <label style="display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text);">
-          <input type="checkbox" id="send-email" data-testid="send-email" style="accent-color: var(--primary);" />
-          <span style="font-weight: 500;">メール送信</span>
-        </label>
-      </div>
-
-      <!-- 請求書関連情報表示 -->
-      <div id="invoice-info-panel" style="display: none; margin-bottom: 8px; padding: 8px; background: rgba(255,165,0,0.1); border-left: 3px solid #ffa500; border-radius: 3px;">
-        <div style="font-size: 11px; color: var(--text-muted); font-weight: 500; margin-bottom: 4px;">請求書情報</div>
-        <div id="invoice-info-content" style="font-size: 11px; color: var(--text);"></div>
-      </div>
-
-      <!-- ボタン群 -->
-      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-top: 10px;">
-        <button 
-          id="btn-save"
-          data-testid="save-button"
-          style="padding: 8px 12px; background: var(--primary); color: #fff; border: none; border-radius: 3px; font-size: 12px; font-weight: 600; cursor: pointer; transition: background 0.2s;"
-        >
-          保存
-        </button>
-        <button 
-          id="btn-cancel"
-          data-testid="cancel-button"
-          style="padding: 8px 12px; background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; font-size: 12px; font-weight: 600; cursor: pointer;"
-        >
-          キャンセル
-        </button>
       </div>
     </div>
 
+    <!-- セクション: 対応内容 -->
+    <div class="card" style="padding: 1rem;">
+      <h3 style="font-size: 1.1rem; font-weight: 600; margin: 0 0 1rem 0; color: var(--text);">対応内容</h3>
+      
+      <div style="margin-bottom: 1rem;">
+        <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">対応内容</label>
+        <textarea id="response-content" data-testid="response-content" placeholder="対応内容を入力..." style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.95rem; min-height: 100px; resize: vertical;"></textarea>
+      </div>
+
+      <div style="margin-bottom: 1rem;">
+        <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">添付ファイル</label>
+        <input type="file" id="attachment-file" data-testid="attachment-file" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.95rem;" />
+        <div id="attachment-list" style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
+          <!-- 添付ファイル一覧 -->
+        </div>
+      </div>
+
+      <div style="margin-bottom: 1rem;">
+        <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">提案資料リンク</label>
+        <select id="proposal-select" data-testid="proposal-select" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.95rem;">
+          <option value="">選択してください</option>
+          <option value="proposal-001">提案資料 A（2024年1月）</option>
+          <option value="proposal-002">提案資料 B（2024年2月）</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- セクション: 成果物・納期 -->
+    <div class="card" style="padding: 1rem;">
+      <h3 style="font-size: 1.1rem; font-weight: 600; margin: 0 0 1rem 0; color: var(--text);">成果物・納期</h3>
+      
+      <div style="margin-bottom: 1rem;">
+        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; color: var(--text); cursor: pointer;">
+          <input type="checkbox" id="deliverable-related" data-testid="deliverable-related" style="accent-color: var(--primary);" />
+          成果物関連
+        </label>
+      </div>
+
+      <div style="margin-bottom: 1rem;">
+        <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">納期変更有無</label>
+        <div style="display: flex; gap: 1rem;">
+          <label style="display: flex; align-items: center; gap: 0.3rem; font-size: 0.95rem; color: var(--text); cursor: pointer;">
+            <input type="radio" name="deadline-change" value="no" data-testid="deadline-change-no" checked style="accent-color: var(--primary);" />
+            変更なし
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.3rem; font-size: 0.95rem; color: var(--text); cursor: pointer;">
+            <input type="radio" name="deadline-change" value="yes" data-testid="deadline-change-yes" style="accent-color: var(--primary);" />
+            変更あり
+          </label>
+        </div>
+      </div>
+
+      <div id="deadline-change-section" style="display: none; margin-bottom: 1rem;">
+        <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">新納期</label>
+        <input type="date" id="new-deadline" data-testid="new-deadline" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.95rem;" />
+        <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem; margin-bottom: 0.3rem; font-weight: 500;">変更理由</label>
+        <textarea id="deadline-reason" data-testid="deadline-reason" placeholder="変更理由を入力..." style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.95rem; min-height: 60px; resize: vertical;"></textarea>
+      </div>
+    </div>
+
+    <!-- セクション: メール送信 -->
+    <div class="card" style="padding: 1rem;">
+      <h3 style="font-size: 1.1rem; font-weight: 600; margin: 0 0 1rem 0; color: var(--text);">メール送信</h3>
+      
+      <div style="margin-bottom: 1rem;">
+        <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.95rem; color: var(--text); cursor: pointer;">
+          <input type="checkbox" id="send-email" data-testid="send-email" style="accent-color: var(--primary);" />
+          メール送信する
+        </label>
+      </div>
+
+      <div id="email-section" style="display: none;">
+        <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">メール件名</label>
+        <input type="text" id="email-subject" data-testid="email-subject" placeholder="件名を入力..." style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.95rem; margin-bottom: 0.75rem;" />
+        
+        <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">メール本文</label>
+        <textarea id="email-body" data-testid="email-body" placeholder="メール本文を入力..." style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; background: rgba(0,0,0,0.25); color: var(--text); font-size: 0.95rem; min-height: 100px; resize: vertical;"></textarea>
+      </div>
+    </div>
+
+    <!-- アクションボタン -->
+    <div style="display: flex; gap: 0.75rem; margin-top: 1rem;">
+      <button id="btn-save" data-testid="save-button" class="action-btn" style="flex: 1; padding: 0.75rem; font-size: 1rem; font-weight: 600;">保存</button>
+      <button id="btn-cancel" data-testid="cancel-button" class="action-btn secondary" style="flex: 1; padding: 0.75rem; font-size: 1rem; font-weight: 600;">キャンセル</button>
+    </div>
+  </div>
+
+  <!-- 右パネル: プレビュー＆関連情報 -->
+  <div style="display: flex; flex-direction: column; gap: 1rem; overflow-y: auto; padding-left: 0.5rem;">
+    
     <!-- メール本文プレビュー -->
-    <div id="email-preview-panel" style="display: none; background: var(--bg-card); padding: 10px; border-radius: 4px; border: 1px solid rgba(255,165,0,0.3); flex: 0 0 200px; overflow-y: auto;">
-      <div style="font-size: 12px; font-weight: 700; color: var(--text); margin-bottom: 6px;">📧 メール本文プレビュー</div>
-      <div style="font-size: 10px; color: var(--text-muted); line-height: 1.4; white-space: pre-wrap; word-break: break-word;" id="email-preview-content"></div>
+    <div class="card" style="padding: 1rem;">
+      <h3 style="font-size: 1.1rem; font-weight: 600; margin: 0 0 1rem 0; color: var(--text);">メール本文プレビュー</h3>
+      <div id="email-preview" style="background: rgba(0,0,0,0.15); border-radius: 0.25rem; padding: 1rem; min-height: 150px; font-size: 0.95rem; color: var(--text); white-space: pre-wrap; word-break: break-word; border-left: 3px solid #d4af37;">
+        <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem;">【件名】</div>
+        <div id="preview-subject" style="margin-bottom: 1rem; font-weight: 600;">（未入力）</div>
+        <div style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 0.5rem;">【本文】</div>
+        <div id="preview-body">（未入力）</div>
+      </div>
+    </div>
+
+    <!-- 請求書関連情報 -->
+    <div class="card" style="padding: 1rem;">
+      <h3 style="font-size: 1.1rem; font-weight: 600; margin: 0 0 1rem 0; color: var(--text);">請求書関連情報</h3>
+      <div id="invoice-info" style="font-size: 0.95rem; color: var(--text);">
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
+          <div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.25rem;">請求書番号</div>
+            <div id="invoice-number" style="font-weight: 600;">—</div>
+          </div>
+          <div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.25rem;">請求ステータス</div>
+            <div id="invoice-status" style="font-weight: 600; color: #d4af37;">—</div>
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem;">
+          <div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.25rem;">請求金額</div>
+            <div id="invoice-amount" style="font-weight: 600;">—</div>
+          </div>
+          <div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.25rem;">支払期限</div>
+            <div id="invoice-deadline" style="font-weight: 600;">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 対応履歴一覧 -->
+    <div class="card" style="padding: 1rem;">
+      <h3 style="font-size: 1.1rem; font-weight: 600; margin: 0 0 1rem 0; color: var(--text);">最近の対応履歴</h3>
+      <div id="history-list" style="display: flex; flex-direction: column; gap: 0.75rem; max-height: 300px; overflow-y: auto;">
+        <!-- 動的に履歴を表示 -->
+      </div>
+    </div>
+
+    <!-- メール・通知履歴 -->
+    <div class="card" style="padding: 1rem;">
+      <h3 style="font-size: 1.1rem; font-weight: 600; margin: 0 0 1rem 0; color: var(--text);">メール・通知履歴</h3>
+      <div id="communication-list" style="display: flex; flex-direction: column; gap: 0.75rem; max-height: 250px; overflow-y: auto; font-size: 0.9rem;">
+        <!-- 動的に履歴を表示 -->
+      </div>
     </div>
   </div>
 </div>

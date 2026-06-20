@@ -18,19 +18,42 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f0c856;
-  --bg-main: #0a0a0a;
+  --primary-hover: #f4d03f;
+  --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
-  --bg-sidebar: #141414;
-  --border: #8b0000;
-  --text: #ffffff;
-  --text-muted: #b0b0b0;
+  --bg-sidebar: #161616;
+  --border: #2a2a2a;
+  --text: #f5f5f5;
+  --text-muted: #a0a0a0;
   --top-bar-bg: #1a1a1a;
-  --top-bar-border: #8b0000;
+  --top-bar-border: #2a2a2a;
+  --accent-red: #dc143c;
+  --accent-red-hover: #ff1744;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
   --font-size-base: 16px;
-  --font-size-large: 18px;
+  --font-size-lg: 18px;
   --font-size-xl: 20px;
-  --font-size-heading: 24px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(212, 175, 55, 0.1);
+  --shadow-md: 0 4px 12px rgba(212, 175, 55, 0.15);
+  --shadow-lg: 0 8px 24px rgba(212, 175, 55, 0.2);
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 250ms ease-in-out;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -73,7 +96,7 @@ canvas { display:block; max-height:280px !important; }
 <body>
 <header class="top-bar">
   <span class="app-name">バックオフィサー</span>
-    <a href="./scr-1781954440904.html" class="sys-tab" data-aivic-nav-system="itg-3">契約・提案資料管理システム</a>
+    <a href="./scr-1781954055121.html" class="sys-tab" data-aivic-nav-system="itg-2">営業成果レポート自動生成・配信システム</a>
     <a href="./scr-1781956713866.html" class="sys-tab" data-aivic-nav-system="itg-4">顧客企業向け契約・成果管理ポータル</a>
     <a href="./scr-1781957451550.html" class="sys-tab" data-aivic-nav-system="itg-5">契約変更・請求検証管理システム</a>
     <a href="./scr-1781953462575.html" class="sys-tab active" data-aivic-nav-system="itg-1">営業データ品質管理・請求自動化システム</a>
@@ -113,180 +136,226 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781953462575" style="margin-top:0">
-<div style="display:flex;flex-direction:column;height:100%;gap:0;">
-  <!-- ヘッダー -->
-  <div style="padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.08);background:var(--bg-card);">
-    <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;letter-spacing:0.5px;">
-      バックオフィサー・営業データ品質管理・請求自動化システム・営業データ入力・検証画面
+<div style="display: flex; flex-direction: column; height: 100%; gap: 0;">
+  <!-- ヘッダー / Breadcrumb -->
+  <div style="padding: 12px 16px; border-bottom: 1px solid var(--border); background: var(--bg-main);">
+    <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">
+      バックオフィサー / 営業データ品質管理・請求自動化システム / 営業データ入力・検証画面
     </div>
-    <div style="font-size:18px;font-weight:600;color:var(--text);">営業データ入力・検証</div>
+    <h1 style="font-size: 18px; font-weight: 600; color: var(--text); margin: 0;">営業データ入力・検証</h1>
   </div>
 
-  <!-- KPI カード群 -->
-  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:12px 16px;background:var(--bg-main);border-bottom:1px solid rgba(255,255,255,0.08);">
-    <div class="card" style="padding:12px;text-align:center;">
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">本月検証成功率</div>
-      <div style="font-size:20px;font-weight:700;color:var(--primary);" data-testid="kpi-validation-rate">-</div>
+  <!-- KPI カード群（月次サマリー） -->
+  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; padding: 12px 16px; background: var(--bg-main); border-bottom: 1px solid var(--border);">
+    <div class="card" style="padding: 12px; text-align: center;">
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">当月営業データ件数</div>
+      <div style="font-size: 24px; font-weight: 700; color: var(--primary);" data-testid="kpi-data-count">0</div>
     </div>
-    <div class="card" style="padding:12px;text-align:center;">
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">異常検出件数</div>
-      <div style="font-size:20px;font-weight:700;color:#ff6a00;" data-testid="kpi-anomaly-count">-</div>
+    <div class="card" style="padding: 12px; text-align: center;">
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">検証成功率</div>
+      <div style="font-size: 24px; font-weight: 700; color: var(--primary);" data-testid="kpi-validation-rate">0%</div>
     </div>
-    <div class="card" style="padding:12px;text-align:center;">
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">請求対象件数</div>
-      <div style="font-size:20px;font-weight:700;color:var(--text);" data-testid="kpi-billable-count">-</div>
+    <div class="card" style="padding: 12px; text-align: center;">
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">当月請求金額</div>
+      <div style="font-size: 24px; font-weight: 700; color: var(--primary);" data-testid="kpi-billing-amount">¥0</div>
     </div>
-    <div class="card" style="padding:12px;text-align:center;">
-      <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">平均品質スコア</div>
-      <div style="font-size:20px;font-weight:700;color:var(--text);" data-testid="kpi-quality-score">-</div>
+    <div class="card" style="padding: 12px; text-align: center;">
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">データ品質スコア</div>
+      <div style="font-size: 24px; font-weight: 700; color: var(--primary);" data-testid="kpi-quality-score">0</div>
     </div>
   </div>
 
-  <!-- メインコンテンツ -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 16px;flex:1;overflow:auto;">
+  <!-- メインコンテンツ（入力フォーム + 検証結果） -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; padding: 16px; flex: 1; overflow-y: auto; background: var(--bg-main);">
     
-    <!-- 左：入力フォーム -->
-    <div class="card" style="padding:14px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;">
-      <div style="font-size:13px;font-weight:600;color:var(--text);">営業データ入力</div>
+    <!-- 左側：入力フォーム -->
+    <div class="card" style="padding: 16px; display: flex; flex-direction: column; gap: 12px;">
+      <h2 style="font-size: 14px; font-weight: 600; color: var(--text); margin: 0; border-bottom: 1px solid var(--border); padding-bottom: 8px;">営業データ入力</h2>
       
-      <!-- 顧客名 -->
+      <!-- 顧客ID -->
       <div>
-        <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">顧客名 <span style="color:#ff6a00;">*</span></label>
-        <input type="text" data-testid="customer-name" name="customer_name" placeholder="顧客名を入力" style="width:100%;padding:8px 10px;border:1px solid rgba(255,255,255,0.18);border-radius:4px;background:rgba(0,0,0,0.25);color:var(--text);font-size:12px;" />
+        <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">顧客ID *</label>
+        <input type="text" id="input-customer-id" data-testid="customer-id-input" placeholder="例：CUST-001" 
+          style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;" />
       </div>
 
-      <!-- サービス種別 -->
+      <!-- 取引日 -->
       <div>
-        <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">サービス種別 <span style="color:#ff6a00;">*</span></label>
-        <select data-testid="service-type-select" name="service_type" style="width:100%;padding:8px 10px;border:1px solid rgba(255,255,255,0.18);border-radius:4px;background:rgba(0,0,0,0.25);color:var(--text);font-size:12px;accent-color:var(--primary);">
+        <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">取引日 *</label>
+        <input type="date" id="input-transaction-date" data-testid="transaction-date-input" 
+          style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;" />
+      </div>
+
+      <!-- 取引種別 -->
+      <div>
+        <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">取引種別 *</label>
+        <select id="select-transaction-type" data-testid="transaction-type-select" 
+          style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
           <option value="">選択してください</option>
-          <option value="SALES">販売</option>
-          <option value="RETURN">返品</option>
-          <option value="ADJUSTMENT">調整</option>
-          <option value="SERVICE_FEE">サービス料金</option>
-          <option value="CONSULTING">コンサルティング</option>
+          <option value="販売">販売</option>
+          <option value="返品">返品</option>
+          <option value="調整">調整</option>
         </select>
-      </div>
-
-      <!-- 売上金額 -->
-      <div>
-        <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">売上金額（円） <span style="color:#ff6a00;">*</span></label>
-        <input type="number" data-testid="amount-input" name="amount" placeholder="0" style="width:100%;padding:8px 10px;border:1px solid rgba(255,255,255,0.18);border-radius:4px;background:rgba(0,0,0,0.25);color:var(--text);font-size:12px;" />
-      </div>
-
-      <!-- 取引日付 -->
-      <div>
-        <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">取引日付 <span style="color:#ff6a00;">*</span></label>
-        <input type="date" data-testid="transaction-date" name="transaction_date" style="width:100%;padding:8px 10px;border:1px solid rgba(255,255,255,0.18);border-radius:4px;background:rgba(0,0,0,0.25);color:var(--text);font-size:12px;" />
       </div>
 
       <!-- 商品ID -->
       <div>
-        <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">商品ID <span style="color:#ff6a00;">*</span></label>
-        <input type="text" data-testid="product-id" name="product_id" placeholder="商品IDを入力" style="width:100%;padding:8px 10px;border:1px solid rgba(255,255,255,0.18);border-radius:4px;background:rgba(0,0,0,0.25);color:var(--text);font-size:12px;" />
+        <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">商品ID *</label>
+        <input type="text" id="input-product-id" data-testid="product-id-input" placeholder="例：PROD-001" 
+          style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;" />
       </div>
 
       <!-- 数量 -->
       <div>
-        <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">数量 <span style="color:#ff6a00;">*</span></label>
-        <input type="number" data-testid="quantity-input" name="quantity" placeholder="0" style="width:100%;padding:8px 10px;border:1px solid rgba(255,255,255,0.18);border-radius:4px;background:rgba(0,0,0,0.25);color:var(--text);font-size:12px;" />
+        <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">数量 *</label>
+        <input type="number" id="input-quantity" data-testid="quantity-input" placeholder="0" min="0" 
+          style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;" />
       </div>
 
       <!-- 単価 -->
       <div>
-        <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">単価（円） <span style="color:#ff6a00;">*</span></label>
-        <input type="number" data-testid="unit-price" name="unit_price" placeholder="0" style="width:100%;padding:8px 10px;border:1px solid rgba(255,255,255,0.18);border-radius:4px;background:rgba(0,0,0,0.25);color:var(--text);font-size:12px;" />
+        <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">単価（円） *</label>
+        <input type="number" id="input-unit-price" data-testid="unit-price-input" placeholder="0" min="0" 
+          style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;" />
+      </div>
+
+      <!-- 取引金額（自動計算） -->
+      <div>
+        <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">取引金額（円）</label>
+        <input type="number" id="input-transaction-amount" data-testid="transaction-amount-input" readonly 
+          style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.15); color: var(--text-muted); font-size: 13px;" />
       </div>
 
       <!-- 請求対象フラグ -->
-      <div style="display:flex;align-items:center;gap:8px;">
-        <input type="checkbox" data-testid="billable-flag" name="billable_flag" id="billable-flag" style="accent-color:var(--primary);cursor:pointer;" />
-        <label for="billable-flag" style="font-size:12px;color:var(--text);cursor:pointer;">請求対象に含める</label>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <input type="checkbox" id="checkbox-billable" data-testid="billable-checkbox" style="accent-color: var(--primary);" />
+        <label for="checkbox-billable" style="font-size: 12px; color: var(--text); margin: 0;">請求対象に含める</label>
       </div>
 
       <!-- 摘要 -->
       <div>
-        <label style="font-size:11px;color:var(--text-muted);display:block;margin-bottom:4px;">摘要</label>
-        <textarea data-testid="notes" name="notes" placeholder="備考を入力" style="width:100%;padding:8px 10px;border:1px solid rgba(255,255,255,0.18);border-radius:4px;background:rgba(0,0,0,0.25);color:var(--text);font-size:12px;resize:vertical;min-height:60px;"></textarea>
+        <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 4px;">摘要</label>
+        <textarea id="textarea-notes" data-testid="notes-textarea" placeholder="備考があれば入力" 
+          style="width: 100%; padding: 8px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px; min-height: 60px; resize: vertical;"></textarea>
       </div>
 
       <!-- ボタン群 -->
-      <div style="display:flex;gap:8px;margin-top:8px;">
-        <button class="action-btn" data-testid="save-button" id="btn-save" style="flex:1;padding:10px;font-size:12px;font-weight:600;">保存・検証</button>
-        <button class="action-btn secondary" data-testid="cancel-button" id="btn-cancel" style="flex:1;padding:10px;font-size:12px;">クリア</button>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 8px;">
+        <button id="btn-validate" data-testid="validate-button" class="action-btn" 
+          style="background: var(--primary); color: #fff; border: none; padding: 10px; border-radius: 4px; font-size: 13px; font-weight: 600; cursor: pointer;">
+          検証実行
+        </button>
+        <button id="btn-save" data-testid="save-button" class="action-btn" 
+          style="background: var(--primary); color: #fff; border: none; padding: 10px; border-radius: 4px; font-size: 13px; font-weight: 600; cursor: pointer;">
+          保存
+        </button>
       </div>
     </div>
 
-    <!-- 右：検証結果パネル -->
-    <div class="card" style="padding:14px;display:flex;flex-direction:column;gap:12px;overflow-y:auto;">
-      <div style="font-size:13px;font-weight:600;color:var(--text);">検証結果・品質スコア</div>
-
-      <!-- 品質スコア表示 -->
-      <div style="background:rgba(0,0,0,0.25);padding:12px;border-radius:4px;text-align:center;">
-        <div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;">データ品質スコア</div>
-        <div style="font-size:28px;font-weight:700;color:var(--primary);" data-testid="quality-score-display">-</div>
-        <div style="font-size:10px;color:var(--text-muted);margin-top:4px;" data-testid="quality-status">未検証</div>
+    <!-- 右側：検証結果・品質スコア・異常検出 -->
+    <div style="display: flex; flex-direction: column; gap: 12px;">
+      
+      <!-- 検証結果パネル -->
+      <div class="card" style="padding: 12px;">
+        <h3 style="font-size: 12px; font-weight: 600; color: var(--text); margin: 0 0 8px 0; border-bottom: 1px solid var(--border); padding-bottom: 6px;">検証結果</h3>
+        <div id="validation-result" data-testid="validation-result" style="font-size: 12px; color: var(--text-muted); min-height: 60px;">
+          <div style="padding: 8px; background: rgba(0,0,0,0.2); border-radius: 3px; border-left: 3px solid #666;">
+            入力値を検証してください
+          </div>
+        </div>
       </div>
 
-      <!-- 検証ステータス -->
-      <div>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:6px;">検証ステータス</div>
-        <div style="background:rgba(0,0,0,0.25);padding:10px;border-radius:4px;border-left:3px solid var(--primary);">
-          <div style="font-size:12px;color:var(--text);" data-testid="validation-status">入力待機中</div>
+      <!-- データ品質スコア -->
+      <div class="card" style="padding: 12px;">
+        <h3 style="font-size: 12px; font-weight: 600; color: var(--text); margin: 0 0 8px 0; border-bottom: 1px solid var(--border); padding-bottom: 6px;">データ品質スコア</h3>
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div style="flex: 1;">
+            <div style="height: 8px; background: rgba(0,0,0,0.3); border-radius: 4px; overflow: hidden;">
+              <div id="quality-score-bar" style="height: 100%; width: 0%; background: linear-gradient(90deg, #ff6a00, #ffc107); transition: width 0.3s ease;"></div>
+            </div>
+          </div>
+          <div style="font-size: 16px; font-weight: 700; color: var(--primary); min-width: 40px; text-align: right;" id="quality-score-text">0</div>
+        </div>
+        <div style="font-size: 11px; color: var(--text-muted); margin-top: 6px;">
+          <span id="quality-status">未評価</span>
         </div>
       </div>
 
       <!-- 異常検出アラート -->
-      <div id="anomaly-alerts" style="display:none;">
-        <div style="font-size:11px;font-weight:600;color:#ff6a00;margin-bottom:6px;">⚠ 異常検出</div>
-        <div id="anomaly-list" style="display:flex;flex-direction:column;gap:6px;"></div>
-      </div>
-
-      <!-- 不足データ警告 -->
-      <div id="missing-data-warnings" style="display:none;">
-        <div style="font-size:11px;font-weight:600;color:#ff6a00;margin-bottom:6px;">⚠ 不足項目</div>
-        <div id="missing-list" style="display:flex;flex-direction:column;gap:4px;"></div>
-      </div>
-
-      <!-- 検証ルール詳細 -->
-      <div>
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:6px;">適用検証ルール</div>
-        <div id="validation-rules" style="display:flex;flex-direction:column;gap:6px;max-height:180px;overflow-y:auto;">
-          <div style="font-size:11px;color:var(--text-muted);padding:8px;background:rgba(0,0,0,0.15);border-radius:4px;text-align:center;">ルール情報なし</div>
+      <div class="card" style="padding: 12px;">
+        <h3 style="font-size: 12px; font-weight: 600; color: var(--text); margin: 0 0 8px 0; border-bottom: 1px solid var(--border); padding-bottom: 6px;">異常検出</h3>
+        <div id="anomaly-alerts" data-testid="anomaly-alerts" style="font-size: 12px; min-height: 80px;">
+          <div style="padding: 8px; background: rgba(0,0,0,0.2); border-radius: 3px; color: var(--text-muted);">
+            異常は検出されていません
+          </div>
         </div>
       </div>
 
-      <!-- 自動補完候補 -->
-      <div id="autocomplete-section" style="display:none;">
-        <div style="font-size:11px;font-weight:600;color:var(--text);margin-bottom:6px;">補完候補</div>
-        <div id="autocomplete-list" style="display:flex;flex-direction:column;gap:4px;"></div>
+      <!-- 不足データ警告 -->
+      <div class="card" style="padding: 12px;">
+        <h3 style="font-size: 12px; font-weight: 600; color: var(--text); margin: 0 0 8px 0; border-bottom: 1px solid var(--border); padding-bottom: 6px;">不足データ警告</h3>
+        <div id="missing-data-warnings" data-testid="missing-data-warnings" style="font-size: 12px; min-height: 60px;">
+          <div style="padding: 8px; background: rgba(0,0,0,0.2); border-radius: 3px; color: var(--text-muted);">
+            必須項目をすべて入力してください
+          </div>
+        </div>
       </div>
 
-      <!-- 検証実行ボタン -->
-      <button class="action-btn" data-testid="validate-button" id="btn-validate" style="width:100%;padding:10px;font-size:12px;font-weight:600;margin-top:8px;">検証実行</button>
+      <!-- 請求対象確認 -->
+      <div class="card" style="padding: 12px; background: rgba(255, 192, 0, 0.08); border-left: 3px solid #ffc107;">
+        <h3 style="font-size: 12px; font-weight: 600; color: var(--text); margin: 0 0 8px 0;">請求対象確認</h3>
+        <div style="font-size: 12px; color: var(--text);">
+          <div style="margin-bottom: 6px;">
+            <span style="color: var(--text-muted);">請求対象:</span>
+            <span id="billing-status" style="font-weight: 600; color: var(--primary);">未確定</span>
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted);">
+            請求対象フラグを有効にすると、このデータは請求集計に含まれます
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <!-- グラフ領域 -->
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:12px 16px;border-top:1px solid rgba(255,255,255,0.08);">
-    <div class="card" style="padding:12px;">
-      <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px;">日別検証ステータス推移</div>
-      <div class="chart-wrap" style="position:relative;height:200px;max-height:220px;">
-        <canvas id="chart-validation-trend"></canvas>
+  <!-- 下部：最近の入力履歴テーブル -->
+  <div style="padding: 16px; background: var(--bg-main); border-top: 1px solid var(--border);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+      <h2 style="font-size: 13px; font-weight: 600; color: var(--text); margin: 0;">最近の入力履歴</h2>
+      <div style="display: flex; gap: 8px;">
+        <button id="btn-refresh" data-testid="refresh-button" class="action-btn secondary" 
+          style="background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text); padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+          更新
+        </button>
+        <button id="btn-anomaly-detection" data-testid="anomaly-detection-button" class="action-btn secondary" 
+          style="background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text); padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+          検証実行
+        </button>
+        <button id="btn-quality-dashboard" data-testid="quality-dashboard-button" class="action-btn secondary" 
+          style="background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text); padding: 6px 12px; border-radius: 4px; font-size: 12px; cursor: pointer;">
+          品質ダッシュボード
+        </button>
       </div>
     </div>
-    <div class="card" style="padding:12px;">
-      <div style="font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px;">異常タイプ別分布</div>
-      <div class="chart-wrap" style="position:relative;height:200px;max-height:220px;">
-        <canvas id="chart-anomaly-distribution"></canvas>
-      </div>
-    </div>
-  </div>
 
-  <!-- フッター：ナビゲーション -->
-  <div style="padding:12px 16px;border-top:1px solid rgba(255,255,255,0.08);background:var(--bg-card);display:flex;gap:8px;justify-content:flex-end;">
-    <button class="action-btn secondary" data-testid="anomaly-detection-button" id="btn-anomaly-detection" style="padding:8px 12px;font-size:12px;">異常検出確認</button>
-    <button class="action-btn secondary" data-testid="quality-dashboard-button" id="btn-quality-dashboard" style="padding:8px 12px;font-size:12px;">品質ダッシュボード</button>
+    <div class="table-wrap" style="max-height: 280px; overflow-y: auto;">
+      <table data-testid="record-list" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+        <thead style="background: rgba(0,0,0,0.2); position: sticky; top: 0;">
+          <tr>
+            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid var(--border);">顧客ID</th>
+            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid var(--border);">取引日</th>
+            <th style="padding: 8px; text-align: right; color: var(--text); font-weight: 600; border-bottom: 1px solid var(--border);">金額</th>
+            <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid var(--border);">品質</th>
+            <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid var(--border);">請求</th>
+            <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid var(--border);">操作</th>
+          </tr>
+        </thead>
+        <tbody id="history-tbody" data-testid="history-tbody">
+          <tr style="background: rgba(0,0,0,0.1);">
+            <td colspan="6" style="padding: 16px; text-align: center; color: var(--text-muted);">データを読み込み中...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>
     </section>

@@ -11,26 +11,49 @@ window.AIVIC_SYSTEM_NAME = "顧客企業向け契約・成果管理ポータル"
 window.AIVIC_TABLES = [{"tableName":"顧客企業","purpose":"営業成果レポート自動生成・配信システムにおける顧客企業の基本情報を管理し、営業活動の対象企業として機能する","columns":[{"name":"顧客企業ID","type":"uuid","required":true,"description":"顧客企業の一意識別子"},{"name":"企業名","type":"varchar(100)","required":true,"description":"顧客企業の正式名称"},{"name":"業種","type":"varchar(100)","required":false,"description":"顧客企業の業種分類"},{"name":"所在地","type":"varchar(100)","required":false,"description":"顧客企業の本社所在地"},{"name":"代表者名","type":"varchar(100)","required":false,"description":"顧客企業の代表者名"},{"name":"電話番号","type":"varchar(100)","required":false,"description":"顧客企業の代表電話番号"},{"name":"メールアドレス","type":"varchar(100)","required":false,"description":"顧客企業の代表メールアドレス"},{"name":"担当営業ユーザーID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（担当営業）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"顧客企業のステータス（見込み客/既存顧客/休止中等）"},{"name":"作成日時","type":"timestamp","required":true,"description":"顧客企業レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"顧客企業レコード最終更新日時"},{"name":"作成者ユーザーID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（作成者）"}]},{"tableName":"契約書","purpose":"契約・提案資料管理システムにおける契約書の基本情報を管理するマスタテーブル","columns":[{"name":"契約書ID","type":"uuid","required":true,"description":"契約書の一意識別子"},{"name":"契約書名","type":"varchar(100)","required":true,"description":"契約書のタイトル"},{"name":"契約書説明","type":"text","required":false,"description":"契約書の詳細説明"},{"name":"契約種別","type":"varchar(100)","required":true,"description":"契約の種類（例：売買契約、サービス契約、NDA等）"},{"name":"契約相手先ID","type":"uuid","required":true,"description":"契約相手先企業の識別子"},{"name":"契約開始日","type":"timestamp","required":true,"description":"契約の開始日"},{"name":"契約終了日","type":"timestamp","required":false,"description":"契約の終了日"},{"name":"契約金額","type":"integer","required":false,"description":"契約金額（円）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"契約状態（例：草案、承認待ち、有効、終了、キャンセル）"},{"name":"担当者ID","type":"uuid","required":true,"description":"契約の担当ユーザーID"},{"name":"ファイルパス","type":"varchar(100)","required":false,"description":"契約書ファイルの保存パス"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]},{"tableName":"提案資料","purpose":"契約・提案資料管理システムにおいて、顧客への提案資料の情報を一元管理し、提案から契約への進捗を追跡するためのマスタテーブル","columns":[{"name":"提案資料ID","type":"uuid","required":true,"description":"提案資料の一意識別子"},{"name":"提案資料名","type":"varchar(100)","required":true,"description":"提案資料のタイトル・名称"},{"name":"説明","type":"text","required":false,"description":"提案資料の詳細説明"},{"name":"ユーザーID","type":"uuid","required":true,"description":"提案資料を作成・管理するユーザーの外部キー"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"提案資料のステータス（下書き、提案中、承認待ち、契約済み、却下等）"},{"name":"提案日","type":"timestamp","required":true,"description":"顧客への提案実施日時"},{"name":"契約書ID","type":"uuid","required":false,"description":"関連する契約書の外部キー（契約成立時に設定）"},{"name":"作成日時","type":"timestamp","required":true,"description":"提案資料レコードの作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"提案資料レコードの最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"提案資料を作成したユーザーの外部キー"}]},{"tableName":"契約","purpose":"顧客企業との契約情報を一元管理し、契約の締結、更新、ステータス追跡、成果管理を支援するマスタテーブル","columns":[{"name":"契約ID","type":"uuid","required":true,"description":"契約の一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"顧客企業テーブルへの外部キー"},{"name":"契約書ID","type":"uuid","required":false,"description":"契約書テーブルへの外部キー"},{"name":"提案資料ID","type":"uuid","required":false,"description":"提案資料テーブルへの外部キー"},{"name":"契約名","type":"varchar(100)","required":true,"description":"契約の名称"},{"name":"契約ステータス","type":"varchar(100)","required":true,"description":"契約状態（提案中/承認待ち/契約済/完了/終了等）"},{"name":"契約開始日","type":"timestamp","required":true,"description":"契約の開始日"},{"name":"契約終了日","type":"timestamp","required":true,"description":"契約の終了日"},{"name":"契約金額","type":"integer","required":true,"description":"契約金額（円）"},{"name":"契約内容","type":"text","required":false,"description":"契約の詳細内容"},{"name":"成果目標","type":"text","required":false,"description":"契約に基づく成果目標"},{"name":"作成日時","type":"timestamp","required":true,"description":"契約レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"契約レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"契約レコード作成者"},{"name":"更新者","type":"varchar(100)","required":false,"description":"契約レコード最終更新者"}]},{"tableName":"契約変更履歴","purpose":"契約の変更内容を時系列で記録し、変更前後の状態を追跡管理するための履歴テーブル","columns":[{"name":"変更履歴ID","type":"uuid","required":true,"description":"変更履歴レコードの一意識別子"},{"name":"契約ID","type":"uuid","required":true,"description":"変更対象の契約を特定するための外部キー"},{"name":"変更種別","type":"varchar(100)","required":true,"description":"変更の種類（金額変更、期間延長、条件変更、解除等）"},{"name":"変更前値","type":"text","required":false,"description":"変更前の値または状態"},{"name":"変更後値","type":"text","required":false,"description":"変更後の値または状態"},{"name":"変更理由","type":"text","required":false,"description":"変更の理由や背景"},{"name":"変更ステータス","type":"varchar(100)","required":true,"description":"変更の状態（申請中、承認済、却下、実行済等）"},{"name":"申請者ID","type":"uuid","required":true,"description":"変更を申請したユーザーの識別子"},{"name":"承認者ID","type":"uuid","required":false,"description":"変更を承認したユーザーの識別子"},{"name":"承認日時","type":"timestamp","required":false,"description":"変更が承認された日時"},{"name":"実行日時","type":"timestamp","required":false,"description":"変更が実際に反映された日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"変更履歴レコードが作成された日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"変更履歴レコードが最後に更新された日時"},{"name":"備考","type":"text","required":false,"description":"その他の補足情報"}]},{"tableName":"成果物","purpose":"顧客企業向け契約に基づいて納品される成果物の管理。納品状況、品質、変更履歴を追跡し、契約の履行状況を把握するための中核テーブル","columns":[{"name":"成果物ID","type":"uuid","required":true,"description":"成果物の一意識別子"},{"name":"契約ID","type":"uuid","required":true,"description":"親契約への外部キー"},{"name":"成果物名","type":"varchar(100)","required":true,"description":"成果物の名称"},{"name":"説明","type":"text","required":false,"description":"成果物の詳細説明"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"成果物の状態（計画中/進行中/完了/承認待ち/却下等）"},{"name":"納期","type":"timestamp","required":true,"description":"予定納期"},{"name":"実納期","type":"timestamp","required":false,"description":"実際の納期"},{"name":"品質評価","type":"varchar(100)","required":false,"description":"品質評価結果（合格/不合格/要修正等）"},{"name":"顧客承認状況","type":"varchar(100)","required":true,"description":"顧客による承認状況（未承認/承認/却下）"},{"name":"顧客承認日時","type":"timestamp","required":false,"description":"顧客が承認した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"成果物レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"成果物レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"成果物を作成したユーザー"},{"name":"更新者","type":"varchar(100)","required":true,"description":"成果物を最後に更新したユーザー"}]},{"tableName":"成果物納期","purpose":"成果物の納期管理と進捗追跡を行い、契約上の納期義務を履行するための基本台帳","columns":[{"name":"成果物納期ID","type":"uuid","required":true,"description":"成果物納期レコードの一意識別子"},{"name":"成果物ID","type":"uuid","required":true,"description":"成果物テーブルへの外部キー"},{"name":"契約ID","type":"uuid","required":true,"description":"契約テーブルへの外部キー"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"顧客企業テーブルへの外部キー"},{"name":"予定納期日","type":"timestamp","required":true,"description":"契約で定められた成果物の納期予定日"},{"name":"実績納期日","type":"timestamp","required":false,"description":"実際に成果物が納期された日付"},{"name":"納期ステータス","type":"varchar(100)","required":true,"description":"納期状況（予定通り/遅延/完了等）"},{"name":"遅延日数","type":"integer","required":false,"description":"予定納期からの遅延日数（負数は早期納期）"},{"name":"遅延理由","type":"text","required":false,"description":"納期遅延が発生した場合の理由"},{"name":"納期変更履歴ID","type":"uuid","required":false,"description":"契約変更履歴テーブルへの外部キー（納期変更がある場合）"},{"name":"備考","type":"text","required":false,"description":"納期に関する追加情報やメモ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"納期変更履歴","purpose":"成果物の納期変更を履歴として記録し、変更の経緯、理由、承認状況を管理するテーブル","columns":[{"name":"納期変更履歴ID","type":"uuid","required":true,"description":"納期変更履歴の一意識別子"},{"name":"成果物納期ID","type":"uuid","required":true,"description":"成果物納期テーブルへの外部キー"},{"name":"契約ID","type":"uuid","required":true,"description":"契約テーブルへの外部キー"},{"name":"変更前納期","type":"timestamp","required":true,"description":"変更前の納期日時"},{"name":"変更後納期","type":"timestamp","required":true,"description":"変更後の納期日時"},{"name":"変更理由","type":"text","required":true,"description":"納期変更の理由"},{"name":"承認状況","type":"varchar(100)","required":true,"description":"承認状況（申請中/承認/却下）"},{"name":"承認者ID","type":"varchar(100)","required":false,"description":"承認者のユーザーID"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認日時"},{"name":"承認コメント","type":"text","required":false,"description":"承認時のコメント"},{"name":"作成日時","type":"timestamp","required":true,"description":"変更申請の作成日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"変更申請の作成者ユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"最終更新日時"}]},{"tableName":"請求書","purpose":"顧客企業への請求書を管理し、契約に基づく成果物納期と請求内容を紐付け、請求状況を追跡するトランザクションテーブル","columns":[{"name":"請求書ID","type":"uuid","required":true,"description":"請求書の一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"請求対象の顧客企業ID（顧客企業テーブルへの外部キー）"},{"name":"契約ID","type":"uuid","required":true,"description":"請求対象の契約ID（契約テーブルへの外部キー）"},{"name":"請求書番号","type":"varchar(100)","required":true,"description":"請求書の一意な番号（顧客向け表示用）"},{"name":"請求日","type":"timestamp","required":true,"description":"請求書発行日"},{"name":"請求期間開始日","type":"timestamp","required":true,"description":"請求対象期間の開始日"},{"name":"請求期間終了日","type":"timestamp","required":true,"description":"請求対象期間の終了日"},{"name":"請求金額","type":"integer","required":true,"description":"請求総額（税抜き、単位：円）"},{"name":"税額","type":"integer","required":true,"description":"消費税額（単位：円）"},{"name":"請求金額合計","type":"integer","required":true,"description":"請求総額（税込み、単位：円）"},{"name":"請求ステータス","type":"varchar(100)","required":true,"description":"請求状況（未送付/送付済/支払済/期限超過等）"},{"name":"支払期限日","type":"timestamp","required":true,"description":"支払期限日"},{"name":"支払日","type":"timestamp","required":false,"description":"実際の支払日（支払済の場合のみ）"},{"name":"備考","type":"text","required":false,"description":"請求書に関する備考・特記事項"},{"name":"作成日時","type":"timestamp","required":true,"description":"請求書レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"請求書レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"請求書を作成したユーザーID"}]},{"tableName":"メール履歴","purpose":"顧客企業との契約・成果に関するメール送受信の記録を管理し、コミュニケーション履歴の追跡と監査証跡を提供する","columns":[{"name":"メール履歴ID","type":"uuid","required":true,"description":"メール履歴の一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"関連する顧客企業への外部キー"},{"name":"契約ID","type":"uuid","required":false,"description":"関連する契約への外部キー（契約関連のメールの場合）"},{"name":"成果物ID","type":"uuid","required":false,"description":"関連する成果物への外部キー（成果物関連のメールの場合）"},{"name":"請求書ID","type":"uuid","required":false,"description":"関連する請求書への外部キー（請求関連のメールの場合）"},{"name":"送信者メールアドレス","type":"varchar(100)","required":true,"description":"メール送信者のメールアドレス"},{"name":"受信者メールアドレス","type":"varchar(100)","required":true,"description":"メール受信者のメールアドレス"},{"name":"CC","type":"text","required":false,"description":"CC対象のメールアドレス（複数の場合はカンマ区切り）"},{"name":"BCC","type":"text","required":false,"description":"BCC対象のメールアドレス（複数の場合はカンマ区切り）"},{"name":"件名","type":"varchar(100)","required":true,"description":"メールの件名"},{"name":"本文","type":"text","required":true,"description":"メール本文"},{"name":"メール種別","type":"varchar(100)","required":true,"description":"メールの種別（提案、契約確認、成果物納期通知、請求書送付、変更通知等）"},{"name":"送受信区分","type":"varchar(100)","required":true,"description":"送信または受信"},{"name":"送受信日時","type":"timestamp","required":true,"description":"メール送受信の日時"},{"name":"添付ファイル有無","type":"boolean","required":true,"description":"添付ファイルの有無"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"}]},{"tableName":"通知履歴","purpose":"顧客企業向けポータルで送信した通知の履歴を管理し、通知内容、送信状況、受信者情報を追跡する","columns":[{"name":"通知履歴ID","type":"uuid","required":true,"description":"通知履歴の一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"通知対象の顧客企業ID（外部キー）"},{"name":"通知タイプ","type":"varchar(100)","required":true,"description":"通知の種類（契約更新、成果物納期、請求書発行、契約変更等）"},{"name":"関連エンティティタイプ","type":"varchar(100)","required":false,"description":"通知の対象エンティティ種別（契約、成果物、請求書等）"},{"name":"関連エンティティID","type":"uuid","required":false,"description":"通知の対象エンティティID"},{"name":"通知タイトル","type":"varchar(100)","required":true,"description":"通知のタイトル"},{"name":"通知内容","type":"text","required":true,"description":"通知の本文内容"},{"name":"送信方法","type":"varchar(100)","required":true,"description":"通知の送信方法（メール、ポータル画面内通知等）"},{"name":"送信状態","type":"varchar(100)","required":true,"description":"送信状態（送信済、送信失敗、保留中等）"},{"name":"受信者メールアドレス","type":"varchar(100)","required":false,"description":"メール送信の場合の受信者メールアドレス"},{"name":"送信日時","type":"timestamp","required":true,"description":"通知の送信日時"},{"name":"既読フラグ","type":"boolean","required":true,"description":"ポータル内通知の既読状態"},{"name":"既読日時","type":"timestamp","required":false,"description":"通知が既読になった日時"},{"name":"エラーメッセージ","type":"text","required":false,"description":"送信失敗時のエラー内容"},{"name":"作成日時","type":"timestamp","required":true,"description":"通知履歴レコードの作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"通知履歴レコードの最終更新日時"}]},{"tableName":"ログインユーザー","purpose":"顧客企業向けポータルのログインユーザー管理。ユーザー認証、アクセス制御、監査ログの基盤となる。","columns":[{"name":"ユーザーID","type":"uuid","required":true,"description":"ログインユーザーの一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"所属する顧客企業への外部キー"},{"name":"メールアドレス","type":"varchar(100)","required":true,"description":"ログインID兼連絡先。企業内で一意"},{"name":"ユーザー名","type":"varchar(100)","required":true,"description":"ポータル上に表示されるユーザー名"},{"name":"パスワードハッシュ","type":"varchar(100)","required":true,"description":"認証用のハッシュ化されたパスワード"},{"name":"ロール","type":"varchar(100)","required":true,"description":"ユーザーの権限レベル（管理者/担当者/閲覧者等）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"ユーザーの状態（有効/無効/招待待機等）"},{"name":"最終ログイン日時","type":"timestamp","required":false,"description":"最後にログインした日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"ユーザーアカウント作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"ユーザー情報最終更新日時"},{"name":"作成者","type":"uuid","required":true,"description":"ユーザーを作成したユーザーID"}]},{"tableName":"ユーザー権限","purpose":"ログインユーザーが顧客企業ポータル内で実行可能な操作を制御するための権限管理テーブル。ユーザーごとに契約書閲覧、成果物確認、請求書確認などの権限を付与・管理する。","columns":[{"name":"ユーザー権限ID","type":"uuid","required":true,"description":"ユーザー権限レコードの一意識別子"},{"name":"ログインユーザーID","type":"uuid","required":true,"description":"権限を付与されるログインユーザーへの外部キー"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"権限が適用される顧客企業への外部キー"},{"name":"権限種別","type":"varchar(100)","required":true,"description":"付与する権限の種別（例：契約書閲覧、成果物確認、請求書確認、契約変更申請、通知受信等）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"権限が有効か無効かを示すフラグ"},{"name":"権限開始日","type":"timestamp","required":false,"description":"権限の有効開始日時"},{"name":"権限終了日","type":"timestamp","required":false,"description":"権限の有効終了日時"},{"name":"備考","type":"text","required":false,"description":"権限付与の理由や特記事項"},{"name":"作成日時","type":"timestamp","required":true,"description":"権限レコード作成日時"},{"name":"作成者","type":"uuid","required":true,"description":"権限を作成したユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"権限レコード最終更新日時"},{"name":"更新者","type":"uuid","required":true,"description":"権限を最後に更新したユーザーID"}]}];
 window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1781957144977";
-window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // テーブルインデックス\n  const invoiceTableIndex = 0;  // 請求書テーブル\n  const emailTableIndex = 1;    // メール履歴テーブル\n\n  // 初期データ\n  let allInvoices = (tables[invoiceTableIndex]?.records || []);\n  let allEmails = (tables[emailTableIndex]?.records || []);\n  let selectedInvoiceId = null;\n\n  // ===== 1. 請求書一覧の再描画 =====\n  function renderInvoices(invoices) {\n    const tbody = container.querySelector(\"#invoice-tbody\");\n    tbody.innerHTML = invoices.map(inv => {\n      const statusColor = inv.請求ステータス === \"支払済\" ? \"#4ade80\" : \n                          inv.請求ステータス === \"期限超過\" ? \"#ef4444\" : \n                          inv.請求ステータス === \"送付済\" ? \"#60a5fa\" : \"#9ca3af\";\n      return `\n        <tr data-id=\"${inv.請求書ID}\" style=\"border-bottom: 1px solid rgba(255,255,255,0.05); cursor: pointer; transition: background 0.2s;\" onmouseover=\"this.style.background='rgba(255,255,255,0.05)'\" onmouseout=\"this.style.background=''\">\n          <td style=\"padding: 0.5rem 0.75rem; color: var(--text);\">${inv.請求書番号 || \"\"}</td>\n          <td style=\"padding: 0.5rem 0.75rem; color: var(--text-muted); font-size: 0.8125rem;\">${inv.請求日 ? new Date(inv.請求日).toLocaleDateString(\"ja-JP\") : \"\"}</td>\n          <td style=\"padding: 0.5rem 0.75rem; text-align: right; color: var(--text); font-weight: 600;\">¥${(inv.請求金額合計 || 0).toLocaleString()}</td>\n          <td style=\"padding: 0.5rem 0.75rem;\"><span style=\"display: inline-block; padding: 0.25rem 0.5rem; background: ${statusColor}20; color: ${statusColor}; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;\">${inv.請求ステータス || \"\"}</span></td>\n        </tr>\n      `;\n    }).join(\"\");\n\n    // 行クリックで選択\n    tbody.querySelectorAll(\"tr\").forEach(row => {\n      row.addEventListener(\"click\", () => {\n        tbody.querySelectorAll(\"tr\").forEach(r => r.style.background = \"\");\n        row.style.background = \"rgba(255,255,255,0.08)\";\n        selectedInvoiceId = row.dataset.id;\n        renderEmailTimeline();\n      });\n    });\n  }\n\n  // ===== 2. メール履歴タイムラインの再描画 =====\n  function renderEmailTimeline() {\n    const timeline = container.querySelector(\"#email-timeline\");\n    \n    if (!selectedInvoiceId) {\n      timeline.innerHTML = `<p style=\"color: var(--text-muted); font-size: 0.875rem; text-align: center; padding: 2rem 0;\">請求書を選択してください</p>`;\n      return;\n    }\n\n    const relatedEmails = allEmails.filter(e => e.請求書ID === selectedInvoiceId);\n    \n    if (relatedEmails.length === 0) {\n      timeline.innerHTML = `<p style=\"color: var(--text-muted); font-size: 0.875rem; text-align: center; padding: 2rem 0;\">関連メールはありません</p>`;\n      return;\n    }\n\n    timeline.innerHTML = relatedEmails.map(email => {\n      const isOutgoing = email.送受信区分 === \"送信\";\n      const typeColor = email.メール種別 === \"請求書送付\" ? \"#f59e0b\" :\n                        email.メール種別 === \"支払確認\" ? \"#10b981\" :\n                        email.メール種別 === \"契約確認\" ? \"#3b82f6\" : \"#8b5cf6\";\n      return `\n        <div style=\"padding: 0.75rem; background: rgba(255,255,255,0.03); border-left: 3px solid ${typeColor}; border-radius: 0.375rem;\">\n          <div style=\"display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.5rem;\">\n            <div>\n              <p style=\"font-size: 0.8125rem; color: var(--text-muted); margin: 0 0 0.25rem 0;\">\n                <strong style=\"color: var(--text);\">${isOutgoing ? \"送信\" : \"受信\"}</strong> • ${email.メール種別}\n              </p>\n              <p style=\"font-size: 0.875rem; color: var(--text); margin: 0; font-weight: 500;\">${email.件名 || \"(件名なし)\"}</p>\n            </div>\n            <span style=\"font-size: 0.75rem; color: var(--text-muted);\">${email.送受信日時 ? new Date(email.送受信日時).toLocaleDateString(\"ja-JP\") : \"\"}</span>\n          </div>\n          <p style=\"font-size: 0.8125rem; color: var(--text-muted); margin: 0.5rem 0 0 0;\">\n            ${isOutgoing ? \"送信者\" : \"受信者\"}: <span style=\"color: var(--text);\">${email.送信者メールアドレス || email.受信者メールアドレス}</span>\n          </p>\n          ${email.添付ファイル有無 ? `<p style=\"font-size: 0.75rem; color: #f59e0b; margin: 0.25rem 0 0 0;\">📎 添付ファイルあり</p>` : \"\"}\n        </div>\n      `;\n    }).join(\"\");\n  }\n\n  // ===== 3. フィルタリング関数 =====\n  function applyFilters() {\n    const customerFilter = container.querySelector(\"#filter-customer\").value;\n    const contractFilter = container.querySelector(\"#filter-contract\").value;\n    const statusFilter = container.querySelector(\"#filter-invoice-status\").value;\n    const dateFromFilter = container.querySelector(\"#filter-invoice-date-from\").value;\n    const dateToFilter = container.querySelector(\"#filter-invoice-date-to\").value;\n    const amountMinFilter = parseFloat(container.querySelector(\"#filter-amount-min\").value) || 0;\n    const amountMaxFilter = parseFloat(container.querySelector(\"#filter-amount-max\").value) || Infinity;\n\n    const filtered = allInvoices.filter(inv => {\n      if (customerFilter && inv.顧客企業ID !== customerFilter) return false;\n      if (contractFilter && inv.契約ID !== contractFilter) return false;\n      if (statusFilter && inv.請求ステータス !== statusFilter) return false;\n      if (dateFromFilter && new Date(inv.請求日) < new Date(dateFromFilter)) return false;\n      if (dateToFilter && new Date(inv.請求日) > new Date(dateToFilter)) return false;\n      if (inv.請求金額合計 < amountMinFilter || inv.請求金額合計 > amountMaxFilter) return false;\n      return true;\n    });\n\n    renderInvoices(filtered);\n    selectedInvoiceId = null;\n    renderEmailTimeline();\n  }\n\n  // ===== 4. イベントリスナー登録 =====\n  container.querySelector(\"#btn-search\").addEventListener(\"click\", applyFilters);\n\n  container.querySelector(\"#btn-reset\").addEventListener(\"click\", () => {\n    container.querySelector(\"#filter-customer\").value = \"\";\n    container.querySelector(\"#filter-contract\").value = \"\";\n    container.querySelector(\"#filter-invoice-status\").value = \"\";\n    container.querySelector(\"#filter-invoice-date-from\").value = \"\";\n    container.querySelector(\"#filter-invoice-date-to\").value = \"\";\n    container.querySelector(\"#filter-amount-min\").value = \"\";\n    container.querySelector(\"#filter-amount-max\").value = \"\";\n    container.querySelector(\"#filter-email-type\").value = \"\";\n    container.querySelector(\"#filter-sender\").value = \"\";\n    renderInvoices(allInvoices);\n    selectedInvoiceId = null;\n    renderEmailTimeline();\n  });\n\n  // CSV エクスポート（請求書）\n  container.querySelector(\"#btn-export-invoice\").addEventListener(\"click\", () => {\n    const rows = container.querySelectorAll(\"#invoice-tbody tr\");\n    const headers = [\"請求書番号\", \"請求日\", \"金額\", \"ステータス\"];\n    const csvContent = [\n      \"\\uFEFF\" + headers.join(\",\"),\n      ...Array.from(rows).map(row => {\n        const cells = row.querySelectorAll(\"td\");\n        return [\n          cells[0].textContent,\n          cells[1].textContent,\n          cells[2].textContent.replace(\"¥\", \"\").replace(\",\", \"\"),\n          cells[3].textContent\n        ].map(c => `\"${c}\"`).join(\",\");\n      })\n    ].join(\"\\n\");\n\n    const blob = new Blob([csvContent], { type: \"text/csv;charset=utf-8;\" });\n    const link = document.createElement(\"a\");\n    link.href = URL.createObjectURL(blob);\n    link.download = `invoices_${new Date().toISOString().split(\"T\")[0]}.csv`;\n    link.click();\n  });\n\n  // 詳細表示ボタン\n  container.querySelector(\"#btn-view-detail\").addEventListener(\"click\", () => {\n    if (!selectedInvoiceId) {\n      alert(\"請求書を選択してください\");\n      return;\n    }\n    // 詳細画面へ遷移（契約情報詳細・変更管理画面）\n    window.showScreen(\"scr-1781957110390\");\n  });\n\n  // ダッシュボードへ戻る\n  container.querySelector(\"#btn-back-dashboard\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1781956713866\");\n  });\n\n  // ===== 5. 初期描画 =====\n  renderInvoices(allInvoices);\n  renderEmailTimeline();\n}";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f0c856;
-  --bg-main: #0a0a0a;
+  --primary-hover: #f4d03f;
+  --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
-  --bg-sidebar: #141414;
-  --border: #8b0000;
-  --text: #ffffff;
-  --text-muted: #b0b0b0;
+  --bg-sidebar: #161616;
+  --border: #2a2a2a;
+  --text: #f5f5f5;
+  --text-muted: #a0a0a0;
   --top-bar-bg: #1a1a1a;
-  --top-bar-border: #8b0000;
+  --top-bar-border: #2a2a2a;
+  --accent-red: #dc143c;
+  --accent-red-hover: #ff1744;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
   --font-size-base: 16px;
-  --font-size-large: 18px;
+  --font-size-lg: 18px;
   --font-size-xl: 20px;
-  --font-size-heading: 24px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(212, 175, 55, 0.1);
+  --shadow-md: 0 4px 12px rgba(212, 175, 55, 0.15);
+  --shadow-lg: 0 8px 24px rgba(212, 175, 55, 0.2);
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 250ms ease-in-out;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -73,7 +96,7 @@ canvas { display:block; max-height:280px !important; }
 <body>
 <header class="top-bar">
   <span class="app-name">バックオフィサー</span>
-    <a href="./scr-1781954440904.html" class="sys-tab" data-aivic-nav-system="itg-3">契約・提案資料管理システム</a>
+    <a href="./scr-1781954055121.html" class="sys-tab" data-aivic-nav-system="itg-2">営業成果レポート自動生成・配信システム</a>
     <a href="./scr-1781956713866.html" class="sys-tab active" data-aivic-nav-system="itg-4">顧客企業向け契約・成果管理ポータル</a>
     <a href="./scr-1781957451550.html" class="sys-tab" data-aivic-nav-system="itg-5">契約変更・請求検証管理システム</a>
     <a href="./scr-1781953462575.html" class="sys-tab" data-aivic-nav-system="itg-1">営業データ品質管理・請求自動化システム</a>
@@ -97,133 +120,186 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781957144977" style="margin-top:0">
-<div style="display: flex; flex-direction: column; height: 100%; gap: 0; padding: 0;">
+<div style="display: flex; flex-direction: column; height: 100%; gap: 0.5rem; padding: 0.75rem;">
   
-  <!-- ヘッダー -->
-  <div style="background: var(--top-bar-bg); padding: 1rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
-    <h1 style="font-size: 1.5rem; font-weight: 700; color: var(--text); margin: 0 0 0.75rem 0;">請求書・メール履歴検索</h1>
-    <p style="font-size: 0.875rem; color: var(--text-muted); margin: 0;">顧客企業の請求書と関連メール履歴を一元管理</p>
-  </div>
-
-  <!-- フィルタバー -->
-  <div style="background: var(--bg-card); padding: 1rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.1); display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 0.75rem; align-items: flex-end;">
-    
+  <!-- 上部: 共通フィルタ -->
+  <div style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; padding: 0.75rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
     <div>
-      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 600;">顧客企業</label>
-      <select id="filter-customer" data-testid="customer-select" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.875rem;">
-        <option value="">全て</option>
-        <option value="cust-001">ABC 株式会社</option>
-        <option value="cust-002">XYZ 商事</option>
-        <option value="cust-003">テック企画</option>
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">顧客企業</label>
+      <select id="customer-select" data-testid="customer-select" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 0.875rem;">
+        <option value="">すべて</option>
+        <option value="cust-001">ABC商事</option>
+        <option value="cust-002">XYZ製造</option>
+        <option value="cust-003">DEF流通</option>
       </select>
     </div>
-
     <div>
-      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 600;">契約</label>
-      <select id="filter-contract" data-testid="contract-select" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.875rem;">
-        <option value="">全て</option>
-        <option value="contract-001">2024年度 サービス契約</option>
-        <option value="contract-002">保守契約</option>
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">契約</label>
+      <select id="contract-select" data-testid="contract-select" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 0.875rem;">
+        <option value="">すべて</option>
+        <option value="cont-001">2024年度サービス契約</option>
+        <option value="cont-002">保守契約</option>
+        <option value="cont-003">コンサル契約</option>
       </select>
-    </div>
-
-    <div>
-      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 600;">請求ステータス</label>
-      <select id="filter-invoice-status" data-testid="invoice-status-select" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.875rem;">
-        <option value="">全て</option>
-        <option value="未送付">未送付</option>
-        <option value="送付済">送付済</option>
-        <option value="支払済">支払済</option>
-        <option value="期限超過">期限超過</option>
-      </select>
-    </div>
-
-    <div>
-      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 600;">請求日（開始）</label>
-      <input id="filter-invoice-date-from" data-testid="invoice-date-from" type="date" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.875rem;" />
-    </div>
-
-    <div>
-      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 600;">請求日（終了）</label>
-      <input id="filter-invoice-date-to" data-testid="invoice-date-to" type="date" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.875rem;" />
-    </div>
-
-    <div>
-      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 600;">請求金額範囲</label>
-      <div style="display: flex; gap: 0.5rem;">
-        <input id="filter-amount-min" data-testid="amount-min" type="number" placeholder="最小" style="flex: 1; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.875rem;" />
-        <input id="filter-amount-max" data-testid="amount-max" type="number" placeholder="最大" style="flex: 1; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.875rem;" />
-      </div>
-    </div>
-
-    <div>
-      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 600;">メール種別</label>
-      <select id="filter-email-type" data-testid="email-type-select" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.875rem;">
-        <option value="">全て</option>
-        <option value="請求書送付">請求書送付</option>
-        <option value="支払確認">支払確認</option>
-        <option value="契約確認">契約確認</option>
-        <option value="その他">その他</option>
-      </select>
-    </div>
-
-    <div>
-      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 600;">送信者</label>
-      <input id="filter-sender" data-testid="sender-input" type="text" placeholder="メールアドレス" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.875rem;" />
-    </div>
-
-    <div style="display: flex; gap: 0.5rem;">
-      <button id="btn-search" data-testid="search-button" style="flex: 1; padding: 0.5rem 1rem; background: var(--primary); color: #fff; border: none; border-radius: 0.375rem; font-size: 0.875rem; font-weight: 600; cursor: pointer;">検索</button>
-      <button id="btn-reset" data-testid="reset-button" style="flex: 1; padding: 0.5rem 1rem; background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; font-size: 0.875rem; font-weight: 600; cursor: pointer;">リセット</button>
     </div>
   </div>
 
-  <!-- メインコンテンツ（2 列分割） -->
-  <div style="display: flex; flex: 1; gap: 0; overflow: hidden;">
+  <!-- メインコンテンツ: 左右2列 -->
+  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; flex: 1; overflow: hidden;">
     
-    <!-- 左：請求書一覧 -->
-    <div style="flex: 1; display: flex; flex-direction: column; border-right: 1px solid rgba(255,255,255,0.1); overflow: hidden;">
-      <div style="padding: 0.75rem 1.25rem; background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; justify-content: space-between; align-items: center;">
-        <h2 style="font-size: 0.95rem; font-weight: 700; color: var(--text); margin: 0;">請求書一覧</h2>
-        <button id="btn-export-invoice" data-testid="export-invoice-button" style="padding: 0.375rem 0.75rem; background: transparent; color: var(--text-muted); border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; font-size: 0.75rem; cursor: pointer;">CSV エクスポート</button>
+    <!-- 左パネル: 請求書 -->
+    <div style="display: flex; flex-direction: column; gap: 0.5rem; overflow: hidden;">
+      <div style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; padding: 0.75rem;">
+        <h3 style="margin: 0 0 0.5rem 0; font-size: 0.95rem; color: var(--text); font-weight: 600;">請求書検索</h3>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <div>
+            <label style="display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem;">請求書番号</label>
+            <input id="invoice-number-input" data-testid="invoice-number-input" type="text" placeholder="例: INV-2024-001" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 0.8rem; box-sizing: border-box;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem;">ステータス</label>
+            <select id="invoice-status-select" data-testid="invoice-status-select" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 0.8rem; box-sizing: border-box;">
+              <option value="">すべて</option>
+              <option value="未送付">未送付</option>
+              <option value="送付済">送付済</option>
+              <option value="支払済">支払済</option>
+              <option value="期限超過">期限超過</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <div>
+            <label style="display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem;">請求日（開始）</label>
+            <input id="invoice-date-from" data-testid="invoice-date-from" type="date" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 0.8rem; box-sizing: border-box;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem;">請求日（終了）</label>
+            <input id="invoice-date-to" data-testid="invoice-date-to" type="date" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 0.8rem; box-sizing: border-box;">
+          </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <div>
+            <label style="display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem;">金額（最小）</label>
+            <input id="invoice-amount-min" data-testid="invoice-amount-min" type="number" placeholder="0" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 0.8rem; box-sizing: border-box;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem;">金額（最大）</label>
+            <input id="invoice-amount-max" data-testid="invoice-amount-max" type="number" placeholder="999999999" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 0.8rem; box-sizing: border-box;">
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem;">
+          <button id="invoice-search-btn" data-testid="invoice-search-button" class="action-btn" style="flex: 1; padding: 0.5rem; font-size: 0.8rem;">検索</button>
+          <button id="invoice-export-btn" data-testid="invoice-export-button" class="action-btn secondary" style="flex: 1; padding: 0.5rem; font-size: 0.8rem;">CSV</button>
+        </div>
       </div>
-      <div style="flex: 1; overflow-y: auto;">
-        <table data-testid="invoice-list" style="width: 100%; border-collapse: collapse; font-size: 0.875rem;">
-          <thead style="background: rgba(255,255,255,0.05); position: sticky; top: 0;">
-            <tr>
-              <th style="padding: 0.5rem 0.75rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">請求書番号</th>
-              <th style="padding: 0.5rem 0.75rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">請求日</th>
-              <th style="padding: 0.5rem 0.75rem; text-align: right; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">金額</th>
-              <th style="padding: 0.5rem 0.75rem; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.1);">ステータス</th>
+
+      <!-- 請求書一覧 -->
+      <div style="flex: 1; overflow: auto; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; padding: 0.5rem;">
+        <table data-testid="invoice-list" style="width: 100%; font-size: 0.8rem; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.12);">
+              <th style="text-align: left; padding: 0.4rem; color: var(--text); font-weight: 600; white-space: nowrap;">請求書番号</th>
+              <th style="text-align: left; padding: 0.4rem; color: var(--text); font-weight: 600; white-space: nowrap;">請求日</th>
+              <th style="text-align: right; padding: 0.4rem; color: var(--text); font-weight: 600; white-space: nowrap;">金額</th>
+              <th style="text-align: left; padding: 0.4rem; color: var(--text); font-weight: 600; white-space: nowrap;">ステータス</th>
             </tr>
           </thead>
           <tbody id="invoice-tbody">
-            <!-- 動的に生成 -->
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+              <td style="padding: 0.4rem; color: var(--text);">INV-2024-001</td>
+              <td style="padding: 0.4rem; color: var(--text);">2024-01-15</td>
+              <td style="padding: 0.4rem; color: var(--text); text-align: right;">¥500,000</td>
+              <td style="padding: 0.4rem;"><span style="background: rgba(255,165,0,0.2); color: #ffa500; padding: 0.2rem 0.4rem; border-radius: 2px; font-size: 0.75rem;">送付済</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+              <td style="padding: 0.4rem; color: var(--text);">INV-2024-002</td>
+              <td style="padding: 0.4rem; color: var(--text);">2024-02-10</td>
+              <td style="padding: 0.4rem; color: var(--text); text-align: right;">¥750,000</td>
+              <td style="padding: 0.4rem;"><span style="background: rgba(76,175,80,0.2); color: #4caf50; padding: 0.2rem 0.4rem; border-radius: 2px; font-size: 0.75rem;">支払済</span></td>
+            </tr>
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- 右：メール履歴タイムライン -->
-    <div style="flex: 1; display: flex; flex-direction: column; overflow: hidden;">
-      <div style="padding: 0.75rem 1.25rem; background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.1);">
-        <h2 style="font-size: 0.95rem; font-weight: 700; color: var(--text); margin: 0;">関連メール履歴</h2>
-        <p style="font-size: 0.75rem; color: var(--text-muted); margin: 0.25rem 0 0 0;">選択した請求書に関連するメール</p>
-      </div>
-      <div style="flex: 1; overflow-y: auto; padding: 0.75rem 1.25rem;">
-        <div id="email-timeline" style="display: flex; flex-direction: column; gap: 0.75rem;">
-          <!-- 動的に生成 -->
+    <!-- 右パネル: メール履歴 -->
+    <div style="display: flex; flex-direction: column; gap: 0.5rem; overflow: hidden;">
+      <div style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; padding: 0.75rem;">
+        <h3 style="margin: 0 0 0.5rem 0; font-size: 0.95rem; color: var(--text); font-weight: 600;">メール履歴検索</h3>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <div>
+            <label style="display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem;">キーワード</label>
+            <input id="email-keyword-input" data-testid="email-keyword-input" type="text" placeholder="件名・本文から検索" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 0.8rem; box-sizing: border-box;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem;">メール種別</label>
+            <select id="email-type-select" data-testid="email-type-select" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 0.8rem; box-sizing: border-box;">
+              <option value="">すべて</option>
+              <option value="提案">提案</option>
+              <option value="契約確認">契約確認</option>
+              <option value="成果物納期通知">成果物納期通知</option>
+              <option value="請求書送付">請求書送付</option>
+              <option value="変更通知">変更通知</option>
+            </select>
+          </div>
         </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <div>
+            <label style="display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem;">送信日（開始）</label>
+            <input id="email-date-from" data-testid="email-date-from" type="date" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 0.8rem; box-sizing: border-box;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem;">送信日（終了）</label>
+            <input id="email-date-to" data-testid="email-date-to" type="date" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 0.8rem; box-sizing: border-box;">
+          </div>
+        </div>
+
+        <div>
+          <label style="display: block; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 0.2rem;">送信者</label>
+          <input id="email-sender-input" data-testid="email-sender-input" type="text" placeholder="メールアドレス" style="width: 100%; padding: 0.4rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 0.8rem; box-sizing: border-box; margin-bottom: 0.5rem;">
+        </div>
+
+        <div style="display: flex; gap: 0.5rem;">
+          <button id="email-search-btn" data-testid="email-search-button" class="action-btn" style="flex: 1; padding: 0.5rem; font-size: 0.8rem;">検索</button>
+          <button id="email-export-btn" data-testid="email-export-button" class="action-btn secondary" style="flex: 1; padding: 0.5rem; font-size: 0.8rem;">CSV</button>
+        </div>
+      </div>
+
+      <!-- メール履歴一覧 -->
+      <div style="flex: 1; overflow: auto; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; padding: 0.5rem;">
+        <table data-testid="email-list" style="width: 100%; font-size: 0.8rem; border-collapse: collapse;">
+          <thead>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.12);">
+              <th style="text-align: left; padding: 0.4rem; color: var(--text); font-weight: 600; white-space: nowrap;">件名</th>
+              <th style="text-align: left; padding: 0.4rem; color: var(--text); font-weight: 600; white-space: nowrap;">送信者</th>
+              <th style="text-align: left; padding: 0.4rem; color: var(--text); font-weight: 600; white-space: nowrap;">送信日</th>
+              <th style="text-align: left; padding: 0.4rem; color: var(--text); font-weight: 600; white-space: nowrap;">種別</th>
+            </tr>
+          </thead>
+          <tbody id="email-tbody">
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+              <td style="padding: 0.4rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;">2024年度契約のご確認</td>
+              <td style="padding: 0.4rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px;">sales@company.com</td>
+              <td style="padding: 0.4rem; color: var(--text);">2024-01-10</td>
+              <td style="padding: 0.4rem;"><span style="background: rgba(33,150,243,0.2); color: #2196f3; padding: 0.2rem 0.4rem; border-radius: 2px; font-size: 0.75rem;">契約確認</span></td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+              <td style="padding: 0.4rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;">請求書を送付いたします</td>
+              <td style="padding: 0.4rem; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 120px;">billing@company.com</td>
+              <td style="padding: 0.4rem; color: var(--text);">2024-02-05</td>
+              <td style="padding: 0.4rem;"><span style="background: rgba(255,152,0,0.2); color: #ff9800; padding: 0.2rem 0.4rem; border-radius: 2px; font-size: 0.75rem;">請求書送付</span></td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </div>
-
-  <!-- 下部アクション -->
-  <div style="background: var(--bg-card); padding: 0.75rem 1.25rem; border-top: 1px solid rgba(255,255,255,0.1); display: flex; gap: 0.5rem; justify-content: flex-end;">
-    <button id="btn-view-detail" data-testid="view-detail-button" style="padding: 0.5rem 1rem; background: var(--primary); color: #fff; border: none; border-radius: 0.375rem; font-size: 0.875rem; font-weight: 600; cursor: pointer;">詳細表示</button>
-    <button id="btn-back-dashboard" data-testid="back-dashboard-button" style="padding: 0.5rem 1rem; background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); border-radius: 0.375rem; font-size: 0.875rem; font-weight: 600; cursor: pointer;">ダッシュボードへ</button>
-  </div>
-
 </div>
     </section>
   </main>

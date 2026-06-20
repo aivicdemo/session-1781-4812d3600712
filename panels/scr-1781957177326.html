@@ -11,26 +11,49 @@ window.AIVIC_SYSTEM_NAME = "顧客企業向け契約・成果管理ポータル"
 window.AIVIC_TABLES = [{"tableName":"顧客企業","purpose":"営業成果レポート自動生成・配信システムにおける顧客企業の基本情報を管理し、営業活動の対象企業として機能する","columns":[{"name":"顧客企業ID","type":"uuid","required":true,"description":"顧客企業の一意識別子"},{"name":"企業名","type":"varchar(100)","required":true,"description":"顧客企業の正式名称"},{"name":"業種","type":"varchar(100)","required":false,"description":"顧客企業の業種分類"},{"name":"所在地","type":"varchar(100)","required":false,"description":"顧客企業の本社所在地"},{"name":"代表者名","type":"varchar(100)","required":false,"description":"顧客企業の代表者名"},{"name":"電話番号","type":"varchar(100)","required":false,"description":"顧客企業の代表電話番号"},{"name":"メールアドレス","type":"varchar(100)","required":false,"description":"顧客企業の代表メールアドレス"},{"name":"担当営業ユーザーID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（担当営業）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"顧客企業のステータス（見込み客/既存顧客/休止中等）"},{"name":"作成日時","type":"timestamp","required":true,"description":"顧客企業レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"顧客企業レコード最終更新日時"},{"name":"作成者ユーザーID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（作成者）"}]},{"tableName":"契約書","purpose":"契約・提案資料管理システムにおける契約書の基本情報を管理するマスタテーブル","columns":[{"name":"契約書ID","type":"uuid","required":true,"description":"契約書の一意識別子"},{"name":"契約書名","type":"varchar(100)","required":true,"description":"契約書のタイトル"},{"name":"契約書説明","type":"text","required":false,"description":"契約書の詳細説明"},{"name":"契約種別","type":"varchar(100)","required":true,"description":"契約の種類（例：売買契約、サービス契約、NDA等）"},{"name":"契約相手先ID","type":"uuid","required":true,"description":"契約相手先企業の識別子"},{"name":"契約開始日","type":"timestamp","required":true,"description":"契約の開始日"},{"name":"契約終了日","type":"timestamp","required":false,"description":"契約の終了日"},{"name":"契約金額","type":"integer","required":false,"description":"契約金額（円）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"契約状態（例：草案、承認待ち、有効、終了、キャンセル）"},{"name":"担当者ID","type":"uuid","required":true,"description":"契約の担当ユーザーID"},{"name":"ファイルパス","type":"varchar(100)","required":false,"description":"契約書ファイルの保存パス"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]},{"tableName":"提案資料","purpose":"契約・提案資料管理システムにおいて、顧客への提案資料の情報を一元管理し、提案から契約への進捗を追跡するためのマスタテーブル","columns":[{"name":"提案資料ID","type":"uuid","required":true,"description":"提案資料の一意識別子"},{"name":"提案資料名","type":"varchar(100)","required":true,"description":"提案資料のタイトル・名称"},{"name":"説明","type":"text","required":false,"description":"提案資料の詳細説明"},{"name":"ユーザーID","type":"uuid","required":true,"description":"提案資料を作成・管理するユーザーの外部キー"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"提案資料のステータス（下書き、提案中、承認待ち、契約済み、却下等）"},{"name":"提案日","type":"timestamp","required":true,"description":"顧客への提案実施日時"},{"name":"契約書ID","type":"uuid","required":false,"description":"関連する契約書の外部キー（契約成立時に設定）"},{"name":"作成日時","type":"timestamp","required":true,"description":"提案資料レコードの作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"提案資料レコードの最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"提案資料を作成したユーザーの外部キー"}]},{"tableName":"契約","purpose":"顧客企業との契約情報を一元管理し、契約の締結、更新、ステータス追跡、成果管理を支援するマスタテーブル","columns":[{"name":"契約ID","type":"uuid","required":true,"description":"契約の一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"顧客企業テーブルへの外部キー"},{"name":"契約書ID","type":"uuid","required":false,"description":"契約書テーブルへの外部キー"},{"name":"提案資料ID","type":"uuid","required":false,"description":"提案資料テーブルへの外部キー"},{"name":"契約名","type":"varchar(100)","required":true,"description":"契約の名称"},{"name":"契約ステータス","type":"varchar(100)","required":true,"description":"契約状態（提案中/承認待ち/契約済/完了/終了等）"},{"name":"契約開始日","type":"timestamp","required":true,"description":"契約の開始日"},{"name":"契約終了日","type":"timestamp","required":true,"description":"契約の終了日"},{"name":"契約金額","type":"integer","required":true,"description":"契約金額（円）"},{"name":"契約内容","type":"text","required":false,"description":"契約の詳細内容"},{"name":"成果目標","type":"text","required":false,"description":"契約に基づく成果目標"},{"name":"作成日時","type":"timestamp","required":true,"description":"契約レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"契約レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"契約レコード作成者"},{"name":"更新者","type":"varchar(100)","required":false,"description":"契約レコード最終更新者"}]},{"tableName":"契約変更履歴","purpose":"契約の変更内容を時系列で記録し、変更前後の状態を追跡管理するための履歴テーブル","columns":[{"name":"変更履歴ID","type":"uuid","required":true,"description":"変更履歴レコードの一意識別子"},{"name":"契約ID","type":"uuid","required":true,"description":"変更対象の契約を特定するための外部キー"},{"name":"変更種別","type":"varchar(100)","required":true,"description":"変更の種類（金額変更、期間延長、条件変更、解除等）"},{"name":"変更前値","type":"text","required":false,"description":"変更前の値または状態"},{"name":"変更後値","type":"text","required":false,"description":"変更後の値または状態"},{"name":"変更理由","type":"text","required":false,"description":"変更の理由や背景"},{"name":"変更ステータス","type":"varchar(100)","required":true,"description":"変更の状態（申請中、承認済、却下、実行済等）"},{"name":"申請者ID","type":"uuid","required":true,"description":"変更を申請したユーザーの識別子"},{"name":"承認者ID","type":"uuid","required":false,"description":"変更を承認したユーザーの識別子"},{"name":"承認日時","type":"timestamp","required":false,"description":"変更が承認された日時"},{"name":"実行日時","type":"timestamp","required":false,"description":"変更が実際に反映された日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"変更履歴レコードが作成された日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"変更履歴レコードが最後に更新された日時"},{"name":"備考","type":"text","required":false,"description":"その他の補足情報"}]},{"tableName":"成果物","purpose":"顧客企業向け契約に基づいて納品される成果物の管理。納品状況、品質、変更履歴を追跡し、契約の履行状況を把握するための中核テーブル","columns":[{"name":"成果物ID","type":"uuid","required":true,"description":"成果物の一意識別子"},{"name":"契約ID","type":"uuid","required":true,"description":"親契約への外部キー"},{"name":"成果物名","type":"varchar(100)","required":true,"description":"成果物の名称"},{"name":"説明","type":"text","required":false,"description":"成果物の詳細説明"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"成果物の状態（計画中/進行中/完了/承認待ち/却下等）"},{"name":"納期","type":"timestamp","required":true,"description":"予定納期"},{"name":"実納期","type":"timestamp","required":false,"description":"実際の納期"},{"name":"品質評価","type":"varchar(100)","required":false,"description":"品質評価結果（合格/不合格/要修正等）"},{"name":"顧客承認状況","type":"varchar(100)","required":true,"description":"顧客による承認状況（未承認/承認/却下）"},{"name":"顧客承認日時","type":"timestamp","required":false,"description":"顧客が承認した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"成果物レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"成果物レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"成果物を作成したユーザー"},{"name":"更新者","type":"varchar(100)","required":true,"description":"成果物を最後に更新したユーザー"}]},{"tableName":"成果物納期","purpose":"成果物の納期管理と進捗追跡を行い、契約上の納期義務を履行するための基本台帳","columns":[{"name":"成果物納期ID","type":"uuid","required":true,"description":"成果物納期レコードの一意識別子"},{"name":"成果物ID","type":"uuid","required":true,"description":"成果物テーブルへの外部キー"},{"name":"契約ID","type":"uuid","required":true,"description":"契約テーブルへの外部キー"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"顧客企業テーブルへの外部キー"},{"name":"予定納期日","type":"timestamp","required":true,"description":"契約で定められた成果物の納期予定日"},{"name":"実績納期日","type":"timestamp","required":false,"description":"実際に成果物が納期された日付"},{"name":"納期ステータス","type":"varchar(100)","required":true,"description":"納期状況（予定通り/遅延/完了等）"},{"name":"遅延日数","type":"integer","required":false,"description":"予定納期からの遅延日数（負数は早期納期）"},{"name":"遅延理由","type":"text","required":false,"description":"納期遅延が発生した場合の理由"},{"name":"納期変更履歴ID","type":"uuid","required":false,"description":"契約変更履歴テーブルへの外部キー（納期変更がある場合）"},{"name":"備考","type":"text","required":false,"description":"納期に関する追加情報やメモ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"納期変更履歴","purpose":"成果物の納期変更を履歴として記録し、変更の経緯、理由、承認状況を管理するテーブル","columns":[{"name":"納期変更履歴ID","type":"uuid","required":true,"description":"納期変更履歴の一意識別子"},{"name":"成果物納期ID","type":"uuid","required":true,"description":"成果物納期テーブルへの外部キー"},{"name":"契約ID","type":"uuid","required":true,"description":"契約テーブルへの外部キー"},{"name":"変更前納期","type":"timestamp","required":true,"description":"変更前の納期日時"},{"name":"変更後納期","type":"timestamp","required":true,"description":"変更後の納期日時"},{"name":"変更理由","type":"text","required":true,"description":"納期変更の理由"},{"name":"承認状況","type":"varchar(100)","required":true,"description":"承認状況（申請中/承認/却下）"},{"name":"承認者ID","type":"varchar(100)","required":false,"description":"承認者のユーザーID"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認日時"},{"name":"承認コメント","type":"text","required":false,"description":"承認時のコメント"},{"name":"作成日時","type":"timestamp","required":true,"description":"変更申請の作成日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"変更申請の作成者ユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"最終更新日時"}]},{"tableName":"請求書","purpose":"顧客企業への請求書を管理し、契約に基づく成果物納期と請求内容を紐付け、請求状況を追跡するトランザクションテーブル","columns":[{"name":"請求書ID","type":"uuid","required":true,"description":"請求書の一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"請求対象の顧客企業ID（顧客企業テーブルへの外部キー）"},{"name":"契約ID","type":"uuid","required":true,"description":"請求対象の契約ID（契約テーブルへの外部キー）"},{"name":"請求書番号","type":"varchar(100)","required":true,"description":"請求書の一意な番号（顧客向け表示用）"},{"name":"請求日","type":"timestamp","required":true,"description":"請求書発行日"},{"name":"請求期間開始日","type":"timestamp","required":true,"description":"請求対象期間の開始日"},{"name":"請求期間終了日","type":"timestamp","required":true,"description":"請求対象期間の終了日"},{"name":"請求金額","type":"integer","required":true,"description":"請求総額（税抜き、単位：円）"},{"name":"税額","type":"integer","required":true,"description":"消費税額（単位：円）"},{"name":"請求金額合計","type":"integer","required":true,"description":"請求総額（税込み、単位：円）"},{"name":"請求ステータス","type":"varchar(100)","required":true,"description":"請求状況（未送付/送付済/支払済/期限超過等）"},{"name":"支払期限日","type":"timestamp","required":true,"description":"支払期限日"},{"name":"支払日","type":"timestamp","required":false,"description":"実際の支払日（支払済の場合のみ）"},{"name":"備考","type":"text","required":false,"description":"請求書に関する備考・特記事項"},{"name":"作成日時","type":"timestamp","required":true,"description":"請求書レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"請求書レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"請求書を作成したユーザーID"}]},{"tableName":"メール履歴","purpose":"顧客企業との契約・成果に関するメール送受信の記録を管理し、コミュニケーション履歴の追跡と監査証跡を提供する","columns":[{"name":"メール履歴ID","type":"uuid","required":true,"description":"メール履歴の一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"関連する顧客企業への外部キー"},{"name":"契約ID","type":"uuid","required":false,"description":"関連する契約への外部キー（契約関連のメールの場合）"},{"name":"成果物ID","type":"uuid","required":false,"description":"関連する成果物への外部キー（成果物関連のメールの場合）"},{"name":"請求書ID","type":"uuid","required":false,"description":"関連する請求書への外部キー（請求関連のメールの場合）"},{"name":"送信者メールアドレス","type":"varchar(100)","required":true,"description":"メール送信者のメールアドレス"},{"name":"受信者メールアドレス","type":"varchar(100)","required":true,"description":"メール受信者のメールアドレス"},{"name":"CC","type":"text","required":false,"description":"CC対象のメールアドレス（複数の場合はカンマ区切り）"},{"name":"BCC","type":"text","required":false,"description":"BCC対象のメールアドレス（複数の場合はカンマ区切り）"},{"name":"件名","type":"varchar(100)","required":true,"description":"メールの件名"},{"name":"本文","type":"text","required":true,"description":"メール本文"},{"name":"メール種別","type":"varchar(100)","required":true,"description":"メールの種別（提案、契約確認、成果物納期通知、請求書送付、変更通知等）"},{"name":"送受信区分","type":"varchar(100)","required":true,"description":"送信または受信"},{"name":"送受信日時","type":"timestamp","required":true,"description":"メール送受信の日時"},{"name":"添付ファイル有無","type":"boolean","required":true,"description":"添付ファイルの有無"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"}]},{"tableName":"通知履歴","purpose":"顧客企業向けポータルで送信した通知の履歴を管理し、通知内容、送信状況、受信者情報を追跡する","columns":[{"name":"通知履歴ID","type":"uuid","required":true,"description":"通知履歴の一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"通知対象の顧客企業ID（外部キー）"},{"name":"通知タイプ","type":"varchar(100)","required":true,"description":"通知の種類（契約更新、成果物納期、請求書発行、契約変更等）"},{"name":"関連エンティティタイプ","type":"varchar(100)","required":false,"description":"通知の対象エンティティ種別（契約、成果物、請求書等）"},{"name":"関連エンティティID","type":"uuid","required":false,"description":"通知の対象エンティティID"},{"name":"通知タイトル","type":"varchar(100)","required":true,"description":"通知のタイトル"},{"name":"通知内容","type":"text","required":true,"description":"通知の本文内容"},{"name":"送信方法","type":"varchar(100)","required":true,"description":"通知の送信方法（メール、ポータル画面内通知等）"},{"name":"送信状態","type":"varchar(100)","required":true,"description":"送信状態（送信済、送信失敗、保留中等）"},{"name":"受信者メールアドレス","type":"varchar(100)","required":false,"description":"メール送信の場合の受信者メールアドレス"},{"name":"送信日時","type":"timestamp","required":true,"description":"通知の送信日時"},{"name":"既読フラグ","type":"boolean","required":true,"description":"ポータル内通知の既読状態"},{"name":"既読日時","type":"timestamp","required":false,"description":"通知が既読になった日時"},{"name":"エラーメッセージ","type":"text","required":false,"description":"送信失敗時のエラー内容"},{"name":"作成日時","type":"timestamp","required":true,"description":"通知履歴レコードの作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"通知履歴レコードの最終更新日時"}]},{"tableName":"ログインユーザー","purpose":"顧客企業向けポータルのログインユーザー管理。ユーザー認証、アクセス制御、監査ログの基盤となる。","columns":[{"name":"ユーザーID","type":"uuid","required":true,"description":"ログインユーザーの一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"所属する顧客企業への外部キー"},{"name":"メールアドレス","type":"varchar(100)","required":true,"description":"ログインID兼連絡先。企業内で一意"},{"name":"ユーザー名","type":"varchar(100)","required":true,"description":"ポータル上に表示されるユーザー名"},{"name":"パスワードハッシュ","type":"varchar(100)","required":true,"description":"認証用のハッシュ化されたパスワード"},{"name":"ロール","type":"varchar(100)","required":true,"description":"ユーザーの権限レベル（管理者/担当者/閲覧者等）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"ユーザーの状態（有効/無効/招待待機等）"},{"name":"最終ログイン日時","type":"timestamp","required":false,"description":"最後にログインした日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"ユーザーアカウント作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"ユーザー情報最終更新日時"},{"name":"作成者","type":"uuid","required":true,"description":"ユーザーを作成したユーザーID"}]},{"tableName":"ユーザー権限","purpose":"ログインユーザーが顧客企業ポータル内で実行可能な操作を制御するための権限管理テーブル。ユーザーごとに契約書閲覧、成果物確認、請求書確認などの権限を付与・管理する。","columns":[{"name":"ユーザー権限ID","type":"uuid","required":true,"description":"ユーザー権限レコードの一意識別子"},{"name":"ログインユーザーID","type":"uuid","required":true,"description":"権限を付与されるログインユーザーへの外部キー"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"権限が適用される顧客企業への外部キー"},{"name":"権限種別","type":"varchar(100)","required":true,"description":"付与する権限の種別（例：契約書閲覧、成果物確認、請求書確認、契約変更申請、通知受信等）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"権限が有効か無効かを示すフラグ"},{"name":"権限開始日","type":"timestamp","required":false,"description":"権限の有効開始日時"},{"name":"権限終了日","type":"timestamp","required":false,"description":"権限の有効終了日時"},{"name":"備考","type":"text","required":false,"description":"権限付与の理由や特記事項"},{"name":"作成日時","type":"timestamp","required":true,"description":"権限レコード作成日時"},{"name":"作成者","type":"uuid","required":true,"description":"権限を作成したユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"権限レコード最終更新日時"},{"name":"更新者","type":"uuid","required":true,"description":"権限を最後に更新したユーザーID"}]}];
 window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1781957177326";
-window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // ========== 1. 要素取得 ==========\n  const contractSelect = container.querySelector(\"#contract-select\");\n  const invoicesList = container.querySelector(\"#invoices-list\");\n  const deliverablesList = container.querySelector(\"#deliverables-list\");\n  const customerSelect = container.querySelector(\"#customer-select\");\n  const usersList = container.querySelector(\"#users-list\");\n  const deliveryDatetime = container.querySelector(\"#delivery-datetime\");\n  const btnPreview = container.querySelector(\"#btn-preview\");\n  const btnCancel = container.querySelector(\"#btn-cancel\");\n  const btnDeliver = container.querySelector(\"#btn-deliver\");\n  const confirmDialog = container.querySelector(\"#confirm-dialog\");\n  const btnConfirmCancel = container.querySelector(\"#btn-confirm-cancel\");\n  const btnConfirmOk = container.querySelector(\"#btn-confirm-ok\");\n  const successMessage = container.querySelector(\"#success-message\");\n  const errorMessage = container.querySelector(\"#error-message\");\n  const previewSummary = container.querySelector(\"#preview-summary\");\n  const emailPreview = container.querySelector(\"#email-preview\");\n\n  // ========== 2. 状態管理 ==========\n  let selectedInvoices = [];\n  let selectedDeliverables = [];\n  let selectedUsers = [];\n  let selectedContract = null;\n  let selectedCustomer = null;\n\n  // ========== 3. チェックボックス更新関数 ==========\n  function updateInvoiceCount() {\n    const checked = Array.from(container.querySelectorAll(\".invoice-checkbox:checked\")).length;\n    container.querySelector(\"#invoice-count\").textContent = checked;\n    selectedInvoices = Array.from(container.querySelectorAll(\".invoice-checkbox:checked\")).map(cb => ({\n      id: cb.dataset.id,\n      label: cb.parentElement.textContent.trim()\n    }));\n    updatePreview();\n  }\n\n  function updateDeliverableCount() {\n    const checked = Array.from(container.querySelectorAll(\".deliverable-checkbox:checked\")).length;\n    container.querySelector(\"#deliverable-count\").textContent = checked;\n    selectedDeliverables = Array.from(container.querySelectorAll(\".deliverable-checkbox:checked\")).map(cb => ({\n      id: cb.dataset.id,\n      label: cb.parentElement.textContent.trim()\n    }));\n    updatePreview();\n  }\n\n  function updateUserCount() {\n    const checked = Array.from(container.querySelectorAll(\".user-checkbox:checked\")).length;\n    container.querySelector(\"#user-count\").textContent = checked;\n    selectedUsers = Array.from(container.querySelectorAll(\".user-checkbox:checked\")).map(cb => ({\n      id: cb.dataset.id,\n      label: cb.parentElement.textContent.trim()\n    }));\n    updatePreview();\n  }\n\n  // ========== 4. プレビュー更新関数 ==========\n  function updatePreview() {\n    const invoiceCount = selectedInvoices.length;\n    const deliverableCount = selectedDeliverables.length;\n    const userCount = selectedUsers.length;\n\n    container.querySelector(\"#preview-invoice-count\").textContent = invoiceCount;\n    container.querySelector(\"#preview-deliverable-count\").textContent = deliverableCount;\n    container.querySelector(\"#preview-user-count\").textContent = userCount;\n\n    // メール本文の動的生成\n    const contractName = contractSelect.options[contractSelect.selectedIndex]?.text || \"契約\";\n    const emailBody = `いつもお世話になっております。\n\n契約「${contractName}」に関する以下のデータをポータルに掲載いたしました。\nご確認のほどよろしくお願いいたします。\n\n【配信内容】\n- 請求書: ${invoiceCount}件\n${selectedInvoices.map(inv => `  • ${inv.label}`).join('\\n')}\n- 成果物: ${deliverableCount}件\n${selectedDeliverables.map(del => `  • ${del.label}`).join('\\n')}\n\n【配信先】\n${selectedUsers.map(user => `• ${user.label}`).join('\\n')}\n\n【アクセス方法】\nポータルにログインいただき、「契約・成果」メニューからご確認ください。\n\nご不明な点がございましたら、お気軽にお問い合わせください。\n\nよろしくお願いいたします。`;\n\n    container.querySelector(\"#email-body\").textContent = emailBody;\n  }\n\n  // ========== 5. イベントリスナー登録 ==========\n  container.addEventListener(\"change\", (e) => {\n    if (e.target.classList.contains(\"invoice-checkbox\")) {\n      updateInvoiceCount();\n    } else if (e.target.classList.contains(\"deliverable-checkbox\")) {\n      updateDeliverableCount();\n    } else if (e.target.classList.contains(\"user-checkbox\")) {\n      updateUserCount();\n    }\n  });\n\n  contractSelect.addEventListener(\"change\", (e) => {\n    selectedContract = e.target.value;\n    updatePreview();\n  });\n\n  customerSelect.addEventListener(\"change\", (e) => {\n    selectedCustomer = e.target.value;\n  });\n\n  // ========== 6. プレビューボタン ==========\n  btnPreview.addEventListener(\"click\", () => {\n    if (!selectedContract) {\n      alert(\"配信対象契約を選択してください\");\n      return;\n    }\n    if (selectedInvoices.length === 0 && selectedDeliverables.length === 0) {\n      alert(\"配信対象データを選択してください\");\n      return;\n    }\n    if (selectedUsers.length === 0) {\n      alert(\"配信対象ユーザーを選択してください\");\n      return;\n    }\n    // プレビューは既に右側に表示されているため、スクロール\n    container.querySelector(\"#email-preview\").scrollIntoView({ behavior: \"smooth\" });\n  });\n\n  // ========== 7. キャンセルボタン ==========\n  btnCancel.addEventListener(\"click\", () => {\n    if (confirm(\"配信処理をキャンセルしますか？\")) {\n      window.showScreen(\"scr-1781957241812\"); // ポータル配信・通知機能へ遷移\n    }\n  });\n\n  // ========== 8. 配信実行ボタン ==========\n  btnDeliver.addEventListener(\"click\", () => {\n    if (!selectedContract) {\n      alert(\"配信対象契約を選択してください\");\n      return;\n    }\n    if (selectedInvoices.length === 0 && selectedDeliverables.length === 0) {\n      alert(\"配信対象データを選択してください\");\n      return;\n    }\n    if (selectedUsers.length === 0) {\n      alert(\"配信対象ユーザーを選択してください\");\n      return;\n    }\n    if (!deliveryDatetime.value) {\n      alert(\"配信日時を指定してください\");\n      return;\n    }\n\n    // 確認ダイアログを表示\n    const confirmContent = container.querySelector(\"#confirm-content\");\n    confirmContent.innerHTML = `\n      <div><strong>配信対象契約:</strong> ${contractSelect.options[contractSelect.selectedIndex].text}</div>\n      <div style=\"margin-top: 8px;\"><strong>請求書:</strong> ${selectedInvoices.length}件</div>\n      <div><strong>成果物:</strong> ${selectedDeliverables.length}件</div>\n      <div style=\"margin-top: 8px;\"><strong>配信先ユーザー:</strong> ${selectedUsers.length}件</div>\n      <div><strong>配信日時:</strong> ${new Date(deliveryDatetime.value).toLocaleString('ja-JP')}</div>\n      <div style=\"margin-top: 12px; padding: 8px; background: rgba(255,165,0,0.2); border-left: 3px solid #ffa500; border-radius: 3px; color: #ffa500;\">\n        ⚠ この操作は取り消せません。内容をご確認の上、実行してください。\n      </div>\n    `;\n    confirmDialog.removeAttribute(\"hidden\");\n  });\n\n  // ========== 9. 確認ダイアログのキャンセル ==========\n  btnConfirmCancel.addEventListener(\"click\", () => {\n    confirmDialog.setAttribute(\"hidden\", \"\");\n  });\n\n  // ========== 10. 確認ダイアログの実行 ==========\n  btnConfirmOk.addEventListener(\"click\", async () => {\n    confirmDialog.setAttribute(\"hidden\", \"\");\n\n    // 配信データを構築\n    const deliveryData = {\n      contractId: selectedContract,\n      customerId: selectedCustomer,\n      invoiceIds: selectedInvoices.map(inv => inv.id),\n      deliverableIds: selectedDeliverables.map(del => del.id),\n      userIds: selectedUsers.map(user => user.id),\n      deliveryDatetime: deliveryDatetime.value,\n      createdAt: new Date().toISOString()\n    };\n\n    // API に送信（テーブルインデックス 0 を想定）\n    const result = await window.aivicApi.save(0, deliveryData);\n\n    if (result) {\n      // 成功メッセージを表示\n      successMessage.removeAttribute(\"hidden\");\n      setTimeout(() => {\n        successMessage.setAttribute(\"hidden\", \"\");\n        // 配信完了後、ポータル配信・通知機能画面へ遷移\n        window.showScreen(\"scr-1781957241812\");\n      }, 2000);\n    } else {\n      // エラーメッセージを表示\n      errorMessage.removeAttribute(\"hidden\");\n      setTimeout(() => {\n        errorMessage.setAttribute(\"hidden\", \"\");\n      }, 3000);\n    }\n  });\n\n  // ========== 11. 初期化 ==========\n  // デフォルト配信日時を現在時刻の1時間後に設定\n  const now = new Date();\n  now.setHours(now.getHours() + 1);\n  deliveryDatetime.value = now.toISOString().slice(0, 16);\n\n  updateInvoiceCount();\n  updateDeliverableCount();\n  updateUserCount();\n}";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // ===== 1. 要素取得 =====\n  const contractSelect = container.querySelector(\"#contract-select\");\n  const invoiceCheckboxes = container.querySelectorAll(\".invoice-checkbox\");\n  const deliverableCheckboxes = container.querySelectorAll(\".deliverable-checkbox\");\n  const customerSelect = container.querySelector(\"#customer-select\");\n  const userCheckboxes = container.querySelectorAll(\".user-checkbox\");\n  const deliveryDatetime = container.querySelector(\"#delivery-datetime\");\n  \n  const previewInvoiceCount = container.querySelector(\"#preview-invoice-count\");\n  const previewDeliverableCount = container.querySelector(\"#preview-deliverable-count\");\n  const previewUserCount = container.querySelector(\"#preview-user-count\");\n  const previewDatetime = container.querySelector(\"#preview-datetime\");\n  const previewEmailInvoices = container.querySelector(\"#preview-email-invoices\");\n  const previewEmailDeliverables = container.querySelector(\"#preview-email-deliverables\");\n  const previewCustomer = container.querySelector(\"#preview-customer\");\n  const previewUsers = container.querySelector(\"#preview-users\");\n  const previewContract = container.querySelector(\"#preview-contract\");\n  \n  const btnPreviewConfirm = container.querySelector(\"#btn-preview-confirm\");\n  const btnExecute = container.querySelector(\"#btn-execute\");\n  const btnCancel = container.querySelector(\"#btn-cancel\");\n  \n  const confirmDialog = container.querySelector(\"#confirm-dialog\");\n  const dialogSummary = container.querySelector(\"#dialog-summary\");\n  const dialogConfirm = container.querySelector(\"#dialog-confirm\");\n  const dialogCancel = container.querySelector(\"#dialog-cancel\");\n  \n  const successDialog = container.querySelector(\"#success-dialog\");\n  const successClose = container.querySelector(\"#success-close\");\n\n  // ===== 2. プレビュー更新関数 =====\n  function updatePreview() {\n    // 選択された請求書・成果物・ユーザーをカウント\n    const selectedInvoices = Array.from(invoiceCheckboxes).filter(cb => cb.checked);\n    const selectedDeliverables = Array.from(deliverableCheckboxes).filter(cb => cb.checked);\n    const selectedUsers = Array.from(userCheckboxes).filter(cb => cb.checked);\n    \n    previewInvoiceCount.textContent = selectedInvoices.length + \"件\";\n    previewDeliverableCount.textContent = selectedDeliverables.length + \"件\";\n    previewUserCount.textContent = selectedUsers.length + \"名\";\n    \n    // 配信日時\n    if (deliveryDatetime.value) {\n      const dt = new Date(deliveryDatetime.value);\n      previewDatetime.textContent = dt.toLocaleString('ja-JP');\n    } else {\n      previewDatetime.textContent = \"未指定\";\n    }\n    \n    // メール本文プレビュー\n    const invoiceLabels = selectedInvoices.map(cb => cb.parentElement.textContent.trim()).join(\"、\");\n    const deliverableLabels = selectedDeliverables.map(cb => cb.parentElement.textContent.trim()).join(\"、\");\n    previewEmailInvoices.textContent = invoiceLabels || \"なし\";\n    previewEmailDeliverables.textContent = deliverableLabels || \"なし\";\n    \n    // 配信対象確認\n    const customerLabel = customerSelect.options[customerSelect.selectedIndex]?.text || \"未選択\";\n    previewCustomer.textContent = customerLabel;\n    \n    const userLabels = selectedUsers.map(cb => cb.parentElement.textContent.trim()).join(\"、\");\n    previewUsers.textContent = userLabels || \"未選択\";\n    \n    const contractLabel = contractSelect.options[contractSelect.selectedIndex]?.text || \"未選択\";\n    previewContract.textContent = contractLabel;\n  }\n\n  // ===== 3. イベントリスナー登録 =====\n  invoiceCheckboxes.forEach(cb => cb.addEventListener(\"change\", updatePreview));\n  deliverableCheckboxes.forEach(cb => cb.addEventListener(\"change\", updatePreview));\n  userCheckboxes.forEach(cb => cb.addEventListener(\"change\", updatePreview));\n  contractSelect.addEventListener(\"change\", updatePreview);\n  customerSelect.addEventListener(\"change\", updatePreview);\n  deliveryDatetime.addEventListener(\"change\", updatePreview);\n\n  // ===== 4. 配信内容確認ボタン =====\n  btnPreviewConfirm.addEventListener(\"click\", () => {\n    const selectedInvoices = Array.from(invoiceCheckboxes).filter(cb => cb.checked);\n    const selectedDeliverables = Array.from(deliverableCheckboxes).filter(cb => cb.checked);\n    const selectedUsers = Array.from(userCheckboxes).filter(cb => cb.checked);\n    \n    if (!contractSelect.value) {\n      alert(\"契約を選択してください\");\n      return;\n    }\n    if (selectedInvoices.length === 0 && selectedDeliverables.length === 0) {\n      alert(\"請求書または成果物を選択してください\");\n      return;\n    }\n    if (!customerSelect.value) {\n      alert(\"顧客企業を選択してください\");\n      return;\n    }\n    if (selectedUsers.length === 0) {\n      alert(\"配信対象ユーザーを選択してください\");\n      return;\n    }\n    if (!deliveryDatetime.value) {\n      alert(\"配信日時を指定してください\");\n      return;\n    }\n    \n    // ダイアログに内容を表示\n    const invoiceLabels = selectedInvoices.map(cb => cb.parentElement.textContent.trim()).join(\"<br>\");\n    const deliverableLabels = selectedDeliverables.map(cb => cb.parentElement.textContent.trim()).join(\"<br>\");\n    const userLabels = selectedUsers.map(cb => cb.parentElement.textContent.trim()).join(\"<br>\");\n    const contractLabel = contractSelect.options[contractSelect.selectedIndex].text;\n    const customerLabel = customerSelect.options[customerSelect.selectedIndex].text;\n    const dt = new Date(deliveryDatetime.value).toLocaleString('ja-JP');\n    \n    dialogSummary.innerHTML = `\n      <div style=\"margin-bottom: 12px;\">\n        <div style=\"color: var(--text-muted); font-size: 12px; margin-bottom: 4px;\">契約</div>\n        <div>${contractLabel}</div>\n      </div>\n      <div style=\"margin-bottom: 12px;\">\n        <div style=\"color: var(--text-muted); font-size: 12px; margin-bottom: 4px;\">顧客企業</div>\n        <div>${customerLabel}</div>\n      </div>\n      <div style=\"margin-bottom: 12px;\">\n        <div style=\"color: var(--text-muted); font-size: 12px; margin-bottom: 4px;\">配信先ユーザー</div>\n        <div>${userLabels}</div>\n      </div>\n      <div style=\"margin-bottom: 12px;\">\n        <div style=\"color: var(--text-muted); font-size: 12px; margin-bottom: 4px;\">請求書</div>\n        <div>${invoiceLabels || \"なし\"}</div>\n      </div>\n      <div style=\"margin-bottom: 12px;\">\n        <div style=\"color: var(--text-muted); font-size: 12px; margin-bottom: 4px;\">成果物</div>\n        <div>${deliverableLabels || \"なし\"}</div>\n      </div>\n      <div style=\"margin-bottom: 12px;\">\n        <div style=\"color: var(--text-muted); font-size: 12px; margin-bottom: 4px;\">配信日時</div>\n        <div>${dt}</div>\n      </div>\n    `;\n    \n    confirmDialog.removeAttribute(\"hidden\");\n  });\n\n  // ===== 5. 配信実行ボタン（ダイアログ内） =====\n  dialogConfirm.addEventListener(\"click\", async () => {\n    confirmDialog.setAttribute(\"hidden\", \"\");\n    \n    // 配信データを構築\n    const selectedInvoices = Array.from(invoiceCheckboxes).filter(cb => cb.checked).map(cb => cb.value);\n    const selectedDeliverables = Array.from(deliverableCheckboxes).filter(cb => cb.checked).map(cb => cb.value);\n    const selectedUsers = Array.from(userCheckboxes).filter(cb => cb.checked).map(cb => cb.value);\n    \n    const deliveryData = {\n      contractId: contractSelect.value,\n      customerId: customerSelect.value,\n      invoiceIds: selectedInvoices,\n      deliverableIds: selectedDeliverables,\n      userIds: selectedUsers,\n      deliveryDatetime: deliveryDatetime.value,\n      status: \"pending\"\n    };\n    \n    // API に配信リクエストを送信（通知履歴テーブルに記録）\n    // 実装例：window.aivicApi.save(notificationHistoryTableIndex, deliveryData)\n    // ここではシミュレーション\n    try {\n      // 配信処理（実装例）\n      // const result = await window.aivicApi.save(tableIndex, deliveryData);\n      \n      // 成功ダイアログを表示\n      successDialog.removeAttribute(\"hidden\");\n    } catch (err) {\n      alert(\"配信に失敗しました: \" + err.message);\n    }\n  });\n\n  // ===== 6. ダイアログキャンセル =====\n  dialogCancel.addEventListener(\"click\", () => {\n    confirmDialog.setAttribute(\"hidden\", \"\");\n  });\n\n  // ===== 7. 成功ダイアログを閉じる =====\n  successClose.addEventListener(\"click\", () => {\n    successDialog.setAttribute(\"hidden\", \"\");\n    // フォームをリセット\n    contractSelect.value = \"\";\n    customerSelect.value = \"\";\n    deliveryDatetime.value = \"\";\n    invoiceCheckboxes.forEach(cb => cb.checked = false);\n    deliverableCheckboxes.forEach(cb => cb.checked = false);\n    userCheckboxes.forEach(cb => cb.checked = false);\n    updatePreview();\n  });\n\n  // ===== 8. キャンセルボタン =====\n  btnCancel.addEventListener(\"click\", () => {\n    if (confirm(\"配信処理をキャンセルしますか？\")) {\n      contractSelect.value = \"\";\n      customerSelect.value = \"\";\n      deliveryDatetime.value = \"\";\n      invoiceCheckboxes.forEach(cb => cb.checked = false);\n      deliverableCheckboxes.forEach(cb => cb.checked = false);\n      userCheckboxes.forEach(cb => cb.checked = false);\n      updatePreview();\n    }\n  });\n\n  // ===== 9. 初期プレビュー更新 =====\n  updatePreview();\n}";
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f0c856;
-  --bg-main: #0a0a0a;
+  --primary-hover: #f4d03f;
+  --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
-  --bg-sidebar: #141414;
-  --border: #8b0000;
-  --text: #ffffff;
-  --text-muted: #b0b0b0;
+  --bg-sidebar: #161616;
+  --border: #2a2a2a;
+  --text: #f5f5f5;
+  --text-muted: #a0a0a0;
   --top-bar-bg: #1a1a1a;
-  --top-bar-border: #8b0000;
+  --top-bar-border: #2a2a2a;
+  --accent-red: #dc143c;
+  --accent-red-hover: #ff1744;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
   --font-size-base: 16px;
-  --font-size-large: 18px;
+  --font-size-lg: 18px;
   --font-size-xl: 20px;
-  --font-size-heading: 24px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(212, 175, 55, 0.1);
+  --shadow-md: 0 4px 12px rgba(212, 175, 55, 0.15);
+  --shadow-lg: 0 8px 24px rgba(212, 175, 55, 0.2);
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 250ms ease-in-out;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -73,7 +96,7 @@ canvas { display:block; max-height:280px !important; }
 <body>
 <header class="top-bar">
   <span class="app-name">バックオフィサー</span>
-    <a href="./scr-1781954440904.html" class="sys-tab" data-aivic-nav-system="itg-3">契約・提案資料管理システム</a>
+    <a href="./scr-1781954055121.html" class="sys-tab" data-aivic-nav-system="itg-2">営業成果レポート自動生成・配信システム</a>
     <a href="./scr-1781956713866.html" class="sys-tab active" data-aivic-nav-system="itg-4">顧客企業向け契約・成果管理ポータル</a>
     <a href="./scr-1781957451550.html" class="sys-tab" data-aivic-nav-system="itg-5">契約変更・請求検証管理システム</a>
     <a href="./scr-1781953462575.html" class="sys-tab" data-aivic-nav-system="itg-1">営業データ品質管理・請求自動化システム</a>
@@ -97,173 +120,189 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781957177326" style="margin-top:0">
-<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; height: 100%; padding: 12px;">
-  <!-- 左側: 配信設定フォーム -->
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; height: 100%; padding: 12px;">
+  <!-- 左側：配信設定フォーム -->
   <div style="display: flex; flex-direction: column; gap: 12px; overflow-y: auto;">
-    <!-- セクション1: 配信対象契約選択 -->
+    <!-- 配信対象契約選択 -->
     <div class="card" style="padding: 12px;">
-      <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">配信対象契約</label>
-      <select id="contract-select" data-testid="contract-select" style="width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 14px;">
-        <option value="">契約を選択してください</option>
-        <option value="contract-001">契約001: ABC株式会社 - 2024年度営業支援</option>
-        <option value="contract-002">契約002: XYZ企業 - システム開発</option>
-        <option value="contract-003">契約003: DEF商社 - 物流最適化</option>
+      <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; font-weight: 600;">配信対象契約</label>
+      <select id="contract-select" data-testid="contract-select" style="width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 13px;">
+        <option value="">選択してください</option>
+        <option value="contract-001">【契約001】営業支援サービス 2024年度</option>
+        <option value="contract-002">【契約002】システム開発 フェーズ2</option>
+        <option value="contract-003">【契約003】コンサルティング 上期</option>
       </select>
     </div>
 
-    <!-- セクション2: 請求書一覧（チェック可能） -->
+    <!-- 請求書一覧 -->
     <div class="card" style="padding: 12px;">
       <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600;">配信対象請求書</label>
-      <div id="invoices-list" style="max-height: 120px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; padding: 8px; background: rgba(0,0,0,0.15);">
-        <div style="display: flex; align-items: center; gap: 8px; padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.08);">
-          <input type="checkbox" class="invoice-checkbox" data-id="inv-001" data-testid="invoice-check-001" style="accent-color: var(--primary);">
-          <span style="font-size: 13px; color: var(--text);">請求書001 (¥100,000) - 2024/01/15</span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px; padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.08);">
-          <input type="checkbox" class="invoice-checkbox" data-id="inv-002" data-testid="invoice-check-002" style="accent-color: var(--primary);">
-          <span style="font-size: 13px; color: var(--text);">請求書002 (¥50,000) - 2024/02/15</span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px; padding: 6px;">
-          <input type="checkbox" class="invoice-checkbox" data-id="inv-003" data-testid="invoice-check-003" style="accent-color: var(--primary);">
-          <span style="font-size: 13px; color: var(--text);">請求書003 (¥75,000) - 2024/03/15</span>
-        </div>
+      <div id="invoice-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 120px; overflow-y: auto;">
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+          <input type="checkbox" class="invoice-checkbox" value="inv-001" data-testid="invoice-check-001" style="accent-color: var(--primary);">
+          <span>請求書#2024-001 (¥500,000) - 2024/01/15</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+          <input type="checkbox" class="invoice-checkbox" value="inv-002" data-testid="invoice-check-002" style="accent-color: var(--primary);">
+          <span>請求書#2024-002 (¥750,000) - 2024/02/15</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+          <input type="checkbox" class="invoice-checkbox" value="inv-003" data-testid="invoice-check-003" style="accent-color: var(--primary);">
+          <span>請求書#2024-003 (¥300,000) - 2024/03/15</span>
+        </label>
       </div>
-      <div style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">選択: <span id="invoice-count">0</span>件</div>
     </div>
 
-    <!-- セクション3: 成果物一覧（チェック可能） -->
+    <!-- 成果物一覧 -->
     <div class="card" style="padding: 12px;">
       <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600;">配信対象成果物</label>
-      <div id="deliverables-list" style="max-height: 120px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; padding: 8px; background: rgba(0,0,0,0.15);">
-        <div style="display: flex; align-items: center; gap: 8px; padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.08);">
-          <input type="checkbox" class="deliverable-checkbox" data-id="del-001" data-testid="deliverable-check-001" style="accent-color: var(--primary);">
-          <span style="font-size: 13px; color: var(--text);">営業成果レポート Q1</span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px; padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.08);">
-          <input type="checkbox" class="deliverable-checkbox" data-id="del-002" data-testid="deliverable-check-002" style="accent-color: var(--primary);">
-          <span style="font-size: 13px; color: var(--text);">営業成果レポート Q2</span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px; padding: 6px;">
-          <input type="checkbox" class="deliverable-checkbox" data-id="del-003" data-testid="deliverable-check-003" style="accent-color: var(--primary);">
-          <span style="font-size: 13px; color: var(--text);">営業成果レポート Q3</span>
-        </div>
+      <div id="deliverable-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 120px; overflow-y: auto;">
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+          <input type="checkbox" class="deliverable-checkbox" value="del-001" data-testid="deliverable-check-001" style="accent-color: var(--primary);">
+          <span>営業戦略レポート (完了)</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+          <input type="checkbox" class="deliverable-checkbox" value="del-002" data-testid="deliverable-check-002" style="accent-color: var(--primary);">
+          <span>システム設計書 (完了)</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+          <input type="checkbox" class="deliverable-checkbox" value="del-003" data-testid="deliverable-check-003" style="accent-color: var(--primary);">
+          <span>テスト結果報告書 (承認待ち)</span>
+        </label>
       </div>
-      <div style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">選択: <span id="deliverable-count">0</span>件</div>
     </div>
 
-    <!-- セクション4: 配信対象顧客企業選択 -->
+    <!-- 配信対象顧客企業 -->
     <div class="card" style="padding: 12px;">
-      <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">配信対象顧客企業</label>
-      <select id="customer-select" data-testid="customer-select" style="width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 14px;">
-        <option value="">顧客企業を選択してください</option>
-        <option value="cust-001">ABC株式会社</option>
-        <option value="cust-002">XYZ企業</option>
-        <option value="cust-003">DEF商社</option>
+      <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; font-weight: 600;">配信対象顧客企業</label>
+      <select id="customer-select" data-testid="customer-select" style="width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 13px;">
+        <option value="">選択してください</option>
+        <option value="cust-001">株式会社ABC商事</option>
+        <option value="cust-002">株式会社XYZ工業</option>
+        <option value="cust-003">株式会社DEF金融</option>
       </select>
     </div>
 
-    <!-- セクション5: 配信対象ユーザー選択 -->
+    <!-- 配信対象ユーザー -->
     <div class="card" style="padding: 12px;">
       <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600;">配信対象ユーザー</label>
-      <div id="users-list" style="max-height: 100px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; padding: 8px; background: rgba(0,0,0,0.15);">
-        <div style="display: flex; align-items: center; gap: 8px; padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.08);">
-          <input type="checkbox" class="user-checkbox" data-id="user-001" data-testid="user-check-001" style="accent-color: var(--primary);">
-          <span style="font-size: 13px; color: var(--text);">山田太郎 (yamada@abc.co.jp)</span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px; padding: 6px; border-bottom: 1px solid rgba(255,255,255,0.08);">
-          <input type="checkbox" class="user-checkbox" data-id="user-002" data-testid="user-check-002" style="accent-color: var(--primary);">
-          <span style="font-size: 13px; color: var(--text);">鈴木花子 (suzuki@abc.co.jp)</span>
-        </div>
-        <div style="display: flex; align-items: center; gap: 8px; padding: 6px;">
-          <input type="checkbox" class="user-checkbox" data-id="user-003" data-testid="user-check-003" style="accent-color: var(--primary);">
-          <span style="font-size: 13px; color: var(--text);">佐藤次郎 (sato@abc.co.jp)</span>
-        </div>
+      <div id="user-list" style="display: flex; flex-direction: column; gap: 6px; max-height: 100px; overflow-y: auto;">
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+          <input type="checkbox" class="user-checkbox" value="user-001" data-testid="user-check-001" style="accent-color: var(--primary);">
+          <span>山田太郎 (yamada@abc.co.jp)</span>
+        </label>
+        <label style="display: flex; align-items: center; gap: 8px; font-size: 13px; cursor: pointer;">
+          <input type="checkbox" class="user-checkbox" value="user-002" data-testid="user-check-002" style="accent-color: var(--primary);">
+          <span>鈴木花子 (suzuki@abc.co.jp)</span>
+        </label>
       </div>
-      <div style="font-size: 12px; color: var(--text-muted); margin-top: 6px;">選択: <span id="user-count">0</span>件</div>
     </div>
 
-    <!-- セクション6: 配信日時指定 -->
+    <!-- 配信日時指定 -->
     <div class="card" style="padding: 12px;">
-      <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">配信日時</label>
-      <input id="delivery-datetime" data-testid="delivery-datetime" type="datetime-local" style="width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 14px;">
+      <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 6px; font-weight: 600;">配信日時</label>
+      <input id="delivery-datetime" data-testid="delivery-datetime" type="datetime-local" style="width: 100%; padding: 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 13px;">
       <div style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">※ 指定時刻に自動配信されます</div>
-    </div>
-
-    <!-- セクション7: アクションボタン -->
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-      <button id="btn-preview" data-testid="preview-button" class="action-btn" style="background: var(--primary); color: #fff; border: none; padding: 10px; border-radius: 4px; font-size: 14px; cursor: pointer; font-weight: 600;">プレビュー</button>
-      <button id="btn-cancel" data-testid="cancel-button" class="action-btn secondary" style="background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); padding: 10px; border-radius: 4px; font-size: 14px; cursor: pointer; font-weight: 600;">キャンセル</button>
     </div>
   </div>
 
-  <!-- 右側: プレビューエリア -->
+  <!-- 右側：配信内容プレビュー -->
   <div style="display: flex; flex-direction: column; gap: 12px; overflow-y: auto;">
-    <!-- 配信対象データプレビュー -->
-    <div class="card" style="padding: 12px;">
-      <div style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px;">配信対象データ</div>
-      <div id="preview-summary" style="font-size: 13px; color: var(--text); line-height: 1.6;">
-        <div style="padding: 8px; background: rgba(0,0,0,0.15); border-radius: 4px; border-left: 3px solid var(--primary);">
-          <div>📋 請求書: <span id="preview-invoice-count" style="color: var(--primary); font-weight: 600;">0</span>件</div>
-          <div>📦 成果物: <span id="preview-deliverable-count" style="color: var(--primary); font-weight: 600;">0</span>件</div>
-          <div>👥 配信ユーザー: <span id="preview-user-count" style="color: var(--primary); font-weight: 600;">0</span>件</div>
+    <!-- 配信内容サマリー -->
+    <div class="card" style="padding: 12px; background: rgba(255,215,0,0.08); border-left: 3px solid #ffd700;">
+      <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600;">配信内容サマリー</div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 13px;">
+        <div>
+          <div style="color: var(--text-muted);">請求書</div>
+          <div id="preview-invoice-count" style="font-size: 16px; font-weight: 700; color: var(--primary);">0件</div>
+        </div>
+        <div>
+          <div style="color: var(--text-muted);">成果物</div>
+          <div id="preview-deliverable-count" style="font-size: 16px; font-weight: 700; color: var(--primary);">0件</div>
+        </div>
+        <div>
+          <div style="color: var(--text-muted);">配信先ユーザー</div>
+          <div id="preview-user-count" style="font-size: 16px; font-weight: 700; color: var(--primary);">0名</div>
+        </div>
+        <div>
+          <div style="color: var(--text-muted);">配信日時</div>
+          <div id="preview-datetime" style="font-size: 13px; color: var(--text);">未指定</div>
         </div>
       </div>
     </div>
 
     <!-- メール通知内容プレビュー -->
-    <div class="card" style="padding: 12px; flex: 1; display: flex; flex-direction: column;">
-      <div style="font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 8px;">メール通知内容プレビュー</div>
-      <div id="email-preview" style="flex: 1; background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.12); border-radius: 4px; padding: 12px; font-size: 12px; color: var(--text); line-height: 1.6; overflow-y: auto; font-family: 'Courier New', monospace;">
-        <div style="color: var(--text-muted); margin-bottom: 8px;">【件名】</div>
-        <div style="margin-bottom: 12px; padding: 8px; background: rgba(0,0,0,0.25); border-radius: 3px;">
-          <span id="email-subject">契約に関する請求書・成果物のお知らせ</span>
-        </div>
-        <div style="color: var(--text-muted); margin-bottom: 8px;">【本文】</div>
-        <div id="email-body" style="padding: 8px; background: rgba(0,0,0,0.25); border-radius: 3px; white-space: pre-wrap;">いつもお世話になっております。
+    <div class="card" style="padding: 12px;">
+      <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600;">メール通知内容プレビュー</label>
+      <div id="email-preview" style="background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 10px; font-size: 12px; line-height: 1.6; color: var(--text); max-height: 200px; overflow-y: auto;">
+        <div style="font-weight: 600; margin-bottom: 8px;">【件名】</div>
+        <div style="margin-bottom: 12px; color: var(--text-muted);">契約に基づく請求書・成果物のお知らせ</div>
+        <div style="font-weight: 600; margin-bottom: 8px;">【本文】</div>
+        <div style="white-space: pre-wrap; color: var(--text-muted);">いつもお世話になっております。
 
-契約に関する以下のデータをポータルに掲載いたしました。
+契約に基づく以下の資料をポータルに掲載いたしました。
 ご確認のほどよろしくお願いいたします。
 
 【配信内容】
-- 請求書: 0件
-- 成果物: 0件
+- 請求書: <span id="preview-email-invoices">未選択</span>
+- 成果物: <span id="preview-email-deliverables">未選択</span>
 
-【アクセス方法】
-ポータルにログインいただき、「契約・成果」メニューからご確認ください。
+ポータルにログインしてご確認ください。
+https://portal.example.com/login
 
-ご不明な点がございましたら、お気軽にお問い合わせください。
-
-よろしくお願いいたします。</div>
+ご不明な点はお気軽にお問い合わせください。</div>
       </div>
     </div>
 
-    <!-- 配信実行ボタン -->
-    <button id="btn-deliver" data-testid="deliver-button" class="action-btn" style="background: var(--primary); color: #fff; border: none; padding: 12px; border-radius: 4px; font-size: 14px; cursor: pointer; font-weight: 600; width: 100%;">配信実行</button>
-  </div>
-</div>
-
-<!-- 配信前確認ダイアログ -->
-<div id="confirm-dialog" hidden style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 1000;">
-  <div class="card" style="padding: 24px; max-width: 500px; width: 90%;">
-    <div style="font-size: 16px; font-weight: 700; color: var(--text); margin-bottom: 16px;">配信前確認</div>
-    <div id="confirm-content" style="font-size: 14px; color: var(--text); line-height: 1.8; margin-bottom: 20px; padding: 12px; background: rgba(0,0,0,0.15); border-radius: 4px;">
-      <!-- 動的に生成 -->
-    </div>
-    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
-      <button id="btn-confirm-cancel" data-testid="confirm-cancel-button" class="action-btn secondary" style="background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); padding: 10px; border-radius: 4px; font-size: 14px; cursor: pointer; font-weight: 600;">キャンセル</button>
-      <button id="btn-confirm-ok" data-testid="confirm-ok-button" class="action-btn" style="background: var(--primary); color: #fff; border: none; padding: 10px; border-radius: 4px; font-size: 14px; cursor: pointer; font-weight: 600;">配信実行</button>
+    <!-- 配信対象確認 -->
+    <div class="card" style="padding: 12px;">
+      <label style="display: block; font-size: 12px; color: var(--text-muted); margin-bottom: 8px; font-weight: 600;">配信対象確認</label>
+      <div style="font-size: 13px; line-height: 1.8;">
+        <div><span style="color: var(--text-muted);">顧客企業:</span> <span id="preview-customer" style="color: var(--text);">未選択</span></div>
+        <div><span style="color: var(--text-muted);">配信先ユーザー:</span> <span id="preview-users" style="color: var(--text);">未選択</span></div>
+        <div><span style="color: var(--text-muted);">契約:</span> <span id="preview-contract" style="color: var(--text);">未選択</span></div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- 配信完了メッセージ -->
-<div id="success-message" hidden style="position: fixed; top: 20px; right: 20px; background: var(--primary); color: #fff; padding: 16px 20px; border-radius: 4px; font-size: 14px; z-index: 1001; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
-  ✓ 配信処理が完了しました
+<!-- 下部：アクション -->
+<div style="display: flex; gap: 8px; padding: 12px; border-top: 1px solid rgba(255,255,255,0.1); background: var(--bg-card);">
+  <button id="btn-preview-confirm" data-testid="preview-confirm-button" class="action-btn" style="flex: 1; background: var(--primary); color: #fff; border: none; padding: 10px; border-radius: 4px; font-size: 13px; font-weight: 600; cursor: pointer;">配信内容確認</button>
+  <button id="btn-execute" data-testid="execute-button" class="action-btn" style="flex: 1; background: var(--primary); color: #fff; border: none; padding: 10px; border-radius: 4px; font-size: 13px; font-weight: 600; cursor: pointer;">配信実行</button>
+  <button id="btn-cancel" data-testid="cancel-button" class="action-btn secondary" style="flex: 1; background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); padding: 10px; border-radius: 4px; font-size: 13px; font-weight: 600; cursor: pointer;">キャンセル</button>
 </div>
 
-<!-- エラーメッセージ -->
-<div id="error-message" hidden style="position: fixed; top: 20px; right: 20px; background: #d32f2f; color: #fff; padding: 16px 20px; border-radius: 4px; font-size: 14px; z-index: 1001; box-shadow: 0 4px 12px rgba(0,0,0,0.3);">
-  ✕ エラーが発生しました
+<!-- 配信確認ダイアログ -->
+<div id="confirm-dialog" hidden style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+  <div class="card" style="padding: 20px; max-width: 500px; width: 90%;">
+    <div style="font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 12px;">配信内容の確認</div>
+    <div style="font-size: 13px; line-height: 1.8; margin-bottom: 16px; color: var(--text);">
+      <div style="margin-bottom: 12px;">
+        <div style="color: var(--text-muted); font-weight: 600;">配信対象</div>
+        <div id="dialog-summary" style="margin-top: 4px;">
+          <!-- 動的に生成 -->
+        </div>
+      </div>
+      <div style="background: rgba(255,215,0,0.08); border-left: 3px solid #ffd700; padding: 10px; border-radius: 4px; font-size: 12px;">
+        <strong>注意:</strong> この操作は取り消せません。配信内容をご確認の上、実行してください。
+      </div>
+    </div>
+    <div style="display: flex; gap: 8px;">
+      <button id="dialog-confirm" data-testid="dialog-confirm-button" class="action-btn" style="flex: 1; background: var(--primary); color: #fff; border: none; padding: 10px; border-radius: 4px; font-size: 13px; font-weight: 600; cursor: pointer;">配信実行</button>
+      <button id="dialog-cancel" data-testid="dialog-cancel-button" class="action-btn secondary" style="flex: 1; background: transparent; color: var(--text); border: 1px solid rgba(255,255,255,0.18); padding: 10px; border-radius: 4px; font-size: 13px; font-weight: 600; cursor: pointer;">キャンセル</button>
+    </div>
+  </div>
+</div>
+
+<!-- 配신完了ダイアログ -->
+<div id="success-dialog" hidden style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+  <div class="card" style="padding: 20px; max-width: 500px; width: 90%; text-align: center;">
+    <div style="font-size: 24px; margin-bottom: 12px;">✓</div>
+    <div style="font-size: 16px; font-weight: 700; color: var(--primary); margin-bottom: 8px;">配信完了</div>
+    <div style="font-size: 13px; color: var(--text-muted); margin-bottom: 16px;">請求書・成果物を顧客ポータルへ配信しました。</div>
+    <button id="success-close" data-testid="success-close-button" class="action-btn" style="width: 100%; background: var(--primary); color: #fff; border: none; padding: 10px; border-radius: 4px; font-size: 13px; font-weight: 600; cursor: pointer;">閉じる</button>
+  </div>
 </div>
     </section>
   </main>

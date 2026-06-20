@@ -11,26 +11,49 @@ window.AIVIC_SYSTEM_NAME = "営業データ品質管理・請求自動化シス�
 window.AIVIC_TABLES = [{"tableName":"営業データ","purpose":"営業取引の記録、請求自動化、データ品質管理を支援するトランザクションテーブル","columns":[{"name":"営業データID","type":"uuid","required":true,"description":"営業データの一意識別子"},{"name":"顧客ID","type":"varchar(100)","required":true,"description":"顧客マスタへの外部キー"},{"name":"取引日","type":"timestamp","required":true,"description":"営業取引が発生した日時"},{"name":"取引金額","type":"integer","required":true,"description":"取引の金額（単位：円）"},{"name":"取引種別","type":"varchar(100)","required":true,"description":"取引の種類（例：販売、返品、調整）"},{"name":"商品ID","type":"varchar(100)","required":true,"description":"商品マスタへの外部キー"},{"name":"数量","type":"integer","required":true,"description":"取引の数量"},{"name":"単価","type":"integer","required":true,"description":"商品の単価（単位：円）"},{"name":"請求対象フラグ","type":"boolean","required":true,"description":"請求自動化の対象かどうか"},{"name":"請求済みフラグ","type":"boolean","required":true,"description":"請求処理が完了したかどうか"},{"name":"請求ID","type":"varchar(100)","required":false,"description":"請求マスタへの外部キー（請求済みの場合）"},{"name":"データ品質ステータス","type":"varchar(100)","required":true,"description":"データ品質の状態（例：正常、警告、エラー）"},{"name":"品質エラー内容","type":"text","required":false,"description":"データ品質上の問題の詳細"},{"name":"摘要","type":"text","required":false,"description":"取引に関する備考"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"営業データ検証ルール","purpose":"営業データの品質を確保するための検証ルールを管理し、請求自動化システムで使用される営業データの妥当性を定義・運用する","columns":[{"name":"ルールID","type":"uuid","required":true,"description":"検証ルールの一意識別子"},{"name":"ルール名","type":"varchar(100)","required":true,"description":"検証ルールの名称"},{"name":"対象フィールド","type":"varchar(100)","required":true,"description":"検証対象となる営業データのフィールド名"},{"name":"検証タイプ","type":"varchar(100)","required":true,"description":"検証方式（必須チェック/形式チェック/範囲チェック/重複チェック等）"},{"name":"検証条件","type":"text","required":true,"description":"検証ルールの詳細条件・パラメータ"},{"name":"エラーメッセージ","type":"varchar(100)","required":true,"description":"検証失敗時に表示するエラーメッセージ"},{"name":"重要度","type":"varchar(100)","required":true,"description":"ルールの重要度（エラー/警告/情報）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"ルールが有効かどうか"},{"name":"作成日時","type":"timestamp","required":true,"description":"ルール作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"ルール最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"ルール作成者"},{"name":"更新者","type":"varchar(100)","required":true,"description":"ルール最終更新者"}]},{"tableName":"営業データ異常検出ログ","purpose":"営業データの品質異常を検出・記録し、請求自動化システムの信頼性を確保するための監査ログ","columns":[{"name":"異常検出ログID","type":"uuid","required":true,"description":"異常検出ログの一意識別子"},{"name":"営業データID","type":"uuid","required":true,"description":"異常が検出された営業データの参照ID"},{"name":"検証ルールID","type":"uuid","required":true,"description":"適用された営業データ検証ルールの参照ID"},{"name":"異常タイプ","type":"varchar(100)","required":true,"description":"異常の分類（例：データ型不正、範囲外、必須項目欠落、重複）"},{"name":"異常フィールド名","type":"varchar(100)","required":true,"description":"異常が検出されたフィールド名"},{"name":"検出値","type":"text","required":false,"description":"異常が検出された実際の値"},{"name":"期待値","type":"text","required":false,"description":"検証ルールで期待される値または条件"},{"name":"重要度","type":"varchar(100)","required":true,"description":"異常の重要度レベル（例：高、中、低）"},{"name":"検出日時","type":"timestamp","required":true,"description":"異常が検出された日時"},{"name":"対応状況","type":"varchar(100)","required":true,"description":"異常への対応状況（例：未対応、対応中、解決済み、無視）"},{"name":"対応者","type":"varchar(100)","required":false,"description":"異常に対応したユーザー"},{"name":"対応日時","type":"timestamp","required":false,"description":"異常が対応された日時"},{"name":"対応コメント","type":"text","required":false,"description":"対応内容の詳細説明"},{"name":"請求処理への影響","type":"boolean","required":true,"description":"この異常が請求自動化処理に影響を与えるかどうか"},{"name":"作成日時","type":"timestamp","required":true,"description":"ログレコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"ログレコード最終更新日時"}]},{"tableName":"請求対象項目定義","purpose":"営業データから請求対象となる項目を定義・管理し、請求自動化システムが正確に請求対象データを抽出・検証するためのマスタテーブル","columns":[{"name":"項目定義ID","type":"uuid","required":true,"description":"請求対象項目定義の一意識別子"},{"name":"項目コード","type":"varchar(100)","required":true,"description":"請求対象項目の業務コード（例：SALES_AMOUNT、SERVICE_FEE）"},{"name":"項目名","type":"varchar(100)","required":true,"description":"請求対象項目の日本語名称"},{"name":"説明","type":"text","required":false,"description":"項目の詳細説明・定義"},{"name":"営業データテーブル名","type":"varchar(100)","required":true,"description":"営業データテーブル内のソーステーブル名"},{"name":"営業データカラム名","type":"varchar(100)","required":true,"description":"営業データテーブル内のソースカラム名"},{"name":"データ型","type":"varchar(50)","required":true,"description":"項目のデータ型（integer/varchar/timestamp等）"},{"name":"請求計算方法","type":"varchar(100)","required":true,"description":"請求額計算方法（SUM/AVG/COUNT/DIRECT等）"},{"name":"検証ルールID","type":"uuid","required":false,"description":"適用する営業データ検証ルールの参照ID"},{"name":"必須フラグ","type":"boolean","required":true,"description":"請求対象として必須かどうか"},{"name":"有効フラグ","type":"boolean","required":true,"description":"項目定義が有効かどうか"},{"name":"開始日","type":"timestamp","required":true,"description":"項目定義の適用開始日時"},{"name":"終了日","type":"timestamp","required":false,"description":"項目定義の適用終了日時（NULL=継続中）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者"}]},{"tableName":"顧客請求集計","purpose":"営業データから検証・集計した請求対象データを管理し、請求自動化の入力源となる顧客別・期間別の請求集計情報を保持する","columns":[{"name":"請求集計ID","type":"uuid","required":true,"description":"請求集計レコードの一意識別子"},{"name":"顧客ID","type":"varchar(100)","required":true,"description":"請求対象の顧客ID（営業データから参照）"},{"name":"請求年月","type":"varchar(100)","required":true,"description":"請求対象期間（YYYY-MM形式）"},{"name":"請求金額","type":"integer","required":true,"description":"集計された請求対象金額（税抜き）"},{"name":"税額","type":"integer","required":true,"description":"請求金額に対する消費税額"},{"name":"請求金額合計","type":"integer","required":true,"description":"請求金額と税額の合計（税込み）"},{"name":"対象営業データ件数","type":"integer","required":true,"description":"この請求集計に含まれる営業データレコード数"},{"name":"検証ステータス","type":"varchar(100)","required":true,"description":"検証状態（未検証/検証済み/異常検出/承認待ち）"},{"name":"異常フラグ","type":"boolean","required":true,"description":"異常検出ログに該当する異常が存在するか"},{"name":"請求ステータス","type":"varchar(100)","required":true,"description":"請求処理状態（未処理/請求済み/入金確認/キャンセル）"},{"name":"摘要","type":"text","required":false,"description":"請求集計に関する備考・特記事項"},{"name":"作成日時","type":"timestamp","required":true,"description":"請求集計レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"請求集計レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"請求集計を作成したユーザーID"},{"name":"更新者","type":"varchar(100)","required":false,"description":"請求集計を最後に更新したユーザーID"}]},{"tableName":"サービス請求集計","purpose":"営業データから検証・集計した請求対象データを管理し、顧客別・サービス別の請求額を確定する集計テーブル","columns":[{"name":"請求集計ID","type":"uuid","required":true,"description":"請求集計レコードの一意識別子"},{"name":"顧客ID","type":"varchar(100)","required":true,"description":"請求対象の顧客ID（顧客マスタへの外部キー）"},{"name":"請求年月","type":"varchar(100)","required":true,"description":"請求対象の年月（YYYY-MM形式）"},{"name":"サービスID","type":"varchar(100)","required":true,"description":"請求対象のサービスID"},{"name":"集計対象件数","type":"integer","required":true,"description":"この集計に含まれる営業データレコード数"},{"name":"請求金額","type":"integer","required":true,"description":"確定した請求金額（税抜き）"},{"name":"税額","type":"integer","required":true,"description":"計算された消費税額"},{"name":"請求金額合計","type":"integer","required":true,"description":"請求金額 + 税額"},{"name":"集計ステータス","type":"varchar(100)","required":true,"description":"集計状態（下書き/確定/請求済み/キャンセル）"},{"name":"データ品質スコア","type":"integer","required":false,"description":"この集計に含まれるデータの品質スコア（0-100）"},{"name":"異常検出フラグ","type":"boolean","required":true,"description":"異常検出ログで検出された異常が存在するか"},{"name":"検証ルール適用状況","type":"text","required":false,"description":"適用された検証ルールの結果サマリー"},{"name":"請求確定日時","type":"timestamp","required":false,"description":"請求金額が確定した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"集計レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"集計レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"集計レコード作成者のユーザーID"},{"name":"更新者","type":"varchar(100)","required":false,"description":"集計レコード最終更新者のユーザーID"},{"name":"備考","type":"text","required":false,"description":"集計に関する備考・摘要"}]},{"tableName":"営業データメタデータ","purpose":"営業データの構造・品質基準・検証ルール・請求対象項目の定義を一元管理し、データ品質管理と請求自動化の基準となるマスタ情報を提供する","columns":[{"name":"メタデータID","type":"uuid","required":true,"description":"メタデータレコードの一意識別子"},{"name":"データ項目名","type":"varchar(100)","required":true,"description":"営業データ内の項目名（例：受注金額、顧客ID、請求日等）"},{"name":"データ項目説明","type":"text","required":false,"description":"データ項目の詳細説明・ビジネス定義"},{"name":"データ型","type":"varchar(100)","required":true,"description":"データ型（integer、varchar、timestamp等）"},{"name":"必須フラグ","type":"boolean","required":true,"description":"当該項目が必須かどうか"},{"name":"最大文字数","type":"integer","required":false,"description":"varchar型の場合の最大文字数"},{"name":"品質検証ルール適用","type":"boolean","required":true,"description":"営業データ検証ルールを適用するかどうか"},{"name":"異常検出対象フラグ","type":"boolean","required":true,"description":"異常検出ロジックの対象項目かどうか"},{"name":"請求対象フラグ","type":"boolean","required":true,"description":"請求集計に使用する項目かどうか"},{"name":"請求項目カテゴリ","type":"varchar(100)","required":false,"description":"請求対象の場合のカテゴリ（例：サービス料金、手数料、税金等）"},{"name":"集計方法","type":"varchar(100)","required":false,"description":"請求集計時の集計方法（SUM、COUNT、AVG等）"},{"name":"データソース","type":"varchar(100)","required":true,"description":"データの取得元システム・テーブル名"},{"name":"更新頻度","type":"varchar(100)","required":false,"description":"データ更新の頻度（日次、月次等）"},{"name":"有効開始日","type":"timestamp","required":true,"description":"このメタデータ定義の有効開始日時"},{"name":"有効終了日","type":"timestamp","required":false,"description":"このメタデータ定義の有効終了日時（NULL=現在有効）"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者のユーザーID"},{"name":"備考","type":"text","required":false,"description":"その他の注記・運用上の注意事項"}]},{"tableName":"月次サマリーテンプレート","purpose":"営業データと請求データの月次集計結果を標準化されたテンプレート形式で管理し、レポーティングと異常検出の基準となる月次サマリーを保持する","columns":[{"name":"月次サマリーテンプレートID","type":"uuid","required":true,"description":"月次サマリーテンプレートの一意識別子"},{"name":"対象年月","type":"varchar(7)","required":true,"description":"集計対象の年月（YYYY-MM形式）"},{"name":"営業データ集計件数","type":"integer","required":true,"description":"当月の営業データ総件数"},{"name":"営業データ検証成功件数","type":"integer","required":true,"description":"検証ルール合格の営業データ件数"},{"name":"営業データ検証失敗件数","type":"integer","required":true,"description":"検証ルール不合格の営業データ件数"},{"name":"異常検出件数","type":"integer","required":true,"description":"異常検出ログで検出された異常件数"},{"name":"請求対象件数","type":"integer","required":true,"description":"請求対象項目定義に該当する件数"},{"name":"請求集計金額","type":"integer","required":true,"description":"当月の請求集計総額（円）"},{"name":"顧客請求集計件数","type":"integer","required":true,"description":"顧客別請求集計の件数"},{"name":"サービス請求集計件数","type":"integer","required":true,"description":"サービス別請求集計の件数"},{"name":"データ品質スコア","type":"integer","required":true,"description":"当月のデータ品質スコア（0-100）"},{"name":"テンプレートステータス","type":"varchar(20)","required":true,"description":"テンプレートの状態（下書き/確定/承認済み/アーカイブ）"},{"name":"備考","type":"text","required":false,"description":"月次サマリーに関する備考・特記事項"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"データ品質検証結果","purpose":"営業データの品質検証実行結果を記録し、検証ルール適用状況、エラー内容、是正状況を追跡管理するトランザクションテーブル","columns":[{"name":"検証結果ID","type":"uuid","required":true,"description":"検証結果の一意識別子"},{"name":"営業データID","type":"uuid","required":true,"description":"検証対象の営業データを特定するID"},{"name":"検証ルールID","type":"uuid","required":true,"description":"適用された検証ルールを特定するID"},{"name":"検証実行日時","type":"timestamp","required":true,"description":"検証が実行された日時"},{"name":"検証ステータス","type":"varchar(100)","required":true,"description":"検証結果ステータス（合格/不合格/警告）"},{"name":"エラー内容","type":"text","required":false,"description":"検証失敗時の詳細エラーメッセージ"},{"name":"エラー重大度","type":"varchar(100)","required":false,"description":"エラーの重大度レベル（致命的/高/中/低）"},{"name":"検証対象フィールド","type":"varchar(100)","required":false,"description":"検証対象となったデータフィールド名"},{"name":"検証対象値","type":"text","required":false,"description":"検証対象となったデータの値"},{"name":"是正状況","type":"varchar(100)","required":true,"description":"是正状況（未対応/対応中/完了/対応不要）"},{"name":"是正完了日時","type":"timestamp","required":false,"description":"データ是正が完了した日時"},{"name":"請求対象フラグ","type":"boolean","required":true,"description":"当該データが請求処理に影響するかどうか"},{"name":"作成日時","type":"timestamp","required":true,"description":"検証結果レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"検証結果レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"検証を実行したシステムまたはユーザー"}]},{"tableName":"不足データ通知ログ","purpose":"営業データの不足項目を検出し、通知履歴を記録・追跡するトランザクションログテーブル。データ品質管理と請求自動化の前提条件となる不足データの可視化と対応状況管理を実現する。","columns":[{"name":"不足データ通知ログID","type":"uuid","required":true,"description":"通知ログの一意識別子"},{"name":"営業データID","type":"uuid","required":true,"description":"不足が検出された営業データレコードへの外部キー"},{"name":"不足項目名","type":"varchar(100)","required":true,"description":"不足している営業データ項目の名称"},{"name":"検証ルールID","type":"uuid","required":true,"description":"不足を検出した営業データ検証ルールへの外部キー"},{"name":"通知ステータス","type":"varchar(100)","required":true,"description":"通知状態（未対応/対応中/解決/無視）"},{"name":"通知対象者","type":"varchar(100)","required":true,"description":"通知を受け取る担当者またはグループ"},{"name":"通知日時","type":"timestamp","required":true,"description":"不足データが検出され通知が発行された日時"},{"name":"対応予定日","type":"timestamp","required":false,"description":"不足データの補正予定日"},{"name":"対応完了日時","type":"timestamp","required":false,"description":"不足データが補正され対応が完了した日時"},{"name":"補正内容","type":"text","required":false,"description":"実施された補正内容の詳細説明"},{"name":"請求影響フラグ","type":"boolean","required":true,"description":"この不足データが請求処理に影響を与えるかどうか"},{"name":"重要度レベル","type":"varchar(100)","required":true,"description":"不足データの重要度（高/中/低）"},{"name":"作成日時","type":"timestamp","required":true,"description":"ログレコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"ログレコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"ログレコード作成者ユーザーID"}]},{"tableName":"操作履歴","purpose":"ユーザーによるシステム操作の記録と監査証跡を管理し、データ品質管理・請求自動化システムにおけるすべての重要な操作を追跡する","columns":[{"name":"操作履歴ID","type":"uuid","required":true,"description":"操作履歴の一意識別子"},{"name":"ユーザーID","type":"uuid","required":true,"description":"操作を実行したユーザーの識別子（ユーザーテーブルへの外部キー）"},{"name":"操作種別","type":"varchar(100)","required":true,"description":"操作の種類（例：CREATE、UPDATE、DELETE、VALIDATE、EXPORT、APPROVE）"},{"name":"対象テーブル名","type":"varchar(100)","required":true,"description":"操作対象のテーブル名（例：営業データ、請求対象項目定義）"},{"name":"対象レコードID","type":"uuid","required":false,"description":"操作対象のレコード識別子"},{"name":"操作内容","type":"text","required":false,"description":"操作の詳細説明または変更内容"},{"name":"変更前値","type":"text","required":false,"description":"更新操作の場合の変更前の値"},{"name":"変更後値","type":"text","required":false,"description":"更新操作の場合の変更後の値"},{"name":"操作ステータス","type":"varchar(100)","required":true,"description":"操作の実行結果（例：SUCCESS、FAILURE、PENDING）"},{"name":"エラーメッセージ","type":"text","required":false,"description":"操作失敗時のエラーメッセージ"},{"name":"IPアドレス","type":"varchar(100)","required":false,"description":"操作を実行したクライアントのIPアドレス"},{"name":"セッションID","type":"varchar(100)","required":false,"description":"ユーザーセッションの識別子"},{"name":"作成日時","type":"timestamp","required":true,"description":"操作が実行された日時"}]}];
 window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1781953553325";
-window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  const errorTbody = container.querySelector(\"#error-tbody\");\n  const detailPanel = container.querySelector(\"#detail-panel\");\n  const totalCountEl = container.querySelector(\"#total-count\");\n  \n  let allRows = [];\n  let selectedRowId = null;\n\n  // 1. 再描画関数\n  function renderRows(rows) {\n    errorTbody.innerHTML = rows.map(r => {\n      const severity = r.重要度 || r.severity || \"中\";\n      const status = r.対応状況 || r.status || \"未対応\";\n      const severityColor = severity === \"高\" ? \"#ff6a00\" : severity === \"中\" ? \"#ffa500\" : \"#4a90e2\";\n      \n      return `<tr data-id=\"${r.id || r.異常検出ログID || ''}\" style=\"border-bottom: 1px solid rgba(255,255,255,0.06); cursor: pointer; transition: background 0.15s;\">\n        <td style=\"padding: 10px 12px; color: var(--text-muted); font-size: 12px;\">${(r.id || r.異常検出ログID || '').substring(0, 8)}</td>\n        <td style=\"padding: 10px 12px; color: var(--text);\">${r.顧客名 || r.customer_name || '-'}</td>\n        <td style=\"padding: 10px 12px; color: var(--text);\">${r.異常タイプ || r.error_type || '-'}</td>\n        <td style=\"padding: 10px 12px;\">\n          <span style=\"display: inline-block; padding: 3px 8px; border-radius: 3px; background: ${severityColor}22; color: ${severityColor}; font-size: 11px; font-weight: 500;\">${severity}</span>\n        </td>\n        <td style=\"padding: 10px 12px; color: var(--text); font-size: 12px;\">${r.異常フィールド名 || r.missing_field || '-'}</td>\n        <td style=\"padding: 10px 12px;\">\n          <span style=\"display: inline-block; padding: 3px 8px; border-radius: 3px; background: ${status === '完了' ? '#4a90e222' : status === '対応中' ? '#ffa50022' : '#ff6a0022'}; color: ${status === '完了' ? '#4a90e2' : status === '対応中' ? '#ffa500' : '#ff6a00'}; font-size: 11px; font-weight: 500;\">${status}</span>\n        </td>\n        <td style=\"padding: 10px 12px; color: var(--text-muted); font-size: 12px;\">${r.検出日時 ? new Date(r.検出日時).toLocaleString('ja-JP') : '-'}</td>\n        <td style=\"padding: 10px 12px; text-align: center;\">\n          <button class=\"view-detail-btn\" data-id=\"${r.id || r.異常検出ログID || ''}\" style=\"padding: 4px 8px; background: transparent; border: 1px solid rgba(255,255,255,0.18); color: var(--text); border-radius: 3px; font-size: 11px; cursor: pointer;\">詳細</button>\n        </td>\n      </tr>`;\n    }).join(\"\");\n    totalCountEl.textContent = rows.length;\n  }\n\n  // 2. 初期データ読み込み\n  async function loadData() {\n    const rows = await window.aivicApi.list(0);\n    if (rows) {\n      allRows = rows;\n      renderRows(rows);\n    }\n  }\n\n  // 3. 詳細パネル表示\n  function showDetail(rowId) {\n    const row = allRows.find(r => (r.id || r.異常検出ログID) === rowId);\n    if (!row) return;\n    \n    selectedRowId = rowId;\n    container.querySelector(\"#detail-sales-id\").textContent = row.営業データID || row.sales_data_id || '-';\n    container.querySelector(\"#detail-customer\").textContent = row.顧客名 || row.customer_name || '-';\n    container.querySelector(\"#detail-error-type\").textContent = row.異常タイプ || row.error_type || '-';\n    container.querySelector(\"#detail-severity\").textContent = row.重要度 || row.severity || '-';\n    container.querySelector(\"#detail-missing-field\").textContent = row.異常フィールド名 || row.missing_field || '-';\n    container.querySelector(\"#detail-rule-name\").textContent = row.検証ルール名 || row.rule_name || '-';\n    container.querySelector(\"#detail-detected-at\").textContent = row.検出日時 ? new Date(row.検出日時).toLocaleString('ja-JP') : '-';\n    container.querySelector(\"#detail-billing-impact\").textContent = row.影響する請求対象項目 || row.billing_impact || '-';\n    container.querySelector(\"#detail-status\").value = row.対応状況 || row.status || \"未対応\";\n    container.querySelector(\"#detail-comment\").value = row.対応コメント || row.comment || '';\n    \n    detailPanel.style.display = \"flex\";\n  }\n\n  // 4. 詳細パネル閉じる\n  container.querySelector(\"#detail-close-btn\").addEventListener(\"click\", () => {\n    detailPanel.style.display = \"none\";\n    selectedRowId = null;\n  });\n\n  // 5. 詳細パネル保存\n  container.querySelector(\"#detail-save-btn\").addEventListener(\"click\", async () => {\n    if (!selectedRowId) return;\n    const status = container.querySelector(\"#detail-status\").value;\n    const comment = container.querySelector(\"#detail-comment\").value;\n    \n    const updated = await window.aivicApi.update(0, selectedRowId, {\n      対応状況: status,\n      対応コメント: comment,\n      対応日時: new Date().toISOString()\n    });\n    \n    if (updated) {\n      await loadData();\n      detailPanel.style.display = \"none\";\n      selectedRowId = null;\n    }\n  });\n\n  // 6. 詳細ボタンクリック\n  container.addEventListener(\"click\", e => {\n    const detailBtn = e.target.closest(\".view-detail-btn\");\n    if (detailBtn) {\n      showDetail(detailBtn.dataset.id);\n    }\n  });\n\n  // 7. 検索ボタン\n  container.querySelector(\"#search-button\").addEventListener(\"click\", () => {\n    const errorType = container.querySelector(\"#error-type-filter\").value;\n    const severity = container.querySelector(\"#severity-filter\").value;\n    const status = container.querySelector(\"#status-filter\").value;\n    const periodStart = container.querySelector(\"#period-start\").value;\n    const customerSearch = container.querySelector(\"#customer-search\").value.toLowerCase();\n    const salesPersonSearch = container.querySelector(\"#sales-person-search\").value.toLowerCase();\n\n    const filtered = allRows.filter(r => {\n      if (errorType && (r.異常タイプ || r.error_type) !== errorType) return false;\n      if (severity && (r.重要度 || r.severity) !== severity) return false;\n      if (status && (r.対応状況 || r.status) !== status) return false;\n      if (periodStart && r.検出日時) {\n        const rowDate = new Date(r.検出日時).toISOString().split('T')[0];\n        if (rowDate < periodStart) return false;\n      }\n      if (customerSearch && !(r.顧客名 || r.customer_name || '').toLowerCase().includes(customerSearch)) return false;\n      if (salesPersonSearch && !(r.営業担当者 || r.sales_person || '').toLowerCase().includes(salesPersonSearch)) return false;\n      return true;\n    });\n\n    renderRows(filtered);\n  });\n\n  // 8. リセットボタン\n  container.querySelector(\"#reset-button\").addEventListener(\"click\", () => {\n    container.querySelector(\"#error-type-filter\").value = \"\";\n    container.querySelector(\"#severity-filter\").value = \"\";\n    container.querySelector(\"#status-filter\").value = \"\";\n    container.querySelector(\"#period-start\").value = \"\";\n    container.querySelector(\"#customer-search\").value = \"\";\n    container.querySelector(\"#sales-person-search\").value = \"\";\n    renderRows(allRows);\n  });\n\n  // 9. データ入力画面へボタン\n  container.querySelector(\"#data-input-button\").addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1781953462575\");\n  });\n\n  // 初期化\n  loadData();\n}";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  const tbody = container.querySelector(\"#error-tbody\");\n  const detailPanel = container.querySelector(\"#detail-panel\");\n  const detailContent = container.querySelector(\"#detail-content\");\n  const filterCustomer = container.querySelector(\"#filter-customer\");\n  const filterSalesPerson = container.querySelector(\"#filter-sales-person\");\n  const filterErrorType = container.querySelector(\"#filter-error-type\");\n  const filterSeverity = container.querySelector(\"#filter-severity\");\n  const filterStatus = container.querySelector(\"#filter-status\");\n  const filterDateFrom = container.querySelector(\"#filter-date-from\");\n  const btnSearch = container.querySelector(\"#btn-search\");\n  const btnReset = container.querySelector(\"#btn-reset\");\n  const btnExport = container.querySelector(\"#btn-export\");\n  const btnBulkUpdate = container.querySelector(\"#btn-bulk-update\");\n  const btnDataInput = container.querySelector(\"#btn-data-input\");\n  const kpiPending = container.querySelector(\"#kpi-pending\");\n  const kpiInProgress = container.querySelector(\"#kpi-in-progress\");\n  const kpiCompleted = container.querySelector(\"#kpi-completed\");\n  const kpiBillingImpact = container.querySelector(\"#kpi-billing-impact\");\n  const totalCount = container.querySelector(\"#total-count\");\n\n  let allRows = [];\n  let selectedRowId = null;\n\n  // 重要度バッジ色\n  function getSeverityColor(severity) {\n    if (severity === \"高\") return \"#f44336\";\n    if (severity === \"中\") return \"#ffc107\";\n    return \"#4caf50\";\n  }\n\n  // ステータスバッジ色\n  function getStatusColor(status) {\n    if (status === \"未対応\") return \"#ff6a00\";\n    if (status === \"対応中\") return \"#ffc107\";\n    return \"#4caf50\";\n  }\n\n  // 再描画関数\n  function renderRows(rows) {\n    tbody.innerHTML = rows.map(r => `\n      <tr data-id=\"${r.id}\" style=\"border-bottom: 1px solid rgba(255,255,255,0.04); cursor: pointer; transition: background 0.15s;\" onmouseover=\"this.style.background='rgba(255,255,255,0.04)'\" onmouseout=\"this.style.background=''\">\n        <td style=\"padding: 8px; color: var(--text);\">${r.検出日時 ? new Date(r.検出日時).toLocaleDateString('ja-JP', {month:'2-digit', day:'2-digit'}) : \"-\"}</td>\n        <td style=\"padding: 8px; color: var(--text);\">${r.顧客名 || \"-\"}</td>\n        <td style=\"padding: 8px; color: var(--text);\">${r.営業担当者 || \"-\"}</td>\n        <td style=\"padding: 8px; color: var(--text); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;\">${r.不足項目名 || \"-\"}</td>\n        <td style=\"padding: 8px; color: var(--text);\">${r.異常タイプ || \"-\"}</td>\n        <td style=\"padding: 8px; text-align: center;\">\n          <span style=\"display: inline-block; padding: 2px 6px; border-radius: 3px; background: ${getSeverityColor(r.重要度)}; color: #fff; font-size: 11px; font-weight: 600;\">${r.重要度 || \"-\"}</span>\n        </td>\n        <td style=\"padding: 8px; text-align: center;\">\n          <span style=\"display: inline-block; padding: 2px 6px; border-radius: 3px; background: ${getStatusColor(r.対応状況)}; color: #fff; font-size: 11px; font-weight: 600;\">${r.対応状況 || \"-\"}</span>\n        </td>\n        <td style=\"padding: 8px; text-align: center; color: ${r.請求処理への影響 ? '#f44336' : 'var(--text-muted)'};\">${r.請求処理への影響 ? \"◆\" : \"○\"}</td>\n      </tr>\n    `).join(\"\");\n    totalCount.textContent = rows.length;\n    updateKPIs(rows);\n  }\n\n  // KPI 更新\n  function updateKPIs(rows) {\n    const pending = rows.filter(r => r.対応状況 === \"未対応\").length;\n    const inProgress = rows.filter(r => r.対応状況 === \"対応中\").length;\n    const completed = rows.filter(r => r.対応状況 === \"完了\").length;\n    const billingImpact = rows.filter(r => r.請求処理への影響).length;\n    kpiPending.textContent = pending;\n    kpiInProgress.textContent = inProgress;\n    kpiCompleted.textContent = completed;\n    kpiBillingImpact.textContent = billingImpact;\n  }\n\n  // 詳細表示\n  function showDetail(row) {\n    selectedRowId = row.id;\n    const html = `\n      <div style=\"padding: 12px; font-size: 12px;\">\n        <div style=\"margin-bottom: 12px;\">\n          <div style=\"color: var(--text-muted); font-size: 11px; margin-bottom: 2px;\">営業データID</div>\n          <div style=\"color: var(--text); font-weight: 500; word-break: break-all;\">${row.営業データID || \"-\"}</div>\n        </div>\n        <div style=\"margin-bottom: 12px;\">\n          <div style=\"color: var(--text-muted); font-size: 11px; margin-bottom: 2px;\">顧客名</div>\n          <div style=\"color: var(--text); font-weight: 500;\">${row.顧客名 || \"-\"}</div>\n        </div>\n        <div style=\"margin-bottom: 12px;\">\n          <div style=\"color: var(--text-muted); font-size: 11px; margin-bottom: 2px;\">営業担当者</div>\n          <div style=\"color: var(--text); font-weight: 500;\">${row.営業担当者 || \"-\"}</div>\n        </div>\n        <div style=\"margin-bottom: 12px;\">\n          <div style=\"color: var(--text-muted); font-size: 11px; margin-bottom: 2px;\">不足項目</div>\n          <div style=\"color: var(--text); font-weight: 500;\">${row.不足項目名 || \"-\"}</div>\n        </div>\n        <div style=\"margin-bottom: 12px;\">\n          <div style=\"color: var(--text-muted); font-size: 11px; margin-bottom: 2px;\">エラー種別</div>\n          <div style=\"color: var(--text); font-weight: 500;\">${row.異常タイプ || \"-\"}</div>\n        </div>\n        <div style=\"margin-bottom: 12px;\">\n          <div style=\"color: var(--text-muted); font-size: 11px; margin-bottom: 2px;\">検出値</div>\n          <div style=\"color: var(--text); font-weight: 500; word-break: break-all;\">${row.検出値 || \"-\"}</div>\n        </div>\n        <div style=\"margin-bottom: 12px;\">\n          <div style=\"color: var(--text-muted); font-size: 11px; margin-bottom: 2px;\">期待値</div>\n          <div style=\"color: var(--text); font-weight: 500; word-break: break-all;\">${row.期待値 || \"-\"}</div>\n        </div>\n        <div style=\"margin-bottom: 12px;\">\n          <div style=\"color: var(--text-muted); font-size: 11px; margin-bottom: 2px;\">検証ルール</div>\n          <div style=\"color: var(--text); font-weight: 500;\">${row.検証ルール名 || \"-\"}</div>\n        </div>\n        <div style=\"margin-bottom: 12px;\">\n          <div style=\"color: var(--text-muted); font-size: 11px; margin-bottom: 2px;\">検出日時</div>\n          <div style=\"color: var(--text); font-weight: 500;\">${row.検出日時 ? new Date(row.検出日時).toLocaleString('ja-JP') : \"-\"}</div>\n        </div>\n        <div style=\"margin-bottom: 12px;\">\n          <div style=\"color: var(--text-muted); font-size: 11px; margin-bottom: 2px;\">ステータス</div>\n          <select data-testid=\"detail-status-select\" style=\"padding: 4px 6px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px; width: 100%;\">\n            <option value=\"未対応\" ${row.対応状況 === \"未対応\" ? \"selected\" : \"\"}>未対応</option>\n            <option value=\"対応中\" ${row.対応状況 === \"対応中\" ? \"selected\" : \"\"}>対応中</option>\n            <option value=\"完了\" ${row.対応状況 === \"完了\" ? \"selected\" : \"\"}>完了</option>\n          </select>\n        </div>\n        <div style=\"margin-bottom: 12px;\">\n          <div style=\"color: var(--text-muted); font-size: 11px; margin-bottom: 2px;\">対応コメント</div>\n          <textarea data-testid=\"detail-comment-textarea\" style=\"padding: 6px; border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 12px; width: 100%; min-height: 60px; resize: vertical;\">${row.対応コメント || \"\"}</textarea>\n        </div>\n        <button id=\"btn-save-detail\" data-testid=\"save-detail-button\" class=\"action-btn\" style=\"width: 100%; padding: 6px; font-size: 12px;\">保存</button>\n      </div>\n    `;\n    detailContent.innerHTML = html;\n    \n    const btnSaveDetail = detailContent.querySelector(\"#btn-save-detail\");\n    btnSaveDetail.addEventListener(\"click\", async () => {\n      const newStatus = detailContent.querySelector('[data-testid=\"detail-status-select\"]').value;\n      const newComment = detailContent.querySelector('[data-testid=\"detail-comment-textarea\"]').value;\n      const updated = await window.aivicApi.update(0, row.id, {\n        対応状況: newStatus,\n        対応コメント: newComment,\n        対応日時: new Date().toISOString()\n      });\n      if (updated) {\n        window.aivicApi.list(0).then(rows => {\n          allRows = rows;\n          applyFilters();\n        });\n      }\n    });\n  }\n\n  // フィルター適用\n  function applyFilters() {\n    let filtered = allRows;\n    const customer = filterCustomer.value.toLowerCase();\n    const salesperson = filterSalesPerson.value.toLowerCase();\n    const errorType = filterErrorType.value;\n    const severity = filterSeverity.value;\n    const status = filterStatus.value;\n    const dateFrom = filterDateFrom.value;\n\n    filtered = filtered.filter(r => {\n      if (customer && !(r.顧客名 || \"\").toLowerCase().includes(customer)) return false;\n      if (salesperson && !(r.営業担当者 || \"\").toLowerCase().includes(salesperson)) return false;\n      if (errorType && r.異常タイプ !== errorType) return false;\n      if (severity && r.重要度 !== severity) return false;\n      if (status && r.対応状況 !== status) return false;\n      if (dateFrom && r.検出日時) {\n        const rowDate = new Date(r.検出日時).toISOString().split('T')[0];\n        if (rowDate < dateFrom) return false;\n      }\n      return true;\n    });\n\n    renderRows(filtered);\n  }\n\n  // 初期データ描画\n  window.aivicApi.list(0).then(rows => {\n    allRows = rows;\n    renderRows(rows);\n  });\n\n  // イベントリスナー\n  btnSearch.addEventListener(\"click\", applyFilters);\n  btnReset.addEventListener(\"click\", () => {\n    filterCustomer.value = \"\";\n    filterSalesPerson.value = \"\";\n    filterErrorType.value = \"\";\n    filterSeverity.value = \"\";\n    filterStatus.value = \"\";\n    filterDateFrom.value = \"\";\n    window.aivicApi.list(0).then(rows => {\n      allRows = rows;\n      renderRows(rows);\n    });\n  });\n\n  // 行クリックで詳細表示\n  tbody.addEventListener(\"click\", e => {\n    const tr = e.target.closest(\"tr\");\n    if (tr) {\n      const id = tr.dataset.id;\n      const row = allRows.find(r => r.id === id);\n      if (row) showDetail(row);\n    }\n  });\n\n  // CSV エクスポート\n  btnExport.addEventListener(\"click\", () => {\n    const headers = [\"検出日時\", \"顧客名\", \"営業担当者\", \"不足項目\", \"エラー種別\", \"重要度\", \"ステータス\", \"請求影響\", \"対応コメント\"];\n    const rows = allRows.map(r => [\n      r.検出日時 ? new Date(r.検出日時).toLocaleString('ja-JP') : \"\",\n      r.顧客名 || \"\",\n      r.営業担当者 || \"\",\n      r.不足項目名 || \"\",\n      r.異常タイプ || \"\",\n      r.重要度 || \"\",\n      r.対応状況 || \"\",\n      r.請求処理への影響 ? \"はい\" : \"いいえ\",\n      r.対応コメント || \"\"\n    ]);\n    const csv = \"\\uFEFF\" + [headers, ...rows].map(r => r.map(c => `\"${String(c).replace(/\"/g, '\"\"')}\"`).join(\",\")).join(\"\\n\");\n    const blob = new Blob([csv], { type: \"text/csv;charset=utf-8;\" });\n    const link = document.createElement(\"a\");\n    link.href = URL.createObjectURL(blob);\n    link.download = \"error-notification-\" + new Date().toISOString().split('T')[0] + \".csv\";\n    link.click();\n  });\n\n  // 一括対応\n  btnBulkUpdate.addEventListener(\"click\", () => {\n    const pending = allRows.filter(r => r.対応状況 === \"未対応\");\n    if (pending.length === 0) {\n      alert(\"未対応の項目がありません\");\n      return;\n    }\n    if (confirm(`未対応の ${pending.length} 件を対応中に変更しますか？`)) {\n      Promise.all(pending.map(r => window.aivicApi.update(0, r.id, { 対応状況: \"対応中\" }))).then(() => {\n        window.aivicApi.list(0).then(rows => {\n          allRows = rows;\n          applyFilters();\n        });\n      });\n    }\n  });\n\n  // データ入力画面へ\n  btnDataInput.addEventListener(\"click\", () => {\n    window.showScreen(\"scr-1781953462575\");\n  });\n}";
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f0c856;
-  --bg-main: #0a0a0a;
+  --primary-hover: #f4d03f;
+  --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
-  --bg-sidebar: #141414;
-  --border: #8b0000;
-  --text: #ffffff;
-  --text-muted: #b0b0b0;
+  --bg-sidebar: #161616;
+  --border: #2a2a2a;
+  --text: #f5f5f5;
+  --text-muted: #a0a0a0;
   --top-bar-bg: #1a1a1a;
-  --top-bar-border: #8b0000;
+  --top-bar-border: #2a2a2a;
+  --accent-red: #dc143c;
+  --accent-red-hover: #ff1744;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
   --font-size-base: 16px;
-  --font-size-large: 18px;
+  --font-size-lg: 18px;
   --font-size-xl: 20px;
-  --font-size-heading: 24px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(212, 175, 55, 0.1);
+  --shadow-md: 0 4px 12px rgba(212, 175, 55, 0.15);
+  --shadow-lg: 0 8px 24px rgba(212, 175, 55, 0.2);
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 250ms ease-in-out;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -73,7 +96,7 @@ canvas { display:block; max-height:280px !important; }
 <body>
 <header class="top-bar">
   <span class="app-name">バックオフィサー</span>
-    <a href="./scr-1781954440904.html" class="sys-tab" data-aivic-nav-system="itg-3">契約・提案資料管理システム</a>
+    <a href="./scr-1781954055121.html" class="sys-tab" data-aivic-nav-system="itg-2">営業成果レポート自動生成・配信システム</a>
     <a href="./scr-1781956713866.html" class="sys-tab" data-aivic-nav-system="itg-4">顧客企業向け契約・成果管理ポータル</a>
     <a href="./scr-1781957451550.html" class="sys-tab" data-aivic-nav-system="itg-5">契約変更・請求検証管理システム</a>
     <a href="./scr-1781953462575.html" class="sys-tab active" data-aivic-nav-system="itg-1">営業データ品質管理・請求自動化システム</a>
@@ -116,30 +139,40 @@ canvas { display:block; max-height:280px !important; }
 <div style="display: flex; flex-direction: column; height: 100%; gap: 0;">
   <!-- ヘッダー領域 -->
   <div style="padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); background: var(--bg-card);">
-    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 6px;">
+    <div style="font-size: 12px; color: var(--text-muted); margin-bottom: 4px;">
       バックオフィサー / 営業データ品質管理・請求自動化システム / 不足データ・エラー通知画面
     </div>
-    <h1 style="font-size: 20px; font-weight: 600; color: var(--text); margin: 0;">不足データ・エラー通知</h1>
+    <h1 style="margin: 0; font-size: 20px; font-weight: 600; color: var(--text);">不足データ・エラー通知</h1>
   </div>
 
-  <!-- フィルタバー -->
-  <div style="padding: 12px 16px; background: var(--bg-main); border-bottom: 1px solid rgba(255,255,255,0.08); display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; align-items: flex-end;">
+  <!-- フィルター・検索バー -->
+  <div style="padding: 12px 16px; background: var(--bg-main); border-bottom: 1px solid rgba(255,255,255,0.08); display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; align-items: end;">
     
     <div style="display: flex; flex-direction: column; gap: 4px;">
-      <label style="font-size: 11px; color: var(--text-muted); font-weight: 500;">エラー種別</label>
-      <select data-testid="error-type-filter" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 13px;">
+      <label style="font-size: 12px; color: var(--text-muted); font-weight: 500;">顧客名</label>
+      <input type="text" id="filter-customer" data-testid="filter-customer" placeholder="顧客名で検索" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;" />
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 4px;">
+      <label style="font-size: 12px; color: var(--text-muted); font-weight: 500;">営業担当者</label>
+      <input type="text" id="filter-sales-person" data-testid="filter-sales-person" placeholder="担当者で検索" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;" />
+    </div>
+
+    <div style="display: flex; flex-direction: column; gap: 4px;">
+      <label style="font-size: 12px; color: var(--text-muted); font-weight: 500;">エラー種別</label>
+      <select id="filter-error-type" data-testid="filter-error-type" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
         <option value="">すべて</option>
         <option value="必須項目欠落">必須項目欠落</option>
         <option value="データ型不正">データ型不正</option>
         <option value="範囲外">範囲外</option>
         <option value="重複">重複</option>
-        <option value="形式不正">形式不正</option>
+        <option value="形式エラー">形式エラー</option>
       </select>
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 4px;">
-      <label style="font-size: 11px; color: var(--text-muted); font-weight: 500;">重要度</label>
-      <select data-testid="severity-filter" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 13px;">
+      <label style="font-size: 12px; color: var(--text-muted); font-weight: 500;">重要度</label>
+      <select id="filter-severity" data-testid="filter-severity" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
         <option value="">すべて</option>
         <option value="高">高</option>
         <option value="中">中</option>
@@ -148,8 +181,8 @@ canvas { display:block; max-height:280px !important; }
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 4px;">
-      <label style="font-size: 11px; color: var(--text-muted); font-weight: 500;">対応状況</label>
-      <select data-testid="status-filter" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 13px;">
+      <label style="font-size: 12px; color: var(--text-muted); font-weight: 500;">ステータス</label>
+      <select id="filter-status" data-testid="filter-status" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;">
         <option value="">すべて</option>
         <option value="未対応">未対応</option>
         <option value="対応中">対応中</option>
@@ -158,123 +191,81 @@ canvas { display:block; max-height:280px !important; }
     </div>
 
     <div style="display: flex; flex-direction: column; gap: 4px;">
-      <label style="font-size: 11px; color: var(--text-muted); font-weight: 500;">対象期間</label>
-      <input type="date" data-testid="period-start" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 13px;" />
-    </div>
-
-    <div style="display: flex; flex-direction: column; gap: 4px;">
-      <label style="font-size: 11px; color: var(--text-muted); font-weight: 500;">顧客名</label>
-      <input type="text" data-testid="customer-search" placeholder="顧客名で検索" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 13px;" />
-    </div>
-
-    <div style="display: flex; flex-direction: column; gap: 4px;">
-      <label style="font-size: 11px; color: var(--text-muted); font-weight: 500;">営業担当者</label>
-      <input type="text" data-testid="sales-person-search" placeholder="担当者名で検索" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 13px;" />
+      <label style="font-size: 12px; color: var(--text-muted); font-weight: 500;">対象期間</label>
+      <input type="date" id="filter-date-from" data-testid="filter-date-from" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); border-radius: 4px; background: rgba(0,0,0,0.25); color: var(--text); font-size: 13px;" />
     </div>
 
     <div style="display: flex; gap: 8px; align-items: flex-end;">
-      <button data-testid="search-button" class="action-btn" style="flex: 1; padding: 6px 12px; font-size: 13px;">検索</button>
-      <button data-testid="reset-button" class="action-btn secondary" style="flex: 1; padding: 6px 12px; font-size: 13px;">リセット</button>
+      <button id="btn-search" data-testid="search-button" class="action-btn" style="flex: 1; padding: 6px 12px; font-size: 13px;">検索</button>
+      <button id="btn-reset" data-testid="reset-button" class="action-btn secondary" style="flex: 1; padding: 6px 12px; font-size: 13px;">リセット</button>
     </div>
   </div>
 
-  <!-- メインコンテンツ -->
-  <div style="flex: 1; overflow: auto; display: flex; gap: 0;">
+  <!-- KPI サマリー -->
+  <div style="padding: 12px 16px; background: var(--bg-main); display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; border-bottom: 1px solid rgba(255,255,255,0.08);">
+    <div class="card" style="padding: 10px; text-align: center;">
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">未対応件数</div>
+      <div id="kpi-pending" style="font-size: 18px; font-weight: 700; color: #ff6a00;">0</div>
+    </div>
+    <div class="card" style="padding: 10px; text-align: center;">
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">対応中件数</div>
+      <div id="kpi-in-progress" style="font-size: 18px; font-weight: 700; color: #ffc107;">0</div>
+    </div>
+    <div class="card" style="padding: 10px; text-align: center;">
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">完了件数</div>
+      <div id="kpi-completed" style="font-size: 18px; font-weight: 700; color: #4caf50;">0</div>
+    </div>
+    <div class="card" style="padding: 10px; text-align: center;">
+      <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">請求影響</div>
+      <div id="kpi-billing-impact" style="font-size: 18px; font-weight: 700; color: #f44336;">0</div>
+    </div>
+  </div>
+
+  <!-- メインコンテンツ：一覧 + 詳細パネル -->
+  <div style="display: grid; grid-template-columns: 1fr 320px; gap: 0; flex: 1; overflow: hidden;">
     
-    <!-- 一覧テーブル -->
-    <div style="flex: 1; overflow: auto; border-right: 1px solid rgba(255,255,255,0.08);">
-      <div class="table-wrap" style="margin: 0; border-radius: 0;">
-        <table data-testid="error-list" style="width: 100%; border-collapse: collapse; font-size: 13px;">
-          <thead style="position: sticky; top: 0; background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.12);">
-            <tr>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 80px;">ID</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 100px;">顧客名</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 90px;">エラー種別</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 70px;">重要度</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 100px;">不足項目</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 100px;">対応状況</th>
-              <th style="padding: 10px 12px; text-align: left; color: var(--text); font-weight: 600; width: 120px;">検出日時</th>
-              <th style="padding: 10px 12px; text-align: center; color: var(--text); font-weight: 600; width: 60px;">操作</th>
+    <!-- 左：一覧テーブル -->
+    <div style="display: flex; flex-direction: column; overflow: hidden; border-right: 1px solid rgba(255,255,255,0.08);">
+      <div style="padding: 10px 16px; background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center;">
+        <span style="font-size: 13px; color: var(--text-muted);">全 <span id="total-count">0</span> 件</span>
+        <button id="btn-export" data-testid="export-button" class="action-btn secondary" style="padding: 4px 10px; font-size: 12px;">CSV出力</button>
+      </div>
+      <div class="table-wrap" style="flex: 1; overflow-y: auto;">
+        <table data-testid="error-list" style="width: 100%; font-size: 12px;">
+          <thead>
+            <tr style="background: var(--bg-card); position: sticky; top: 0;">
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08); width: 80px;">検出日時</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08); width: 100px;">顧客名</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08); width: 100px;">営業担当者</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08); width: 120px;">不足項目</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08); width: 80px;">エラー種別</th>
+              <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08); width: 50px;">重要度</th>
+              <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08); width: 70px;">ステータス</th>
+              <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08); width: 50px;">請求影響</th>
             </tr>
           </thead>
-          <tbody id="error-tbody" style="background: var(--bg-main);">
+          <tbody id="error-tbody">
             <!-- 動的に生成 -->
           </tbody>
         </table>
       </div>
     </div>
 
-    <!-- 詳細パネル -->
-    <div id="detail-panel" style="width: 320px; background: var(--bg-card); padding: 16px; overflow-y: auto; border-left: 1px solid rgba(255,255,255,0.08); display: none; flex-direction: column; gap: 12px;">
-      <div style="font-size: 12px; color: var(--text-muted); font-weight: 500;">詳細情報</div>
-      
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <div style="font-size: 11px; color: var(--text-muted);">営業データID</div>
-        <div id="detail-sales-id" style="font-size: 13px; color: var(--text); word-break: break-all;"></div>
+    <!-- 右：詳細パネル -->
+    <div id="detail-panel" style="display: flex; flex-direction: column; background: var(--bg-card); overflow-y: auto; border-left: 1px solid rgba(255,255,255,0.08);">
+      <div style="padding: 12px; border-bottom: 1px solid rgba(255,255,255,0.08); background: var(--bg-main);">
+        <h3 style="margin: 0; font-size: 13px; font-weight: 600; color: var(--text);">詳細情報</h3>
       </div>
-
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <div style="font-size: 11px; color: var(--text-muted);">顧客名</div>
-        <div id="detail-customer" style="font-size: 13px; color: var(--text);"></div>
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <div style="font-size: 11px; color: var(--text-muted);">エラー種別</div>
-        <div id="detail-error-type" style="font-size: 13px; color: var(--text);"></div>
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <div style="font-size: 11px; color: var(--text-muted);">重要度</div>
-        <div id="detail-severity" style="font-size: 13px; color: var(--text);"></div>
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <div style="font-size: 11px; color: var(--text-muted);">不足項目</div>
-        <div id="detail-missing-field" style="font-size: 13px; color: var(--text);"></div>
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <div style="font-size: 11px; color: var(--text-muted);">検出ルール名</div>
-        <div id="detail-rule-name" style="font-size: 13px; color: var(--text);"></div>
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <div style="font-size: 11px; color: var(--text-muted);">検出日時</div>
-        <div id="detail-detected-at" style="font-size: 13px; color: var(--text);"></div>
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <div style="font-size: 11px; color: var(--text-muted);">影響する請求対象項目</div>
-        <div id="detail-billing-impact" style="font-size: 13px; color: var(--text);"></div>
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <div style="font-size: 11px; color: var(--text-muted);">対応状況</div>
-        <select id="detail-status" data-testid="detail-status-select" style="padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 13px;">
-          <option value="未対応">未対応</option>
-          <option value="対応中">対応中</option>
-          <option value="完了">完了</option>
-        </select>
-      </div>
-
-      <div style="display: flex; flex-direction: column; gap: 8px;">
-        <label style="font-size: 11px; color: var(--text-muted);">対応コメント</label>
-        <textarea id="detail-comment" data-testid="detail-comment" placeholder="対応内容を入力" style="padding: 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 4px; font-size: 12px; resize: vertical; min-height: 80px;"></textarea>
-      </div>
-
-      <div style="display: flex; gap: 8px;">
-        <button id="detail-save-btn" data-testid="detail-save-button" class="action-btn" style="flex: 1; padding: 8px 12px; font-size: 13px;">保存</button>
-        <button id="detail-close-btn" class="action-btn secondary" style="flex: 1; padding: 8px 12px; font-size: 13px;">閉じる</button>
+      <div id="detail-content" style="padding: 12px; font-size: 12px; color: var(--text-muted);">
+        <p>一覧から項目を選択してください</p>
       </div>
     </div>
   </div>
 
-  <!-- フッター -->
-  <div style="padding: 12px 16px; background: var(--bg-card); border-top: 1px solid rgba(255,255,255,0.08); display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-muted);">
-    <div>
-      <span id="total-count">0</span> 件のエラー
-    </div>
-    <button data-testid="data-input-button" class="action-btn" style="padding: 6px 16px; font-size: 13px;">データ入力画面へ</button>
+  <!-- フッター：アクション -->
+  <div style="padding: 10px 16px; background: var(--bg-card); border-top: 1px solid rgba(255,255,255,0.08); display: flex; gap: 8px; justify-content: flex-end;">
+    <button id="btn-bulk-update" data-testid="bulk-update-button" class="action-btn secondary" style="padding: 6px 12px; font-size: 13px;">一括対応</button>
+    <button id="btn-data-input" data-testid="data-input-button" class="action-btn" style="padding: 6px 12px; font-size: 13px;">データ入力画面へ</button>
   </div>
 </div>
     </section>

@@ -18,19 +18,42 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f0c856;
-  --bg-main: #0a0a0a;
+  --primary-hover: #f4d03f;
+  --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
-  --bg-sidebar: #141414;
-  --border: #8b0000;
-  --text: #ffffff;
-  --text-muted: #b0b0b0;
+  --bg-sidebar: #161616;
+  --border: #2a2a2a;
+  --text: #f5f5f5;
+  --text-muted: #a0a0a0;
   --top-bar-bg: #1a1a1a;
-  --top-bar-border: #8b0000;
+  --top-bar-border: #2a2a2a;
+  --accent-red: #dc143c;
+  --accent-red-hover: #ff1744;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
   --font-size-base: 16px;
-  --font-size-large: 18px;
+  --font-size-lg: 18px;
   --font-size-xl: 20px;
-  --font-size-heading: 24px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(212, 175, 55, 0.1);
+  --shadow-md: 0 4px 12px rgba(212, 175, 55, 0.15);
+  --shadow-lg: 0 8px 24px rgba(212, 175, 55, 0.2);
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 250ms ease-in-out;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -73,7 +96,7 @@ canvas { display:block; max-height:280px !important; }
 <body>
 <header class="top-bar">
   <span class="app-name">バックオフィサー</span>
-    <a href="./scr-1781954440904.html" class="sys-tab" data-aivic-nav-system="itg-3">契約・提案資料管理システム</a>
+    <a href="./scr-1781954055121.html" class="sys-tab" data-aivic-nav-system="itg-2">営業成果レポート自動生成・配信システム</a>
     <a href="./scr-1781956713866.html" class="sys-tab active" data-aivic-nav-system="itg-4">顧客企業向け契約・成果管理ポータル</a>
     <a href="./scr-1781957451550.html" class="sys-tab" data-aivic-nav-system="itg-5">契約変更・請求検証管理システム</a>
     <a href="./scr-1781953462575.html" class="sys-tab" data-aivic-nav-system="itg-1">営業データ品質管理・請求自動化システム</a>
@@ -97,28 +120,30 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781956713866" style="margin-top:0">
-<div style="display: flex; flex-direction: column; gap: 12px; padding: 12px; background: var(--bg-main); min-height: 100vh;">
-  
+<div style="padding: 0.75rem 1rem; background: var(--bg-main); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;">
+
   <!-- ヘッダー -->
-  <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.1);">
-    <h1 style="font-size: 24px; font-weight: 700; color: var(--text); margin: 0;">契約管理ダッシュボード</h1>
-    <button class="action-btn" data-testid="detail-button" style="font-size: 13px; padding: 6px 12px;">詳細管理へ</button>
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 0.75rem;">
+    <h1 style="font-size: 1.5rem; font-weight: 700; margin: 0;">契約管理ダッシュボード</h1>
+    <div style="display: flex; gap: 0.5rem;">
+      <button class="action-btn secondary" data-testid="refresh-button" style="font-size: 0.875rem; padding: 0.4rem 0.8rem;">更新</button>
+      <button class="action-btn" data-testid="contract-detail-button" style="font-size: 0.875rem; padding: 0.4rem 0.8rem;">契約詳細へ</button>
+    </div>
   </div>
 
   <!-- フィルターバー -->
-  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 8px; background: var(--bg-card); padding: 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.1);">
+  <div style="display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 0.75rem; margin-bottom: 1rem; padding: 0.75rem; background: var(--bg-card); border-radius: 0.375rem; border: 1px solid rgba(255,255,255,0.08);">
     <div>
-      <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">顧客企業</label>
-      <select id="filter-customer" data-testid="customer-filter" style="width: 100%; padding: 6px 8px; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; color: var(--text); font-size: 13px;">
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">顧客企業</label>
+      <select data-testid="customer-filter" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;">
         <option value="">全て</option>
-        <option value="">顧客企業A</option>
-        <option value="">顧客企業B</option>
-        <option value="">顧客企業C</option>
+        <option value="active">アクティブ</option>
+        <option value="inactive">休止中</option>
       </select>
     </div>
     <div>
-      <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">契約ステータス</label>
-      <select id="filter-status" data-testid="status-filter" style="width: 100%; padding: 6px 8px; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; color: var(--text); font-size: 13px;">
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">契約ステータス</label>
+      <select data-testid="status-filter" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;">
         <option value="">全て</option>
         <option value="提案中">提案中</option>
         <option value="承認待ち">承認待ち</option>
@@ -128,152 +153,142 @@ canvas { display:block; max-height:280px !important; }
       </select>
     </div>
     <div>
-      <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px; font-weight: 600;">期間</label>
-      <select id="filter-period" data-testid="period-filter" style="width: 100%; padding: 6px 8px; background: rgba(0,0,0,0.25); border: 1px solid rgba(255,255,255,0.18); border-radius: 3px; color: var(--text); font-size: 13px;">
-        <option value="all">全期間</option>
+      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 500;">期間</label>
+      <select data-testid="period-filter" style="width: 100%; padding: 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.875rem;">
+        <option value="">全期間</option>
         <option value="thisMonth">今月</option>
         <option value="lastMonth">先月</option>
         <option value="thisYear">今年</option>
       </select>
     </div>
-    <button id="btn-filter" class="action-btn" data-testid="filter-button" style="font-size: 13px; padding: 6px 12px; align-self: flex-end;">フィルター</button>
+    <button class="action-btn" data-testid="search-button" style="align-self: flex-end; font-size: 0.875rem; padding: 0.4rem 0.8rem;">検索</button>
   </div>
 
-  <!-- KPI カード群 -->
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px;">
-    <!-- 契約件数 -->
-    <div class="card" style="padding: 12px; border-left: 4px solid #d4af37; background: var(--bg-card);">
-      <div style="font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 6px;">契約件数</div>
-      <div style="font-size: 28px; font-weight: 700; color: #d4af37;" data-testid="kpi-contract-count">0</div>
-      <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">進行中: <span id="kpi-active" style="color: var(--text);">0</span></div>
+  <!-- KPI カード（3 枚） -->
+  <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; margin-bottom: 1rem;">
+    <!-- KPI 1: 進行中契約数 -->
+    <div class="card" style="padding: 1rem; border-left: 3px solid #d4af37;">
+      <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 500;">進行中契約数</div>
+      <div style="font-size: 2rem; font-weight: 700; color: #d4af37; margin-bottom: 0.25rem;" data-testid="kpi-active-contracts">0</div>
+      <div style="font-size: 0.75rem; color: var(--text-muted);">件</div>
     </div>
-
-    <!-- 契約金額合計 -->
-    <div class="card" style="padding: 12px; border-left: 4px solid #d4af37; background: var(--bg-card);">
-      <div style="font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 6px;">契約金額合計</div>
-      <div style="font-size: 28px; font-weight: 700; color: #d4af37;" data-testid="kpi-revenue">¥0</div>
-      <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">今月: <span id="kpi-revenue-month" style="color: var(--text);">¥0</span></div>
+    <!-- KPI 2: 今月請求金額 -->
+    <div class="card" style="padding: 1rem; border-left: 3px solid #ff6a00;">
+      <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 500;">今月請求金額</div>
+      <div style="font-size: 2rem; font-weight: 700; color: #ff6a00; margin-bottom: 0.25rem;" data-testid="kpi-monthly-billing">¥0</div>
+      <div style="font-size: 0.75rem; color: var(--text-muted);">円</div>
     </div>
-
-    <!-- 納期遅延件数 -->
-    <div class="card" style="padding: 12px; border-left: 4px solid #c41e3a; background: var(--bg-card);">
-      <div style="font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 6px;">納期遅延件数</div>
-      <div style="font-size: 28px; font-weight: 700; color: #c41e3a;" data-testid="kpi-delay-count">0</div>
-      <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">平均遅延: <span id="kpi-delay-avg" style="color: var(--text);">0日</span></div>
-    </div>
-
-    <!-- 請求未払い件数 -->
-    <div class="card" style="padding: 12px; border-left: 4px solid #c41e3a; background: var(--bg-card);">
-      <div style="font-size: 11px; color: var(--text-muted); font-weight: 600; margin-bottom: 6px;">請求未払い件数</div>
-      <div style="font-size: 28px; font-weight: 700; color: #c41e3a;" data-testid="kpi-unpaid-count">0</div>
-      <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">未払い金額: <span id="kpi-unpaid-amount" style="color: var(--text);">¥0</span></div>
+    <!-- KPI 3: 納期遅延件数 -->
+    <div class="card" style="padding: 1rem; border-left: 3px solid #e74c3c;">
+      <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.5rem; font-weight: 500;">納期遅延件数</div>
+      <div style="font-size: 2rem; font-weight: 700; color: #e74c3c; margin-bottom: 0.25rem;" data-testid="kpi-delayed-deliveries">0</div>
+      <div style="font-size: 0.75rem; color: var(--text-muted);">件</div>
     </div>
   </div>
 
-  <!-- グラフ群 -->
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-    <!-- 契約ステータス別集計 -->
-    <div class="card" style="padding: 12px; background: var(--bg-card);">
-      <h3 style="font-size: 14px; font-weight: 700; color: var(--text); margin: 0 0 10px 0;">契約ステータス分布</h3>
-      <div class="chart-wrap" style="position: relative; height: 240px; max-height: 260px;">
-        <canvas id="chart-status"></canvas>
+  <!-- グラフ行 1: 月別契約金額推移 + ステータス別集計 -->
+  <div style="display: grid; grid-template-columns: 1.5fr 1fr; gap: 0.75rem; margin-bottom: 1rem;">
+    <!-- グラフ 1: 月別契約金額推移（折れ線） -->
+    <div class="card" style="padding: 1rem;">
+      <h3 style="font-size: 0.875rem; font-weight: 600; margin: 0 0 0.75rem 0; color: var(--text);">月別契約金額推移</h3>
+      <div class="chart-wrap" style="position: relative; height: 260px; max-height: 280px;">
+        <canvas id="chart-monthly-revenue"></canvas>
       </div>
     </div>
-
-    <!-- 月別契約金額推移 -->
-    <div class="card" style="padding: 12px; background: var(--bg-card);">
-      <h3 style="font-size: 14px; font-weight: 700; color: var(--text); margin: 0 0 10px 0;">月別契約金額推移</h3>
-      <div class="chart-wrap" style="position: relative; height: 240px; max-height: 260px;">
-        <canvas id="chart-revenue"></canvas>
+    <!-- グラフ 2: ステータス別集計（円グラフ） -->
+    <div class="card" style="padding: 1rem;">
+      <h3 style="font-size: 0.875rem; font-weight: 600; margin: 0 0 0.75rem 0; color: var(--text);">ステータス別集計</h3>
+      <div class="chart-wrap" style="position: relative; height: 260px; max-height: 280px;">
+        <canvas id="chart-status-distribution"></canvas>
       </div>
     </div>
   </div>
 
   <!-- 進行中の契約一覧 -->
-  <div class="card" style="padding: 12px; background: var(--bg-card);">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-      <h3 style="font-size: 14px; font-weight: 700; color: var(--text); margin: 0;">進行中の契約</h3>
-      <button class="action-btn secondary" data-testid="view-all-contracts" style="font-size: 12px; padding: 4px 8px;">全て表示</button>
+  <div class="card" style="padding: 1rem; margin-bottom: 1rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+      <h3 style="font-size: 0.875rem; font-weight: 600; margin: 0; color: var(--text);">進行中の契約</h3>
+      <button class="action-btn secondary" data-testid="view-all-contracts" style="font-size: 0.75rem; padding: 0.3rem 0.6rem;">全て表示</button>
     </div>
     <div class="table-wrap" style="overflow-x: auto;">
-      <table data-testid="active-contracts-table" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+      <table data-testid="active-contracts-list" style="width: 100%; font-size: 0.875rem; border-collapse: collapse;">
         <thead>
-          <tr style="background: rgba(0,0,0,0.2); border-bottom: 1px solid rgba(255,255,255,0.1);">
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600;">契約名</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600;">顧客企業</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600;">契約金額</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600;">開始日</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600;">終了日</th>
-            <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600;">操作</th>
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+            <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; font-size: 0.75rem;">契約名</th>
+            <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; font-size: 0.75rem;">顧客企業</th>
+            <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; font-size: 0.75rem;">契約金額</th>
+            <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; font-size: 0.75rem;">開始日</th>
+            <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; font-size: 0.75rem;">終了日</th>
+            <th style="text-align: center; padding: 0.5rem; color: var(--text); font-weight: 600; font-size: 0.75rem;">操作</th>
           </tr>
         </thead>
         <tbody id="active-contracts-tbody">
-          <tr><td colspan="6" style="padding: 12px; text-align: center; color: var(--text-muted);">読込中...</td></tr>
+          <tr><td colspan="6" style="text-align: center; padding: 1rem; color: var(--text-muted);">読込中...</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
   <!-- 納期遅延アラート -->
-  <div class="card" style="padding: 12px; background: var(--bg-card); border-left: 4px solid #c41e3a;">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-      <h3 style="font-size: 14px; font-weight: 700; color: #c41e3a; margin: 0;">⚠ 納期遅延アラート</h3>
-      <button class="action-btn secondary" data-testid="view-delays" style="font-size: 12px; padding: 4px 8px;">詳細</button>
+  <div class="card" style="padding: 1rem; margin-bottom: 1rem; border-left: 3px solid #e74c3c; background: rgba(231,76,60,0.08);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+      <h3 style="font-size: 0.875rem; font-weight: 600; margin: 0; color: #e74c3c;">⚠ 納期遅延アラート</h3>
+      <button class="action-btn secondary" data-testid="view-delayed" style="font-size: 0.75rem; padding: 0.3rem 0.6rem;">詳細へ</button>
     </div>
     <div class="table-wrap" style="overflow-x: auto;">
-      <table data-testid="delay-alerts-table" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+      <table data-testid="delayed-deliveries-list" style="width: 100%; font-size: 0.875rem; border-collapse: collapse;">
         <thead>
-          <tr style="background: rgba(196,30,58,0.1); border-bottom: 1px solid rgba(196,30,58,0.2);">
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600;">成果物名</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600;">契約名</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600;">予定納期</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600;">遅延日数</th>
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+            <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; font-size: 0.75rem;">成果物名</th>
+            <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; font-size: 0.75rem;">予定納期</th>
+            <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; font-size: 0.75rem;">遅延日数</th>
+            <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; font-size: 0.75rem;">契約名</th>
           </tr>
         </thead>
-        <tbody id="delay-alerts-tbody">
-          <tr><td colspan="4" style="padding: 12px; text-align: center; color: var(--text-muted);">遅延なし</td></tr>
+        <tbody id="delayed-deliveries-tbody">
+          <tr><td colspan="4" style="text-align: center; padding: 1rem; color: var(--text-muted);">遅延なし</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
   <!-- 請求書ステータス -->
-  <div class="card" style="padding: 12px; background: var(--bg-card);">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-      <h3 style="font-size: 14px; font-weight: 700; color: var(--text); margin: 0;">請求書ステータス</h3>
-      <button class="action-btn secondary" data-testid="view-invoices" style="font-size: 12px; padding: 4px 8px;">全て表示</button>
+  <div class="card" style="padding: 1rem; margin-bottom: 1rem;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+      <h3 style="font-size: 0.875rem; font-weight: 600; margin: 0; color: var(--text);">請求書ステータス</h3>
+      <button class="action-btn secondary" data-testid="view-invoices" style="font-size: 0.75rem; padding: 0.3rem 0.6rem;">全て表示</button>
     </div>
     <div class="table-wrap" style="overflow-x: auto;">
-      <table data-testid="invoice-status-table" style="width: 100%; font-size: 12px; border-collapse: collapse;">
+      <table data-testid="invoice-status-list" style="width: 100%; font-size: 0.875rem; border-collapse: collapse;">
         <thead>
-          <tr style="background: rgba(0,0,0,0.2); border-bottom: 1px solid rgba(255,255,255,0.1);">
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600;">請求書番号</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600;">顧客企業</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600;">請求金額</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600;">ステータス</th>
-            <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600;">支払期限</th>
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+            <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; font-size: 0.75rem;">請求書番号</th>
+            <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; font-size: 0.75rem;">顧客企業</th>
+            <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; font-size: 0.75rem;">請求金額</th>
+            <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; font-size: 0.75rem;">ステータス</th>
+            <th style="text-align: left; padding: 0.5rem; color: var(--text); font-weight: 600; font-size: 0.75rem;">支払期限</th>
           </tr>
         </thead>
         <tbody id="invoice-status-tbody">
-          <tr><td colspan="5" style="padding: 12px; text-align: center; color: var(--text-muted);">読込中...</td></tr>
+          <tr><td colspan="5" style="text-align: center; padding: 1rem; color: var(--text-muted);">読込中...</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
   <!-- 契約変更履歴タイムライン -->
-  <div class="card" style="padding: 12px; background: var(--bg-card);">
-    <h3 style="font-size: 14px; font-weight: 700; color: var(--text); margin: 0 0 10px 0;">契約変更履歴</h3>
-    <div id="timeline-changes" style="border-left: 2px solid rgba(212,175,55,0.3); padding-left: 12px; max-height: 300px; overflow-y: auto;">
-      <div style="text-align: center; color: var(--text-muted); padding: 12px;">読込中...</div>
+  <div class="card" style="padding: 1rem; margin-bottom: 1rem;">
+    <h3 style="font-size: 0.875rem; font-weight: 600; margin: 0 0 0.75rem 0; color: var(--text);">契約変更履歴</h3>
+    <div id="timeline-container" style="border-left: 2px solid rgba(212,175,55,0.3); padding-left: 1rem; max-height: 300px; overflow-y: auto;">
+      <div style="text-align: center; padding: 1rem; color: var(--text-muted);">読込中...</div>
     </div>
   </div>
 
   <!-- 成果物納期変更履歴タイムライン -->
-  <div class="card" style="padding: 12px; background: var(--bg-card);">
-    <h3 style="font-size: 14px; font-weight: 700; color: var(--text); margin: 0 0 10px 0;">成果物納期変更履歴</h3>
-    <div id="timeline-deliverables" style="border-left: 2px solid rgba(212,175,55,0.3); padding-left: 12px; max-height: 300px; overflow-y: auto;">
-      <div style="text-align: center; color: var(--text-muted); padding: 12px;">読込中...</div>
+  <div class="card" style="padding: 1rem;">
+    <h3 style="font-size: 0.875rem; font-weight: 600; margin: 0 0 0.75rem 0; color: var(--text);">成果物納期変更履歴</h3>
+    <div id="delivery-timeline-container" style="border-left: 2px solid rgba(255,106,0,0.3); padding-left: 1rem; max-height: 300px; overflow-y: auto;">
+      <div style="text-align: center; padding: 1rem; color: var(--text-muted);">読込中...</div>
     </div>
   </div>
 

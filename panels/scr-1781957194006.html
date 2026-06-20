@@ -18,19 +18,42 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f0c856;
-  --bg-main: #0a0a0a;
+  --primary-hover: #f4d03f;
+  --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
-  --bg-sidebar: #141414;
-  --border: #8b0000;
-  --text: #ffffff;
-  --text-muted: #b0b0b0;
+  --bg-sidebar: #161616;
+  --border: #2a2a2a;
+  --text: #f5f5f5;
+  --text-muted: #a0a0a0;
   --top-bar-bg: #1a1a1a;
-  --top-bar-border: #8b0000;
+  --top-bar-border: #2a2a2a;
+  --accent-red: #dc143c;
+  --accent-red-hover: #ff1744;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
   --font-size-base: 16px;
-  --font-size-large: 18px;
+  --font-size-lg: 18px;
   --font-size-xl: 20px;
-  --font-size-heading: 24px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(212, 175, 55, 0.1);
+  --shadow-md: 0 4px 12px rgba(212, 175, 55, 0.15);
+  --shadow-lg: 0 8px 24px rgba(212, 175, 55, 0.2);
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 250ms ease-in-out;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -73,7 +96,7 @@ canvas { display:block; max-height:280px !important; }
 <body>
 <header class="top-bar">
   <span class="app-name">バックオフィサー</span>
-    <a href="./scr-1781954440904.html" class="sys-tab" data-aivic-nav-system="itg-3">契約・提案資料管理システム</a>
+    <a href="./scr-1781954055121.html" class="sys-tab" data-aivic-nav-system="itg-2">営業成果レポート自動生成・配信システム</a>
     <a href="./scr-1781956713866.html" class="sys-tab active" data-aivic-nav-system="itg-4">顧客企業向け契約・成果管理ポータル</a>
     <a href="./scr-1781957451550.html" class="sys-tab" data-aivic-nav-system="itg-5">契約変更・請求検証管理システム</a>
     <a href="./scr-1781953462575.html" class="sys-tab" data-aivic-nav-system="itg-1">営業データ品質管理・請求自動化システム</a>
@@ -97,212 +120,199 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781957194006" style="margin-top:0">
-<div style="display: flex; flex-direction: column; height: 100%; gap: 0.5rem; padding: 0.75rem;">
+<div style="display: flex; flex-direction: column; height: 100%; gap: 0.5rem; padding: 1rem;">
   <!-- ヘッダー -->
-  <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">
+  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
     <h1 style="font-size: 1.5rem; font-weight: 700; color: var(--text); margin: 0;">ポータル自動掲載機能</h1>
-    <button class="action-btn" data-testid="new-setting-button" style="font-size: 0.875rem; padding: 0.4rem 0.8rem;">+ 新規設定</button>
+    <button class="action-btn" data-testid="new-config-button" style="font-size: 0.95rem;">+ 新規設定</button>
   </div>
 
-  <!-- タブ -->
-  <div style="display: flex; gap: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.25rem;">
-    <button class="tab-btn active" data-tab="settings" style="padding: 0.5rem 1rem; background: transparent; border: none; color: var(--text); cursor: pointer; border-bottom: 2px solid var(--primary); font-size: 0.875rem; font-weight: 600;">掲載設定一覧</button>
-    <button class="tab-btn" data-tab="rules" style="padding: 0.5rem 1rem; background: transparent; border: none; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; font-size: 0.875rem; font-weight: 600;">掲載ルール管理</button>
-    <button class="tab-btn" data-tab="history" style="padding: 0.5rem 1rem; background: transparent; border: none; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; font-size: 0.875rem; font-weight: 600;">掲載履歴</button>
+  <!-- タブナビゲーション -->
+  <div style="display: flex; gap: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.12); margin-bottom: 1rem;">
+    <button class="tab-btn active" data-tab="list" data-testid="tab-list" style="padding: 0.75rem 1rem; background: transparent; border: none; color: var(--text); font-size: 0.95rem; font-weight: 600; cursor: pointer; border-bottom: 2px solid var(--primary);">設定一覧</button>
+    <button class="tab-btn" data-tab="create" data-testid="tab-create" style="padding: 0.75rem 1rem; background: transparent; border: none; color: var(--text-muted); font-size: 0.95rem; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent;">新規作成</button>
+    <button class="tab-btn" data-tab="history" data-testid="tab-history" style="padding: 0.75rem 1rem; background: transparent; border: none; color: var(--text-muted); font-size: 0.95rem; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent;">掲載履歴</button>
   </div>
 
-  <!-- メインコンテンツ（split layout） -->
-  <div style="display: flex; gap: 0.75rem; flex: 1; overflow: hidden;">
-    
-    <!-- 左パネル：一覧 -->
-    <div style="flex: 0 0 35%; display: flex; flex-direction: column; gap: 0.5rem; overflow: hidden;">
-      <!-- 検索・フィルタ -->
-      <div style="display: flex; gap: 0.25rem;">
-        <input type="text" id="search-setting" data-testid="search-setting" placeholder="設定名で検索..." style="flex: 1; padding: 0.4rem 0.6rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.8rem;" />
-        <button class="action-btn secondary" id="btn-search-setting" data-testid="search-button" style="padding: 0.4rem 0.6rem; font-size: 0.8rem;">検索</button>
-      </div>
-
-      <!-- 設定一覧テーブル -->
-      <div class="table-wrap" style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.1); border-radius: 0.25rem;">
-        <table data-testid="settings-list" style="width: 100%; font-size: 0.8rem;">
-          <thead style="position: sticky; top: 0; background: var(--bg-sidebar); border-bottom: 1px solid rgba(255,255,255,0.1);">
-            <tr>
-              <th style="padding: 0.4rem 0.5rem; text-align: left; color: var(--text); font-weight: 600;">設定名</th>
-              <th style="padding: 0.4rem 0.5rem; text-align: left; color: var(--text); font-weight: 600;">対象企業</th>
-              <th style="padding: 0.4rem 0.5rem; text-align: center; color: var(--text); font-weight: 600;">状態</th>
-            </tr>
-          </thead>
-          <tbody id="settings-tbody">
-            <tr style="background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.05);">
-              <td colspan="3" style="padding: 1rem; text-align: center; color: var(--text-muted);">読込中...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <!-- TAB 1: 設定一覧 -->
+  <div id="tab-list" class="tab-content" style="flex: 1; overflow-y: auto;">
+    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+      <input type="text" id="search-config" data-testid="search-config" placeholder="設定名・契約名で検索..." style="flex: 1; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9rem;" />
+      <button class="action-btn secondary" id="btn-search-config" data-testid="search-button" style="font-size: 0.9rem; padding: 0.5rem 1rem;">検索</button>
+      <button class="action-btn secondary" id="btn-export-csv" data-testid="export-csv-button" style="font-size: 0.9rem; padding: 0.5rem 1rem;">CSV出力</button>
     </div>
 
-    <!-- 右パネル：詳細編集フォーム -->
-    <div style="flex: 1; display: flex; flex-direction: column; gap: 0.5rem; overflow-y: auto; background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.25rem; padding: 0.75rem;">
-      
-      <div id="detail-panel" style="display: flex; flex-direction: column; gap: 0.5rem;">
-        <h3 style="font-size: 1rem; font-weight: 600; color: var(--text); margin: 0;">設定詳細</h3>
+    <div class="table-wrap" style="border-radius: 0.5rem; overflow: hidden;">
+      <table data-testid="config-list" style="width: 100%; border-collapse: collapse; font-size: 0.9rem;">
+        <thead style="background: rgba(255,215,0,0.08); border-bottom: 1px solid rgba(255,255,255,0.12);">
+          <tr>
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 20%;">設定名</th>
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 18%;">契約名</th>
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 15%;">掲載対象</th>
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 12%;">ステータス</th>
+            <th style="padding: 0.75rem; text-align: left; color: var(--text); font-weight: 600; width: 12%;">最終実行</th>
+            <th style="padding: 0.75rem; text-align: center; color: var(--text); font-weight: 600; width: 23%;">操作</th>
+          </tr>
+        </thead>
+        <tbody id="config-tbody">
+          <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
+            <td colspan="6" style="padding: 2rem; text-align: center; color: var(--text-muted);">読込中...</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-        <!-- 基本情報 -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">
-          <div>
-            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.2rem; font-weight: 500;">設定名</label>
-            <input type="text" id="setting-name" data-testid="setting-name" placeholder="例：契約書自動掲載" style="width: 100%; padding: 0.4rem 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.8rem; box-sizing: border-box;" />
-          </div>
-          <div>
-            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.2rem; font-weight: 500;">対象企業</label>
-            <select id="target-company" data-testid="target-company-select" style="width: 100%; padding: 0.4rem 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.8rem; box-sizing: border-box;">
-              <option value="">選択してください</option>
-              <option value="all">全企業</option>
-              <option value="specific">特定企業を選択</option>
-            </select>
-          </div>
+  <!-- TAB 2: 新規作成 -->
+  <div id="tab-create" class="tab-content hidden" style="flex: 1; overflow-y: auto;">
+    <div class="card" style="padding: 1.5rem; margin-bottom: 1rem;">
+      <h3 style="font-size: 1.1rem; font-weight: 700; color: var(--text); margin: 0 0 1rem 0;">自動掲載設定を新規作成</h3>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+        <!-- 設定名 -->
+        <div>
+          <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 600;">設定名 <span style="color: #ff6a00;">*</span></label>
+          <input type="text" id="config-name" data-testid="config-name" placeholder="例：契約A 月次掲載" style="width: 100%; padding: 0.6rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9rem; box-sizing: border-box;" />
         </div>
 
-        <!-- 掲載対象契約 -->
+        <!-- 対象契約 -->
         <div>
-          <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.2rem; font-weight: 500;">掲載対象契約</label>
-          <select id="target-contract" data-testid="target-contract-select" style="width: 100%; padding: 0.4rem 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.8rem; box-sizing: border-box;">
-            <option value="">選択してください</option>
-            <option value="all">全契約</option>
-            <option value="active">有効契約のみ</option>
-            <option value="specific">特定契約を選択</option>
+          <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 600;">対象契約 <span style="color: #ff6a00;">*</span></label>
+          <select id="contract-id" data-testid="contract-select" style="width: 100%; padding: 0.6rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9rem; box-sizing: border-box;">
+            <option value="">契約を選択してください</option>
+            <option value="contract-001">契約A - サービス提供契約</option>
+            <option value="contract-002">契約B - 保守契約</option>
+            <option value="contract-003">契約C - コンサルティング</option>
           </select>
         </div>
+      </div>
 
-        <!-- 掲載項目チェックボックス -->
-        <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.5rem;">
-          <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.3rem; font-weight: 500;">掲載項目</label>
-          <div style="display: flex; flex-direction: column; gap: 0.3rem;">
-            <label style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: var(--text); cursor: pointer;">
-              <input type="checkbox" id="auto-contract" data-testid="auto-contract-check" style="accent-color: var(--primary);" />
-              <span>契約書自動掲載</span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: var(--text); cursor: pointer;">
-              <input type="checkbox" id="auto-proposal" data-testid="auto-proposal-check" style="accent-color: var(--primary);" />
-              <span>提案資料自動掲載</span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: var(--text); cursor: pointer;">
-              <input type="checkbox" id="auto-deliverable" data-testid="auto-deliverable-check" style="accent-color: var(--primary);" />
-              <span>成果物自動掲載</span>
-            </label>
-            <label style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: var(--text); cursor: pointer;">
-              <input type="checkbox" id="auto-invoice" data-testid="auto-invoice-check" style="accent-color: var(--primary);" />
-              <span>請求書自動掲載</span>
-            </label>
-          </div>
+      <!-- 掲載項目 -->
+      <div style="margin-bottom: 1.5rem;">
+        <label style="display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 0.75rem; font-weight: 700;">掲載項目 <span style="color: #ff6a00;">*</span></label>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.75rem;">
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.9rem; color: var(--text);">
+            <input type="checkbox" id="item-contract" data-testid="item-contract" value="contract" style="accent-color: var(--primary);" />
+            <span>契約書</span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.9rem; color: var(--text);">
+            <input type="checkbox" id="item-proposal" data-testid="item-proposal" value="proposal" style="accent-color: var(--primary);" />
+            <span>提案資料</span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.9rem; color: var(--text);">
+            <input type="checkbox" id="item-deliverable" data-testid="item-deliverable" value="deliverable" style="accent-color: var(--primary);" />
+            <span>成果物</span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.9rem; color: var(--text);">
+            <input type="checkbox" id="item-invoice" data-testid="item-invoice" value="invoice" style="accent-color: var(--primary);" />
+            <span>請求書</span>
+          </label>
         </div>
+      </div>
 
-        <!-- 掲載タイミング -->
-        <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.5rem;">
-          <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.2rem; font-weight: 500;">掲載タイミング</label>
-          <select id="posting-timing" data-testid="posting-timing-select" style="width: 100%; padding: 0.4rem 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.8rem; box-sizing: border-box;">
+      <!-- 掲載スケジュール -->
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1.5rem;">
+        <div>
+          <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 600;">掲載タイミング <span style="color: #ff6a00;">*</span></label>
+          <select id="timing" data-testid="timing-select" style="width: 100%; padding: 0.6rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9rem; box-sizing: border-box;">
             <option value="">選択してください</option>
             <option value="immediate">即座に掲載</option>
             <option value="scheduled">スケジュール指定</option>
-            <option value="manual">手動掲載</option>
+            <option value="monthly">毎月指定日</option>
+            <option value="on-event">イベント発生時</option>
           </select>
         </div>
 
-        <!-- スケジュール設定 -->
-        <div id="schedule-section" style="display: none; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.5rem;">
-          <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.2rem; font-weight: 500;">掲載スケジュール</label>
-          <input type="datetime-local" id="schedule-datetime" data-testid="schedule-datetime" style="width: 100%; padding: 0.4rem 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.8rem; box-sizing: border-box;" />
-        </div>
-
-        <!-- 掲載通知設定 -->
-        <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.5rem;">
-          <label style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: var(--text); cursor: pointer;">
-            <input type="checkbox" id="enable-notification" data-testid="enable-notification-check" style="accent-color: var(--primary);" />
-            <span>掲載時に顧客企業へ通知</span>
-          </label>
-          <div id="notification-section" style="display: none; margin-top: 0.3rem;">
-            <textarea id="notification-message" data-testid="notification-message" placeholder="通知メッセージ（オプション）" style="width: 100%; padding: 0.4rem 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.8rem; box-sizing: border-box; min-height: 3rem; resize: vertical;" />
-          </div>
-        </div>
-
-        <!-- 有効/無効 -->
-        <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.5rem;">
-          <label style="display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: var(--text); cursor: pointer;">
-            <input type="checkbox" id="is-active" data-testid="is-active-check" style="accent-color: var(--primary);" checked />
-            <span>この設定を有効にする</span>
-          </label>
-        </div>
-
-        <!-- アクションボタン -->
-        <div style="display: flex; gap: 0.5rem; margin-top: 0.75rem; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 0.5rem;">
-          <button class="action-btn" id="btn-save-setting" data-testid="save-button" style="flex: 1; padding: 0.5rem; font-size: 0.8rem;">保存</button>
-          <button class="action-btn secondary" id="btn-cancel-setting" data-testid="cancel-button" style="flex: 1; padding: 0.5rem; font-size: 0.8rem;">キャンセル</button>
-          <button class="action-btn secondary" id="btn-delete-setting" data-testid="delete-button" style="flex: 1; padding: 0.5rem; font-size: 0.8rem; color: #ff6a5c;">削除</button>
+        <div>
+          <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 600;">掲載日時</label>
+          <input type="datetime-local" id="publish-datetime" data-testid="publish-datetime" style="width: 100%; padding: 0.6rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9rem; box-sizing: border-box;" />
         </div>
       </div>
 
-      <!-- 初期状態：選択を促すメッセージ -->
-      <div id="no-selection" style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); font-size: 0.9rem; text-align: center;">
-        <div>左側から設定を選択するか、<br />「+ 新規設定」ボタンで新しい設定を作成してください</div>
+      <!-- 通知設定 -->
+      <div style="margin-bottom: 1.5rem;">
+        <label style="display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 0.75rem; font-weight: 700;">通知設定</label>
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.9rem; color: var(--text);">
+            <input type="checkbox" id="notify-email" data-testid="notify-email" value="email" style="accent-color: var(--primary);" checked />
+            <span>メール通知を送信</span>
+          </label>
+          <label style="display: flex; align-items: center; gap: 0.5rem; cursor: pointer; font-size: 0.9rem; color: var(--text);">
+            <input type="checkbox" id="notify-portal" data-testid="notify-portal" value="portal" style="accent-color: var(--primary);" checked />
+            <span>ポータル内通知を表示</span>
+          </label>
+        </div>
+      </div>
+
+      <!-- 顧客企業別ルール -->
+      <div style="margin-bottom: 1.5rem;">
+        <label style="display: block; font-size: 0.9rem; color: var(--text); margin-bottom: 0.75rem; font-weight: 700;">顧客企業別掲載ルール</label>
+        <textarea id="customer-rules" data-testid="customer-rules" placeholder="例：企業A: 全項目掲載&#10;企業B: 請求書のみ非表示&#10;企業C: 成果物のみ掲載" style="width: 100%; padding: 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9rem; box-sizing: border-box; min-height: 4rem; font-family: monospace;" />
+      </div>
+
+      <!-- ボタン -->
+      <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+        <button class="action-btn secondary" id="btn-cancel-create" data-testid="cancel-button" style="font-size: 0.9rem; padding: 0.6rem 1.2rem;">キャンセル</button>
+        <button class="action-btn" id="btn-save-config" data-testid="save-button" style="font-size: 0.9rem; padding: 0.6rem 1.2rem;">保存</button>
       </div>
     </div>
   </div>
 
-  <!-- タブ2：掲載ルール管理 -->
-  <div id="tab-rules" style="display: none; flex: 1; overflow-y: auto;">
-    <div style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.25rem; padding: 0.75rem;">
-      <h3 style="font-size: 1rem; font-weight: 600; color: var(--text); margin: 0 0 0.5rem 0;">顧客企業別掲載ルール</h3>
-      <div class="table-wrap" style="max-height: 400px; overflow-y: auto;">
-        <table data-testid="rules-list" style="width: 100%; font-size: 0.8rem;">
-          <thead style="position: sticky; top: 0; background: var(--bg-sidebar); border-bottom: 1px solid rgba(255,255,255,0.1);">
-            <tr>
-              <th style="padding: 0.4rem 0.5rem; text-align: left; color: var(--text); font-weight: 600;">企業名</th>
-              <th style="padding: 0.4rem 0.5rem; text-align: left; color: var(--text); font-weight: 600;">ルール名</th>
-              <th style="padding: 0.4rem 0.5rem; text-align: center; color: var(--text); font-weight: 600;">掲載項目</th>
-              <th style="padding: 0.4rem 0.5rem; text-align: center; color: var(--text); font-weight: 600;">操作</th>
-            </tr>
-          </thead>
-          <tbody id="rules-tbody">
-            <tr style="background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.05);">
-              <td colspan="4" style="padding: 1rem; text-align: center; color: var(--text-muted);">読込中...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <!-- TAB 3: 掲載履歴 -->
+  <div id="tab-history" class="tab-content hidden" style="flex: 1; overflow-y: auto;">
+    <div style="display: flex; gap: 1rem; margin-bottom: 1rem;">
+      <select id="history-filter" data-testid="history-filter" style="padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9rem;">
+        <option value="">すべてのステータス</option>
+        <option value="success">成功</option>
+        <option value="failed">失敗</option>
+        <option value="pending">保留中</option>
+      </select>
+      <input type="date" id="history-date-from" data-testid="history-date-from" style="padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9rem;" />
+      <span style="color: var(--text-muted); display: flex; align-items: center;">〜</span>
+      <input type="date" id="history-date-to" data-testid="history-date-to" style="padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9rem;" />
+      <button class="action-btn secondary" id="btn-filter-history" data-testid="filter-button" style="font-size: 0.9rem; padding: 0.5rem 1rem;">絞込</button>
+    </div>
+
+    <!-- タイムライン -->
+    <div id="history-timeline" style="display: flex; flex-direction: column; gap: 1rem;">
+      <div style="text-align: center; color: var(--text-muted); padding: 2rem;">読込中...</div>
     </div>
   </div>
+</div>
 
-  <!-- タブ3：掲載履歴 -->
-  <div id="tab-history" style="display: none; flex: 1; overflow-y: auto;">
-    <div style="background: var(--bg-card); border: 1px solid rgba(255,255,255,0.1); border-radius: 0.25rem; padding: 0.75rem;">
-      <h3 style="font-size: 1rem; font-weight: 600; color: var(--text); margin: 0 0 0.5rem 0;">掲載履歴</h3>
-      <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
-        <select id="history-filter" data-testid="history-filter-select" style="padding: 0.4rem 0.5rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.8rem;">
-          <option value="">全て</option>
-          <option value="contract">契約書</option>
-          <option value="proposal">提案資料</option>
-          <option value="deliverable">成果物</option>
-          <option value="invoice">請求書</option>
+<!-- 編集モーダル（非表示） -->
+<div id="edit-modal" hidden style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.6); display: flex; align-items: center; justify-content: center; z-index: 1000;">
+  <div class="card" style="width: 90%; max-width: 600px; padding: 1.5rem; max-height: 80vh; overflow-y: auto;">
+    <h2 style="font-size: 1.2rem; font-weight: 700; color: var(--text); margin: 0 0 1rem 0;">設定を編集</h2>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+      <div>
+        <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 600;">設定名</label>
+        <input type="text" id="edit-config-name" data-testid="edit-config-name" style="width: 100%; padding: 0.6rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9rem; box-sizing: border-box;" />
+      </div>
+      <div>
+        <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 600;">ステータス</label>
+        <select id="edit-status" data-testid="edit-status" style="width: 100%; padding: 0.6rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9rem; box-sizing: border-box;">
+          <option value="active">有効</option>
+          <option value="inactive">無効</option>
+          <option value="paused">一時停止</option>
         </select>
-        <button class="action-btn secondary" id="btn-export-history" data-testid="export-button" style="padding: 0.4rem 0.6rem; font-size: 0.8rem;">CSVエクスポート</button>
       </div>
-      <div class="table-wrap" style="max-height: 400px; overflow-y: auto;">
-        <table data-testid="history-list" style="width: 100%; font-size: 0.8rem;">
-          <thead style="position: sticky; top: 0; background: var(--bg-sidebar); border-bottom: 1px solid rgba(255,255,255,0.1);">
-            <tr>
-              <th style="padding: 0.4rem 0.5rem; text-align: left; color: var(--text); font-weight: 600;">掲載日時</th>
-              <th style="padding: 0.4rem 0.5rem; text-align: left; color: var(--text); font-weight: 600;">企業名</th>
-              <th style="padding: 0.4rem 0.5rem; text-align: left; color: var(--text); font-weight: 600;">掲載項目</th>
-              <th style="padding: 0.4rem 0.5rem; text-align: center; color: var(--text); font-weight: 600;">ステータス</th>
-            </tr>
-          </thead>
-          <tbody id="history-tbody">
-            <tr style="background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.05);">
-              <td colspan="4" style="padding: 1rem; text-align: center; color: var(--text-muted);">読込中...</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    </div>
+
+    <div style="margin-bottom: 1rem;">
+      <label style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 600;">掲載タイミング</label>
+      <select id="edit-timing" data-testid="edit-timing" style="width: 100%; padding: 0.6rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.375rem; font-size: 0.9rem; box-sizing: border-box;">
+        <option value="immediate">即座に掲載</option>
+        <option value="scheduled">スケジュール指定</option>
+        <option value="monthly">毎月指定日</option>
+        <option value="on-event">イベント発生時</option>
+      </select>
+    </div>
+
+    <div style="display: flex; gap: 0.75rem; justify-content: flex-end;">
+      <button class="action-btn secondary" id="btn-cancel-edit" data-testid="cancel-edit-button" style="font-size: 0.9rem; padding: 0.6rem 1.2rem;">キャンセル</button>
+      <button class="action-btn" id="btn-update-config" data-testid="update-button" style="font-size: 0.9rem; padding: 0.6rem 1.2rem;">更新</button>
     </div>
   </div>
 </div>

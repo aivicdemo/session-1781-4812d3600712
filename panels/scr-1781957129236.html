@@ -11,26 +11,49 @@ window.AIVIC_SYSTEM_NAME = "顧客企業向け契約・成果管理ポータル"
 window.AIVIC_TABLES = [{"tableName":"顧客企業","purpose":"営業成果レポート自動生成・配信システムにおける顧客企業の基本情報を管理し、営業活動の対象企業として機能する","columns":[{"name":"顧客企業ID","type":"uuid","required":true,"description":"顧客企業の一意識別子"},{"name":"企業名","type":"varchar(100)","required":true,"description":"顧客企業の正式名称"},{"name":"業種","type":"varchar(100)","required":false,"description":"顧客企業の業種分類"},{"name":"所在地","type":"varchar(100)","required":false,"description":"顧客企業の本社所在地"},{"name":"代表者名","type":"varchar(100)","required":false,"description":"顧客企業の代表者名"},{"name":"電話番号","type":"varchar(100)","required":false,"description":"顧客企業の代表電話番号"},{"name":"メールアドレス","type":"varchar(100)","required":false,"description":"顧客企業の代表メールアドレス"},{"name":"担当営業ユーザーID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（担当営業）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"顧客企業のステータス（見込み客/既存顧客/休止中等）"},{"name":"作成日時","type":"timestamp","required":true,"description":"顧客企業レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"顧客企業レコード最終更新日時"},{"name":"作成者ユーザーID","type":"uuid","required":true,"description":"ユーザーテーブルへの外部キー（作成者）"}]},{"tableName":"契約書","purpose":"契約・提案資料管理システムにおける契約書の基本情報を管理するマスタテーブル","columns":[{"name":"契約書ID","type":"uuid","required":true,"description":"契約書の一意識別子"},{"name":"契約書名","type":"varchar(100)","required":true,"description":"契約書のタイトル"},{"name":"契約書説明","type":"text","required":false,"description":"契約書の詳細説明"},{"name":"契約種別","type":"varchar(100)","required":true,"description":"契約の種類（例：売買契約、サービス契約、NDA等）"},{"name":"契約相手先ID","type":"uuid","required":true,"description":"契約相手先企業の識別子"},{"name":"契約開始日","type":"timestamp","required":true,"description":"契約の開始日"},{"name":"契約終了日","type":"timestamp","required":false,"description":"契約の終了日"},{"name":"契約金額","type":"integer","required":false,"description":"契約金額（円）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"契約状態（例：草案、承認待ち、有効、終了、キャンセル）"},{"name":"担当者ID","type":"uuid","required":true,"description":"契約の担当ユーザーID"},{"name":"ファイルパス","type":"varchar(100)","required":false,"description":"契約書ファイルの保存パス"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"レコード作成者のユーザーID"}]},{"tableName":"提案資料","purpose":"契約・提案資料管理システムにおいて、顧客への提案資料の情報を一元管理し、提案から契約への進捗を追跡するためのマスタテーブル","columns":[{"name":"提案資料ID","type":"uuid","required":true,"description":"提案資料の一意識別子"},{"name":"提案資料名","type":"varchar(100)","required":true,"description":"提案資料のタイトル・名称"},{"name":"説明","type":"text","required":false,"description":"提案資料の詳細説明"},{"name":"ユーザーID","type":"uuid","required":true,"description":"提案資料を作成・管理するユーザーの外部キー"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"提案資料のステータス（下書き、提案中、承認待ち、契約済み、却下等）"},{"name":"提案日","type":"timestamp","required":true,"description":"顧客への提案実施日時"},{"name":"契約書ID","type":"uuid","required":false,"description":"関連する契約書の外部キー（契約成立時に設定）"},{"name":"作成日時","type":"timestamp","required":true,"description":"提案資料レコードの作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"提案資料レコードの最終更新日時"},{"name":"作成者ID","type":"uuid","required":true,"description":"提案資料を作成したユーザーの外部キー"}]},{"tableName":"契約","purpose":"顧客企業との契約情報を一元管理し、契約の締結、更新、ステータス追跡、成果管理を支援するマスタテーブル","columns":[{"name":"契約ID","type":"uuid","required":true,"description":"契約の一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"顧客企業テーブルへの外部キー"},{"name":"契約書ID","type":"uuid","required":false,"description":"契約書テーブルへの外部キー"},{"name":"提案資料ID","type":"uuid","required":false,"description":"提案資料テーブルへの外部キー"},{"name":"契約名","type":"varchar(100)","required":true,"description":"契約の名称"},{"name":"契約ステータス","type":"varchar(100)","required":true,"description":"契約状態（提案中/承認待ち/契約済/完了/終了等）"},{"name":"契約開始日","type":"timestamp","required":true,"description":"契約の開始日"},{"name":"契約終了日","type":"timestamp","required":true,"description":"契約の終了日"},{"name":"契約金額","type":"integer","required":true,"description":"契約金額（円）"},{"name":"契約内容","type":"text","required":false,"description":"契約の詳細内容"},{"name":"成果目標","type":"text","required":false,"description":"契約に基づく成果目標"},{"name":"作成日時","type":"timestamp","required":true,"description":"契約レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"契約レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"契約レコード作成者"},{"name":"更新者","type":"varchar(100)","required":false,"description":"契約レコード最終更新者"}]},{"tableName":"契約変更履歴","purpose":"契約の変更内容を時系列で記録し、変更前後の状態を追跡管理するための履歴テーブル","columns":[{"name":"変更履歴ID","type":"uuid","required":true,"description":"変更履歴レコードの一意識別子"},{"name":"契約ID","type":"uuid","required":true,"description":"変更対象の契約を特定するための外部キー"},{"name":"変更種別","type":"varchar(100)","required":true,"description":"変更の種類（金額変更、期間延長、条件変更、解除等）"},{"name":"変更前値","type":"text","required":false,"description":"変更前の値または状態"},{"name":"変更後値","type":"text","required":false,"description":"変更後の値または状態"},{"name":"変更理由","type":"text","required":false,"description":"変更の理由や背景"},{"name":"変更ステータス","type":"varchar(100)","required":true,"description":"変更の状態（申請中、承認済、却下、実行済等）"},{"name":"申請者ID","type":"uuid","required":true,"description":"変更を申請したユーザーの識別子"},{"name":"承認者ID","type":"uuid","required":false,"description":"変更を承認したユーザーの識別子"},{"name":"承認日時","type":"timestamp","required":false,"description":"変更が承認された日時"},{"name":"実行日時","type":"timestamp","required":false,"description":"変更が実際に反映された日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"変更履歴レコードが作成された日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"変更履歴レコードが最後に更新された日時"},{"name":"備考","type":"text","required":false,"description":"その他の補足情報"}]},{"tableName":"成果物","purpose":"顧客企業向け契約に基づいて納品される成果物の管理。納品状況、品質、変更履歴を追跡し、契約の履行状況を把握するための中核テーブル","columns":[{"name":"成果物ID","type":"uuid","required":true,"description":"成果物の一意識別子"},{"name":"契約ID","type":"uuid","required":true,"description":"親契約への外部キー"},{"name":"成果物名","type":"varchar(100)","required":true,"description":"成果物の名称"},{"name":"説明","type":"text","required":false,"description":"成果物の詳細説明"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"成果物の状態（計画中/進行中/完了/承認待ち/却下等）"},{"name":"納期","type":"timestamp","required":true,"description":"予定納期"},{"name":"実納期","type":"timestamp","required":false,"description":"実際の納期"},{"name":"品質評価","type":"varchar(100)","required":false,"description":"品質評価結果（合格/不合格/要修正等）"},{"name":"顧客承認状況","type":"varchar(100)","required":true,"description":"顧客による承認状況（未承認/承認/却下）"},{"name":"顧客承認日時","type":"timestamp","required":false,"description":"顧客が承認した日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"成果物レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"成果物レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"成果物を作成したユーザー"},{"name":"更新者","type":"varchar(100)","required":true,"description":"成果物を最後に更新したユーザー"}]},{"tableName":"成果物納期","purpose":"成果物の納期管理と進捗追跡を行い、契約上の納期義務を履行するための基本台帳","columns":[{"name":"成果物納期ID","type":"uuid","required":true,"description":"成果物納期レコードの一意識別子"},{"name":"成果物ID","type":"uuid","required":true,"description":"成果物テーブルへの外部キー"},{"name":"契約ID","type":"uuid","required":true,"description":"契約テーブルへの外部キー"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"顧客企業テーブルへの外部キー"},{"name":"予定納期日","type":"timestamp","required":true,"description":"契約で定められた成果物の納期予定日"},{"name":"実績納期日","type":"timestamp","required":false,"description":"実際に成果物が納期された日付"},{"name":"納期ステータス","type":"varchar(100)","required":true,"description":"納期状況（予定通り/遅延/完了等）"},{"name":"遅延日数","type":"integer","required":false,"description":"予定納期からの遅延日数（負数は早期納期）"},{"name":"遅延理由","type":"text","required":false,"description":"納期遅延が発生した場合の理由"},{"name":"納期変更履歴ID","type":"uuid","required":false,"description":"契約変更履歴テーブルへの外部キー（納期変更がある場合）"},{"name":"備考","type":"text","required":false,"description":"納期に関する追加情報やメモ"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者のユーザーID"},{"name":"更新者","type":"varchar(100)","required":true,"description":"レコード最終更新者のユーザーID"}]},{"tableName":"納期変更履歴","purpose":"成果物の納期変更を履歴として記録し、変更の経緯、理由、承認状況を管理するテーブル","columns":[{"name":"納期変更履歴ID","type":"uuid","required":true,"description":"納期変更履歴の一意識別子"},{"name":"成果物納期ID","type":"uuid","required":true,"description":"成果物納期テーブルへの外部キー"},{"name":"契約ID","type":"uuid","required":true,"description":"契約テーブルへの外部キー"},{"name":"変更前納期","type":"timestamp","required":true,"description":"変更前の納期日時"},{"name":"変更後納期","type":"timestamp","required":true,"description":"変更後の納期日時"},{"name":"変更理由","type":"text","required":true,"description":"納期変更の理由"},{"name":"承認状況","type":"varchar(100)","required":true,"description":"承認状況（申請中/承認/却下）"},{"name":"承認者ID","type":"varchar(100)","required":false,"description":"承認者のユーザーID"},{"name":"承認日時","type":"timestamp","required":false,"description":"承認日時"},{"name":"承認コメント","type":"text","required":false,"description":"承認時のコメント"},{"name":"作成日時","type":"timestamp","required":true,"description":"変更申請の作成日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"変更申請の作成者ユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"最終更新日時"}]},{"tableName":"請求書","purpose":"顧客企業への請求書を管理し、契約に基づく成果物納期と請求内容を紐付け、請求状況を追跡するトランザクションテーブル","columns":[{"name":"請求書ID","type":"uuid","required":true,"description":"請求書の一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"請求対象の顧客企業ID（顧客企業テーブルへの外部キー）"},{"name":"契約ID","type":"uuid","required":true,"description":"請求対象の契約ID（契約テーブルへの外部キー）"},{"name":"請求書番号","type":"varchar(100)","required":true,"description":"請求書の一意な番号（顧客向け表示用）"},{"name":"請求日","type":"timestamp","required":true,"description":"請求書発行日"},{"name":"請求期間開始日","type":"timestamp","required":true,"description":"請求対象期間の開始日"},{"name":"請求期間終了日","type":"timestamp","required":true,"description":"請求対象期間の終了日"},{"name":"請求金額","type":"integer","required":true,"description":"請求総額（税抜き、単位：円）"},{"name":"税額","type":"integer","required":true,"description":"消費税額（単位：円）"},{"name":"請求金額合計","type":"integer","required":true,"description":"請求総額（税込み、単位：円）"},{"name":"請求ステータス","type":"varchar(100)","required":true,"description":"請求状況（未送付/送付済/支払済/期限超過等）"},{"name":"支払期限日","type":"timestamp","required":true,"description":"支払期限日"},{"name":"支払日","type":"timestamp","required":false,"description":"実際の支払日（支払済の場合のみ）"},{"name":"備考","type":"text","required":false,"description":"請求書に関する備考・特記事項"},{"name":"作成日時","type":"timestamp","required":true,"description":"請求書レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"請求書レコード最終更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"請求書を作成したユーザーID"}]},{"tableName":"メール履歴","purpose":"顧客企業との契約・成果に関するメール送受信の記録を管理し、コミュニケーション履歴の追跡と監査証跡を提供する","columns":[{"name":"メール履歴ID","type":"uuid","required":true,"description":"メール履歴の一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"関連する顧客企業への外部キー"},{"name":"契約ID","type":"uuid","required":false,"description":"関連する契約への外部キー（契約関連のメールの場合）"},{"name":"成果物ID","type":"uuid","required":false,"description":"関連する成果物への外部キー（成果物関連のメールの場合）"},{"name":"請求書ID","type":"uuid","required":false,"description":"関連する請求書への外部キー（請求関連のメールの場合）"},{"name":"送信者メールアドレス","type":"varchar(100)","required":true,"description":"メール送信者のメールアドレス"},{"name":"受信者メールアドレス","type":"varchar(100)","required":true,"description":"メール受信者のメールアドレス"},{"name":"CC","type":"text","required":false,"description":"CC対象のメールアドレス（複数の場合はカンマ区切り）"},{"name":"BCC","type":"text","required":false,"description":"BCC対象のメールアドレス（複数の場合はカンマ区切り）"},{"name":"件名","type":"varchar(100)","required":true,"description":"メールの件名"},{"name":"本文","type":"text","required":true,"description":"メール本文"},{"name":"メール種別","type":"varchar(100)","required":true,"description":"メールの種別（提案、契約確認、成果物納期通知、請求書送付、変更通知等）"},{"name":"送受信区分","type":"varchar(100)","required":true,"description":"送信または受信"},{"name":"送受信日時","type":"timestamp","required":true,"description":"メール送受信の日時"},{"name":"添付ファイル有無","type":"boolean","required":true,"description":"添付ファイルの有無"},{"name":"作成日時","type":"timestamp","required":true,"description":"レコード作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"レコード更新日時"},{"name":"作成者","type":"varchar(100)","required":true,"description":"レコード作成者"}]},{"tableName":"通知履歴","purpose":"顧客企業向けポータルで送信した通知の履歴を管理し、通知内容、送信状況、受信者情報を追跡する","columns":[{"name":"通知履歴ID","type":"uuid","required":true,"description":"通知履歴の一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"通知対象の顧客企業ID（外部キー）"},{"name":"通知タイプ","type":"varchar(100)","required":true,"description":"通知の種類（契約更新、成果物納期、請求書発行、契約変更等）"},{"name":"関連エンティティタイプ","type":"varchar(100)","required":false,"description":"通知の対象エンティティ種別（契約、成果物、請求書等）"},{"name":"関連エンティティID","type":"uuid","required":false,"description":"通知の対象エンティティID"},{"name":"通知タイトル","type":"varchar(100)","required":true,"description":"通知のタイトル"},{"name":"通知内容","type":"text","required":true,"description":"通知の本文内容"},{"name":"送信方法","type":"varchar(100)","required":true,"description":"通知の送信方法（メール、ポータル画面内通知等）"},{"name":"送信状態","type":"varchar(100)","required":true,"description":"送信状態（送信済、送信失敗、保留中等）"},{"name":"受信者メールアドレス","type":"varchar(100)","required":false,"description":"メール送信の場合の受信者メールアドレス"},{"name":"送信日時","type":"timestamp","required":true,"description":"通知の送信日時"},{"name":"既読フラグ","type":"boolean","required":true,"description":"ポータル内通知の既読状態"},{"name":"既読日時","type":"timestamp","required":false,"description":"通知が既読になった日時"},{"name":"エラーメッセージ","type":"text","required":false,"description":"送信失敗時のエラー内容"},{"name":"作成日時","type":"timestamp","required":true,"description":"通知履歴レコードの作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"通知履歴レコードの最終更新日時"}]},{"tableName":"ログインユーザー","purpose":"顧客企業向けポータルのログインユーザー管理。ユーザー認証、アクセス制御、監査ログの基盤となる。","columns":[{"name":"ユーザーID","type":"uuid","required":true,"description":"ログインユーザーの一意識別子"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"所属する顧客企業への外部キー"},{"name":"メールアドレス","type":"varchar(100)","required":true,"description":"ログインID兼連絡先。企業内で一意"},{"name":"ユーザー名","type":"varchar(100)","required":true,"description":"ポータル上に表示されるユーザー名"},{"name":"パスワードハッシュ","type":"varchar(100)","required":true,"description":"認証用のハッシュ化されたパスワード"},{"name":"ロール","type":"varchar(100)","required":true,"description":"ユーザーの権限レベル（管理者/担当者/閲覧者等）"},{"name":"ステータス","type":"varchar(100)","required":true,"description":"ユーザーの状態（有効/無効/招待待機等）"},{"name":"最終ログイン日時","type":"timestamp","required":false,"description":"最後にログインした日時"},{"name":"作成日時","type":"timestamp","required":true,"description":"ユーザーアカウント作成日時"},{"name":"更新日時","type":"timestamp","required":true,"description":"ユーザー情報最終更新日時"},{"name":"作成者","type":"uuid","required":true,"description":"ユーザーを作成したユーザーID"}]},{"tableName":"ユーザー権限","purpose":"ログインユーザーが顧客企業ポータル内で実行可能な操作を制御するための権限管理テーブル。ユーザーごとに契約書閲覧、成果物確認、請求書確認などの権限を付与・管理する。","columns":[{"name":"ユーザー権限ID","type":"uuid","required":true,"description":"ユーザー権限レコードの一意識別子"},{"name":"ログインユーザーID","type":"uuid","required":true,"description":"権限を付与されるログインユーザーへの外部キー"},{"name":"顧客企業ID","type":"uuid","required":true,"description":"権限が適用される顧客企業への外部キー"},{"name":"権限種別","type":"varchar(100)","required":true,"description":"付与する権限の種別（例：契約書閲覧、成果物確認、請求書確認、契約変更申請、通知受信等）"},{"name":"有効フラグ","type":"boolean","required":true,"description":"権限が有効か無効かを示すフラグ"},{"name":"権限開始日","type":"timestamp","required":false,"description":"権限の有効開始日時"},{"name":"権限終了日","type":"timestamp","required":false,"description":"権限の有効終了日時"},{"name":"備考","type":"text","required":false,"description":"権限付与の理由や特記事項"},{"name":"作成日時","type":"timestamp","required":true,"description":"権限レコード作成日時"},{"name":"作成者","type":"uuid","required":true,"description":"権限を作成したユーザーID"},{"name":"更新日時","type":"timestamp","required":true,"description":"権限レコード最終更新日時"},{"name":"更新者","type":"uuid","required":true,"description":"権限を最後に更新したユーザーID"}]}];
 window.AIVIC_PRESET_SEED = {};
 window.AIVIC_PAGE_SCREEN_ID = "scr-1781957129236";
-window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
+window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {\n  // テーブルインデックス: 成果物納期 (0), 納期変更履歴 (1)\n  const deliverableIndex = 0;\n  const historyIndex = 1;\n\n  // サンプルデータ（API未接続時の初期表示用）\n  const sampleDeliverables = [\n    { id: 'deliv-001', name: '営業レポート（月次）', currentDeadline: '2025-01-15', status: '完了', contractId: 'contract-001' },\n    { id: 'deliv-002', name: 'ダッシュボード初版', currentDeadline: '2025-02-28', status: '進行中', contractId: 'contract-001' },\n    { id: 'deliv-003', name: 'ユーザーマニュアル', currentDeadline: '2025-03-10', status: '計画中', contractId: 'contract-001' }\n  ];\n\n  const sampleHistory = [\n    { id: 'hist-001', deliverableId: 'deliv-002', oldDeadline: '2025-01-15', newDeadline: '2025-02-20', reason: '要件追加により実装期間延長', status: '申請中', appliedDate: '2025-01-10', approver: null },\n    { id: 'hist-002', deliverableId: 'deliv-002', oldDeadline: '2025-01-10', newDeadline: '2025-01-15', reason: '初期納期設定', status: '承認済', appliedDate: '2025-01-10', approver: '営業部長' }\n  ];\n\n  let selectedDeliverable = null;\n  let currentHistory = [];\n\n  // 1. 成果物一覧を描画\n  function renderDeliverables(rows) {\n    const tbody = container.querySelector('#deliverable-tbody');\n    tbody.innerHTML = rows.map(r => {\n      const statusColor = r.status === '完了' ? '#90ee90' : r.status === '進行中' ? '#ffa500' : '#ff6b6b';\n      return `<tr data-id=\"${r.id}\" style=\"cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.08);\">\n        <td style=\"padding: 6px 8px; color: var(--text);\">${r.name || ''}</td>\n        <td style=\"padding: 6px 8px; text-align: center; color: ${statusColor}; font-size: 11px;\">${r.status || ''}</td>\n      </tr>`;\n    }).join('');\n  }\n\n  // 2. 変更履歴タイムラインを描画\n  function renderHistory(rows) {\n    const timeline = container.querySelector('#history-timeline');\n    if (!rows || rows.length === 0) {\n      timeline.innerHTML = '<div style=\"color: var(--text-muted); font-size: 11px;\">変更履歴はありません</div>';\n      return;\n    }\n    timeline.innerHTML = rows.map(h => {\n      const statusColor = h.status === '承認済' ? '#4caf50' : h.status === '申請中' ? '#ffa500' : '#ff6b6b';\n      const statusLabel = h.status === '承認済' ? `承認済 (${h.appliedDate} by ${h.approver || '管理者'})` : h.status;\n      return `<div style=\"padding: 8px; border-left: 2px solid ${statusColor}; background: rgba(${statusColor === '#4caf50' ? '76,175,80' : statusColor === '#ffa500' ? '255,165,0' : '255,107,107'},0.08); border-radius: 2px;\">\n        <div style=\"color: var(--text); font-weight: 600;\">${h.oldDeadline} → ${h.newDeadline}</div>\n        <div style=\"color: var(--text-muted); margin-top: 2px;\">理由: ${h.reason || ''}</div>\n        <div style=\"color: ${statusColor}; margin-top: 3px; font-weight: 600;\">${statusLabel}</div>\n      </div>`;\n    }).join('');\n  }\n\n  // 3. 成果物選択時の詳細表示\n  function selectDeliverable(id) {\n    selectedDeliverable = sampleDeliverables.find(d => d.id === id);\n    if (!selectedDeliverable) return;\n\n    container.querySelector('[data-testid=\"deliverable-name-display\"]').value = selectedDeliverable.name;\n    container.querySelector('[data-testid=\"current-deadline\"]').value = selectedDeliverable.currentDeadline;\n    container.querySelector('[data-testid=\"change-status-display\"]').textContent = '-';\n    container.querySelector('[data-testid=\"apply-date-display\"]').textContent = '-';\n    container.querySelector('[data-testid=\"new-deadline\"]').value = '';\n    container.querySelector('[data-testid=\"change-reason\"]').value = '';\n\n    // 該当成果物の変更履歴を表示\n    currentHistory = sampleHistory.filter(h => h.deliverableId === id);\n    renderHistory(currentHistory);\n  }\n\n  // 4. 初期データ表示\n  renderDeliverables(sampleDeliverables);\n  renderHistory([]);\n\n  // 5. 成果物行クリックで詳細表示\n  container.addEventListener('click', e => {\n    const row = e.target.closest('#deliverable-tbody tr');\n    if (row) {\n      const id = row.dataset.id;\n      selectDeliverable(id);\n      // 選択行をハイライト\n      container.querySelectorAll('#deliverable-tbody tr').forEach(tr => tr.style.background = '');\n      row.style.background = 'rgba(255,165,0,0.15)';\n    }\n  });\n\n  // 6. 申請ボタン\n  container.querySelector('[data-testid=\"apply-deadline-button\"]').addEventListener('click', async () => {\n    if (!selectedDeliverable) {\n      alert('成果物を選択してください');\n      return;\n    }\n    const newDeadline = container.querySelector('[data-testid=\"new-deadline\"]').value;\n    const reason = container.querySelector('[data-testid=\"change-reason\"]').value;\n    if (!newDeadline || !reason) {\n      alert('変更後納期と変更理由を入力してください');\n      return;\n    }\n\n    // API呼び出し（失敗時は自動通知）\n    const result = await window.aivicApi.save(historyIndex, {\n      deliverableId: selectedDeliverable.id,\n      oldDeadline: selectedDeliverable.currentDeadline,\n      newDeadline,\n      reason,\n      status: '申請中',\n      appliedDate: new Date().toISOString().split('T')[0],\n      approver: null\n    });\n\n    if (result) {\n      alert('納期変更を申請しました');\n      container.querySelector('[data-testid=\"change-status-display\"]').textContent = '申請中';\n      container.querySelector('[data-testid=\"apply-date-display\"]').textContent = new Date().toISOString().split('T')[0];\n      container.querySelector('[data-testid=\"new-deadline\"]').value = '';\n      container.querySelector('[data-testid=\"change-reason\"]').value = '';\n      // 履歴を再読み込み\n      const updated = await window.aivicApi.list(historyIndex);\n      if (updated) {\n        currentHistory = updated.filter(h => h.deliverableId === selectedDeliverable.id);\n        renderHistory(currentHistory);\n      }\n    }\n  });\n\n  // 7. クリアボタン\n  container.querySelector('[data-testid=\"cancel-button\"]').addEventListener('click', () => {\n    container.querySelector('[data-testid=\"new-deadline\"]').value = '';\n    container.querySelector('[data-testid=\"change-reason\"]').value = '';\n  });\n\n  // 8. 承認ボタン（管理者向け）\n  container.querySelector('[data-testid=\"approve-button\"]').addEventListener('click', async () => {\n    if (currentHistory.length === 0) return;\n    const latestHistory = currentHistory[0];\n    const result = await window.aivicApi.update(historyIndex, latestHistory.id, {\n      status: '承認済',\n      approver: '管理者',\n      appliedDate: new Date().toISOString().split('T')[0]\n    });\n    if (result) {\n      alert('納期変更を承認しました');\n      const updated = await window.aivicApi.list(historyIndex);\n      if (updated) {\n        currentHistory = updated.filter(h => h.deliverableId === selectedDeliverable.id);\n        renderHistory(currentHistory);\n      }\n    }\n  });\n\n  // 9. 却下ボタン\n  container.querySelector('[data-testid=\"reject-button\"]').addEventListener('click', async () => {\n    if (currentHistory.length === 0) return;\n    const latestHistory = currentHistory[0];\n    const result = await window.aivicApi.update(historyIndex, latestHistory.id, {\n      status: '却下',\n      approver: '管理者',\n      appliedDate: new Date().toISOString().split('T')[0]\n    });\n    if (result) {\n      alert('納期変更を却下しました');\n      const updated = await window.aivicApi.list(historyIndex);\n      if (updated) {\n        currentHistory = updated.filter(h => h.deliverableId === selectedDeliverable.id);\n        renderHistory(currentHistory);\n      }\n    }\n  });\n\n  // 10. 契約選択フィルタ\n  container.querySelector('[data-testid=\"contract-select\"]').addEventListener('change', e => {\n    const contractId = e.target.value;\n    if (!contractId) {\n      renderDeliverables(sampleDeliverables);\n    } else {\n      const filtered = sampleDeliverables.filter(d => d.contractId === contractId);\n      renderDeliverables(filtered);\n    }\n  });\n}";
 </script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f0c856;
-  --bg-main: #0a0a0a;
+  --primary-hover: #f4d03f;
+  --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
-  --bg-sidebar: #141414;
-  --border: #8b0000;
-  --text: #ffffff;
-  --text-muted: #b0b0b0;
+  --bg-sidebar: #161616;
+  --border: #2a2a2a;
+  --text: #f5f5f5;
+  --text-muted: #a0a0a0;
   --top-bar-bg: #1a1a1a;
-  --top-bar-border: #8b0000;
+  --top-bar-border: #2a2a2a;
+  --accent-red: #dc143c;
+  --accent-red-hover: #ff1744;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
   --font-size-base: 16px;
-  --font-size-large: 18px;
+  --font-size-lg: 18px;
   --font-size-xl: 20px;
-  --font-size-heading: 24px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(212, 175, 55, 0.1);
+  --shadow-md: 0 4px 12px rgba(212, 175, 55, 0.15);
+  --shadow-lg: 0 8px 24px rgba(212, 175, 55, 0.2);
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 250ms ease-in-out;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -73,7 +96,7 @@ canvas { display:block; max-height:280px !important; }
 <body>
 <header class="top-bar">
   <span class="app-name">バックオフィサー</span>
-    <a href="./scr-1781954440904.html" class="sys-tab" data-aivic-nav-system="itg-3">契約・提案資料管理システム</a>
+    <a href="./scr-1781954055121.html" class="sys-tab" data-aivic-nav-system="itg-2">営業成果レポート自動生成・配信システム</a>
     <a href="./scr-1781956713866.html" class="sys-tab active" data-aivic-nav-system="itg-4">顧客企業向け契約・成果管理ポータル</a>
     <a href="./scr-1781957451550.html" class="sys-tab" data-aivic-nav-system="itg-5">契約変更・請求検証管理システム</a>
     <a href="./scr-1781953462575.html" class="sys-tab" data-aivic-nav-system="itg-1">営業データ品質管理・請求自動化システム</a>
@@ -97,208 +120,114 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781957129236" style="margin-top:0">
-<div style="display: flex; flex-direction: column; height: 100%; gap: 0.5rem; padding: 1rem;">
-  
-  <!-- ヘッダー -->
-  <div style="display: flex; align-items: center; justify-content: space-between; padding-bottom: 0.75rem; border-bottom: 2px solid var(--primary);">
-    <h1 style="font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 0;">成果物納期管理・変更</h1>
-    <button class="action-btn" data-testid="back-to-dashboard" style="font-size: 0.9rem;">← 契約管理ダッシュボードへ</button>
-  </div>
-
-  <!-- 契約選択エリア -->
-  <div style="display: flex; gap: 1rem; align-items: flex-end; padding: 0.75rem; background: var(--bg-card); border-radius: 0.375rem; border: 1px solid rgba(255,255,255,0.12);">
-    <div style="flex: 1;">
-      <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 600;">契約を選択</label>
-      <select id="contract-select" data-testid="contract-select" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.95rem;">
-        <option value="">-- 契約を選択してください --</option>
-        <option value="contract-001">契約A：システム開発（2024-01-15 ～ 2024-12-31）</option>
-        <option value="contract-002">契約B：保守サービス（2024-02-01 ～ 2025-01-31）</option>
-        <option value="contract-003">契約C：コンサルティング（2024-03-01 ～ 2024-09-30）</option>
-      </select>
-    </div>
-    <button id="btn-load-contract" data-testid="load-contract-button" class="action-btn" style="font-size: 0.9rem; white-space: nowrap;">読み込む</button>
-  </div>
-
-  <!-- メインコンテンツ（2列） -->
-  <div style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 1rem; flex: 1; min-height: 0;">
-    
-    <!-- 左：成果物一覧 -->
-    <div style="display: flex; flex-direction: column; gap: 0.5rem; background: var(--bg-card); border-radius: 0.375rem; border: 1px solid rgba(255,255,255,0.12); padding: 0.75rem; overflow: hidden;">
-      <h2 style="font-size: 1rem; font-weight: 700; color: var(--primary); margin: 0; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.1);">成果物一覧</h2>
-      <div class="table-wrap" style="flex: 1; overflow-y: auto; font-size: 0.85rem;">
-        <table data-testid="deliverable-list" style="width: 100%; border-collapse: collapse;">
-          <thead>
-            <tr style="background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1);">
-              <th style="padding: 0.5rem 0.375rem; text-align: left; color: var(--text); font-weight: 600; font-size: 0.8rem;">成果物名</th>
-              <th style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text); font-weight: 600; font-size: 0.8rem;">納期</th>
-              <th style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text); font-weight: 600; font-size: 0.8rem;">ステータス</th>
-            </tr>
-          </thead>
-          <tbody id="deliverable-tbody">
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.08); cursor: pointer;" data-id="deliv-001" class="deliverable-row">
-              <td style="padding: 0.5rem 0.375rem; color: var(--text);">要件定義書</td>
-              <td style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text);">2024-03-15</td>
-              <td style="padding: 0.5rem 0.375rem; text-align: center;"><span style="display: inline-block; padding: 0.25rem 0.5rem; background: rgba(255,165,0,0.2); color: #ffa500; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">予定通り</span></td>
-            </tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.08); cursor: pointer;" data-id="deliv-002" class="deliverable-row">
-              <td style="padding: 0.5rem 0.375rem; color: var(--text);">基本設計書</td>
-              <td style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text);">2024-05-20</td>
-              <td style="padding: 0.5rem 0.375rem; text-align: center;"><span style="display: inline-block; padding: 0.25rem 0.5rem; background: rgba(255,100,100,0.2); color: #ff6464; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">変更申請中</span></td>
-            </tr>
-            <tr style="border-bottom: 1px solid rgba(255,255,255,0.08); cursor: pointer;" data-id="deliv-003" class="deliverable-row">
-              <td style="padding: 0.5rem 0.375rem; color: var(--text);">実装コード</td>
-              <td style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text);">2024-08-30</td>
-              <td style="padding: 0.5rem 0.375rem; text-align: center;"><span style="display: inline-block; padding: 0.25rem 0.5rem; background: rgba(100,200,100,0.2); color: #64c864; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600;">承認済</span></td>
-            </tr>
-          </tbody>
-        </table>
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px; height: 100%; padding: 12px;">
+  <!-- 左パネル: 成果物一覧 -->
+  <div style="display: flex; flex-direction: column; gap: 8px; overflow: hidden;">
+    <div>
+      <h2 style="font-size: 16px; font-weight: 700; margin: 0 0 8px 0; color: var(--text);">成果物一覧</h2>
+      <div style="display: flex; gap: 6px; margin-bottom: 8px;">
+        <select data-testid="contract-select" id="contract-select" style="flex: 1; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 13px;">
+          <option value="">契約を選択</option>
+          <option value="contract-001">契約A - 営業レポート自動生成</option>
+          <option value="contract-002">契約B - データ分析ダッシュボード</option>
+          <option value="contract-003">契約C - 顧客ポータル構築</option>
+        </select>
       </div>
     </div>
+    <div class="table-wrap" style="flex: 1; overflow-y: auto; border: 1px solid rgba(255,255,255,0.12); border-radius: 3px;">
+      <table data-testid="deliverable-list" style="width: 100%; font-size: 12px;">
+        <thead style="position: sticky; top: 0; background: var(--bg-card); border-bottom: 1px solid rgba(255,255,255,0.12);">
+          <tr>
+            <th style="padding: 6px 8px; text-align: left; color: var(--text); font-weight: 600;">成果物名</th>
+            <th style="padding: 6px 8px; text-align: center; color: var(--text); font-weight: 600; width: 60px;">状態</th>
+          </tr>
+        </thead>
+        <tbody id="deliverable-tbody">
+          <tr data-id="deliv-001" style="cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.08);">
+            <td style="padding: 6px 8px; color: var(--text);">営業レポート（月次）</td>
+            <td style="padding: 6px 8px; text-align: center; color: #90ee90; font-size: 11px;">完了</td>
+          </tr>
+          <tr data-id="deliv-002" style="cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.08);">
+            <td style="padding: 6px 8px; color: var(--text);">ダッシュボード初版</td>
+            <td style="padding: 6px 8px; text-align: center; color: #ffa500; font-size: 11px;">進行中</td>
+          </tr>
+          <tr data-id="deliv-003" style="cursor: pointer; border-bottom: 1px solid rgba(255,255,255,0.08);">
+            <td style="padding: 6px 8px; color: var(--text);">ユーザーマニュアル</td>
+            <td style="padding: 6px 8px; text-align: center; color: #ff6b6b; font-size: 11px;">計画中</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-    <!-- 右：納期変更フォーム -->
-    <div style="display: flex; flex-direction: column; gap: 0.75rem; background: var(--bg-card); border-radius: 0.375rem; border: 1px solid rgba(255,255,255,0.12); padding: 1rem; overflow-y: auto;">
-      <h2 style="font-size: 1rem; font-weight: 700; color: var(--primary); margin: 0; padding-bottom: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.1);">納期変更申請</h2>
+  <!-- 右パネル: 納期変更フォーム + 履歴 -->
+  <div style="display: flex; flex-direction: column; gap: 8px; overflow: hidden;">
+    <!-- 納期変更フォーム -->
+    <div class="card" style="padding: 10px; border-radius: 3px; flex-shrink: 0;">
+      <h3 style="font-size: 14px; font-weight: 700; margin: 0 0 10px 0; color: var(--text);">納期変更申請</h3>
       
-      <div id="form-container" style="display: none;">
-        <!-- 成果物情報（表示のみ） -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; padding: 0.75rem; background: rgba(255,255,255,0.03); border-radius: 0.25rem; margin-bottom: 0.75rem;">
-          <div>
-            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 600;">成果物名</label>
-            <div id="form-deliverable-name" style="font-size: 0.95rem; color: var(--text); font-weight: 600;"></div>
-          </div>
-          <div>
-            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 600;">ステータス</label>
-            <div id="form-deliverable-status" style="font-size: 0.95rem; color: var(--text);"></div>
-          </div>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 8px;">
+        <div>
+          <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 3px;">成果物名</label>
+          <input data-testid="deliverable-name-display" type="text" readonly style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.12); background: rgba(0,0,0,0.15); color: var(--text-muted); border-radius: 3px; font-size: 12px;" placeholder="選択してください" />
         </div>
-
-        <!-- 納期変更フィールド -->
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem;">
-          <div>
-            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 600;">現在の納期</label>
-            <input id="form-current-deadline" type="date" data-testid="current-deadline-input" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.9rem;" readonly />
-          </div>
-          <div>
-            <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 600;">変更後納期 <span style="color: #ff6464;">*</span></label>
-            <input id="form-new-deadline" type="date" data-testid="new-deadline-input" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.9rem;" />
-          </div>
-        </div>
-
-        <!-- 変更理由 -->
-        <div style="margin-bottom: 0.75rem;">
-          <label style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 0.25rem; font-weight: 600;">変更理由 <span style="color: #ff6464;">*</span></label>
-          <textarea id="form-change-reason" data-testid="change-reason-textarea" style="width: 100%; padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.9rem; resize: vertical; min-height: 3rem; font-family: inherit;" placeholder="変更理由を入力してください"></textarea>
-        </div>
-
-        <!-- アクションボタン -->
-        <div style="display: flex; gap: 0.5rem; justify-content: flex-end;">
-          <button id="btn-cancel-form" data-testid="cancel-form-button" class="action-btn secondary" style="font-size: 0.9rem;">キャンセル</button>
-          <button id="btn-submit-change" data-testid="submit-change-button" class="action-btn" style="font-size: 0.9rem;">変更を申請</button>
+        <div>
+          <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 3px;">現在の納期</label>
+          <input data-testid="current-deadline" type="text" readonly style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.12); background: rgba(0,0,0,0.15); color: var(--text-muted); border-radius: 3px; font-size: 12px;" placeholder="-" />
         </div>
       </div>
 
-      <div id="no-selection-message" style="display: flex; align-items: center; justify-content: center; height: 100%; color: var(--text-muted); font-size: 0.95rem; text-align: center;">
-        左の一覧から成果物を選択してください
+      <div style="margin-bottom: 8px;">
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 3px;">変更後納期</label>
+        <input data-testid="new-deadline" type="date" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 12px;" />
+      </div>
+
+      <div style="margin-bottom: 8px;">
+        <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 3px;">変更理由</label>
+        <textarea data-testid="change-reason" style="width: 100%; padding: 6px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 12px; resize: vertical; min-height: 50px;" placeholder="変更の理由を入力してください"></textarea>
+      </div>
+
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px;">
+        <button data-testid="apply-deadline-button" class="action-btn" style="padding: 6px 12px; font-size: 12px;">申請</button>
+        <button data-testid="cancel-button" class="action-btn secondary" style="padding: 6px 12px; font-size: 12px;">クリア</button>
       </div>
     </div>
-  </div>
 
-  <!-- タブ：申請・承認・履歴 -->
-  <div style="display: flex; flex-direction: column; gap: 0.5rem; background: var(--bg-card); border-radius: 0.375rem; border: 1px solid rgba(255,255,255,0.12); padding: 0.75rem; max-height: 35%;">
-    <div style="display: flex; gap: 0.5rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">
-      <button id="tab-pending" data-testid="tab-pending" class="tab-button" style="padding: 0.5rem 1rem; background: var(--primary); color: #fff; border: none; border-radius: 0.25rem; cursor: pointer; font-size: 0.9rem; font-weight: 600;">申請中（2）</button>
-      <button id="tab-approved" data-testid="tab-approved" class="tab-button" style="padding: 0.5rem 1rem; background: transparent; color: var(--text-muted); border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; cursor: pointer; font-size: 0.9rem;">承認済（1）</button>
-      <button id="tab-history" data-testid="tab-history" class="tab-button" style="padding: 0.5rem 1rem; background: transparent; color: var(--text-muted); border: 1px solid rgba(255,255,255,0.18); border-radius: 0.25rem; cursor: pointer; font-size: 0.9rem;">全履歴</button>
+    <!-- 変更ステータス表示 -->
+    <div class="card" style="padding: 10px; border-radius: 3px; flex-shrink: 0; border-left: 3px solid var(--primary);">
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 12px;">
+        <div>
+          <span style="color: var(--text-muted);">変更ステータス:</span>
+          <span data-testid="change-status-display" style="color: var(--text); font-weight: 600;">-</span>
+        </div>
+        <div>
+          <span style="color: var(--text-muted);">申請日:</span>
+          <span data-testid="apply-date-display" style="color: var(--text);">-</span>
+        </div>
+      </div>
     </div>
 
-    <!-- タブコンテンツ：申請中 -->
-    <div id="tab-content-pending" class="tab-content" style="flex: 1; overflow-y: auto; font-size: 0.85rem;">
-      <table data-testid="pending-changes-table" style="width: 100%; border-collapse: collapse;">
-        <thead>
-          <tr style="background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1);">
-            <th style="padding: 0.5rem 0.375rem; text-align: left; color: var(--text); font-weight: 600; font-size: 0.8rem;">成果物</th>
-            <th style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text); font-weight: 600; font-size: 0.8rem;">現在の納期</th>
-            <th style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text); font-weight: 600; font-size: 0.8rem;">変更後納期</th>
-            <th style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text); font-weight: 600; font-size: 0.8rem;">申請日</th>
-            <th style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text); font-weight: 600; font-size: 0.8rem;">操作</th>
-          </tr>
-        </thead>
-        <tbody id="pending-tbody">
-          <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);" data-id="change-001">
-            <td style="padding: 0.5rem 0.375rem; color: var(--text);">基本設計書</td>
-            <td style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text);">2024-05-20</td>
-            <td style="padding: 0.5rem 0.375rem; text-align: center; color: #ffa500; font-weight: 600;">2024-06-10</td>
-            <td style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text);">2024-05-15</td>
-            <td style="padding: 0.5rem 0.375rem; text-align: center;">
-              <button class="action-btn secondary approve-btn" data-id="change-001" style="font-size: 0.75rem; padding: 0.25rem 0.5rem; margin-right: 0.25rem;">承認</button>
-              <button class="action-btn secondary reject-btn" data-id="change-001" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">却下</button>
-            </td>
-          </tr>
-          <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);" data-id="change-002">
-            <td style="padding: 0.5rem 0.375rem; color: var(--text);">実装コード</td>
-            <td style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text);">2024-08-30</td>
-            <td style="padding: 0.5rem 0.375rem; text-align: center; color: #ffa500; font-weight: 600;">2024-09-15</td>
-            <td style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text);">2024-08-20</td>
-            <td style="padding: 0.5rem 0.375rem; text-align: center;">
-              <button class="action-btn secondary approve-btn" data-id="change-002" style="font-size: 0.75rem; padding: 0.25rem 0.5rem; margin-right: 0.25rem;">承認</button>
-              <button class="action-btn secondary reject-btn" data-id="change-002" style="font-size: 0.75rem; padding: 0.25rem 0.5rem;">却下</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- 承認ボタン（管理者向け） -->
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 6px; flex-shrink: 0;" id="approval-buttons" style="display: none;">
+      <button data-testid="approve-button" class="action-btn" style="padding: 6px 12px; font-size: 12px; background: #4caf50;">承認</button>
+      <button data-testid="reject-button" class="action-btn secondary" style="padding: 6px 12px; font-size: 12px;">却下</button>
     </div>
 
-    <!-- タブコンテンツ：承認済 -->
-    <div id="tab-content-approved" class="tab-content" style="flex: 1; overflow-y: auto; font-size: 0.85rem; display: none;">
-      <table data-testid="approved-changes-table" style="width: 100%; border-collapse: collapse;">
-        <thead>
-          <tr style="background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1);">
-            <th style="padding: 0.5rem 0.375rem; text-align: left; color: var(--text); font-weight: 600; font-size: 0.8rem;">成果物</th>
-            <th style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text); font-weight: 600; font-size: 0.8rem;">変更前</th>
-            <th style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text); font-weight: 600; font-size: 0.8rem;">変更後</th>
-            <th style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text); font-weight: 600; font-size: 0.8rem;">承認日</th>
-          </tr>
-        </thead>
-        <tbody id="approved-tbody">
-          <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
-            <td style="padding: 0.5rem 0.375rem; color: var(--text);">要件定義書</td>
-            <td style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text);">2024-03-15</td>
-            <td style="padding: 0.5rem 0.375rem; text-align: center; color: #64c864; font-weight: 600;">2024-03-20</td>
-            <td style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text);">2024-03-16</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <!-- タブコンテンツ：全履歴 -->
-    <div id="tab-content-history" class="tab-content" style="flex: 1; overflow-y: auto; font-size: 0.85rem; display: none;">
-      <table data-testid="history-table" style="width: 100%; border-collapse: collapse;">
-        <thead>
-          <tr style="background: rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.1);">
-            <th style="padding: 0.5rem 0.375rem; text-align: left; color: var(--text); font-weight: 600; font-size: 0.8rem;">成果物</th>
-            <th style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text); font-weight: 600; font-size: 0.8rem;">変更前</th>
-            <th style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text); font-weight: 600; font-size: 0.8rem;">変更後</th>
-            <th style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text); font-weight: 600; font-size: 0.8rem;">理由</th>
-            <th style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text); font-weight: 600; font-size: 0.8rem;">ステータス</th>
-          </tr>
-        </thead>
-        <tbody id="history-tbody">
-          <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
-            <td style="padding: 0.5rem 0.375rem; color: var(--text);">要件定義書</td>
-            <td style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text);">2024-03-15</td>
-            <td style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text);">2024-03-20</td>
-            <td style="padding: 0.5rem 0.375rem; color: var(--text-muted); font-size: 0.8rem;">顧客要望</td>
-            <td style="padding: 0.5rem 0.375rem; text-align: center;"><span style="display: inline-block; padding: 0.2rem 0.4rem; background: rgba(100,200,100,0.2); color: #64c864; border-radius: 0.2rem; font-size: 0.75rem;">承認済</span></td>
-          </tr>
-          <tr style="border-bottom: 1px solid rgba(255,255,255,0.08);">
-            <td style="padding: 0.5rem 0.375rem; color: var(--text);">基本設計書</td>
-            <td style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text);">2024-05-20</td>
-            <td style="padding: 0.5rem 0.375rem; text-align: center; color: var(--text);">2024-06-10</td>
-            <td style="padding: 0.5rem 0.375rem; color: var(--text-muted); font-size: 0.8rem;">内部遅延</td>
-            <td style="padding: 0.5rem 0.375rem; text-align: center;"><span style="display: inline-block; padding: 0.2rem 0.4rem; background: rgba(255,100,100,0.2); color: #ff6464; border-radius: 0.2rem; font-size: 0.75rem;">申請中</span></td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- 変更履歴タイムライン -->
+    <div style="flex: 1; overflow-y: auto; border-top: 1px solid rgba(255,255,255,0.12); padding-top: 8px;">
+      <h3 style="font-size: 13px; font-weight: 700; margin: 0 0 8px 0; color: var(--text);">変更履歴</h3>
+      <div id="history-timeline" style="display: flex; flex-direction: column; gap: 8px; font-size: 11px;">
+        <div style="padding: 8px; border-left: 2px solid var(--primary); background: rgba(255,165,0,0.08); border-radius: 2px;">
+          <div style="color: var(--text); font-weight: 600;">2025-01-15 → 2025-02-20</div>
+          <div style="color: var(--text-muted); margin-top: 2px;">理由: 要件追加により実装期間延長</div>
+          <div style="color: #ffa500; margin-top: 3px; font-weight: 600;">申請中</div>
+        </div>
+        <div style="padding: 8px; border-left: 2px solid #4caf50; background: rgba(76,175,80,0.08); border-radius: 2px;">
+          <div style="color: var(--text); font-weight: 600;">2025-01-10 → 2025-01-15</div>
+          <div style="color: var(--text-muted); margin-top: 2px;">理由: 初期納期設定</div>
+          <div style="color: #4caf50; margin-top: 3px; font-weight: 600;">承認済 (2025-01-10 by 営業部長)</div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

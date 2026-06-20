@@ -18,19 +18,42 @@ window.AIVIC_PAGE_INIT_JS = "function(container, apiUrl, tables) {}";
 ```css
 :root {
   --primary: #d4af37;
-  --primary-hover: #f0c856;
-  --bg-main: #0a0a0a;
+  --primary-hover: #f4d03f;
+  --bg-main: #0f0f0f;
   --bg-card: #1a1a1a;
-  --bg-sidebar: #141414;
-  --border: #8b0000;
-  --text: #ffffff;
-  --text-muted: #b0b0b0;
+  --bg-sidebar: #161616;
+  --border: #2a2a2a;
+  --text: #f5f5f5;
+  --text-muted: #a0a0a0;
   --top-bar-bg: #1a1a1a;
-  --top-bar-border: #8b0000;
+  --top-bar-border: #2a2a2a;
+  --accent-red: #dc143c;
+  --accent-red-hover: #ff1744;
+  --success: #4caf50;
+  --warning: #ff9800;
+  --error: #f44336;
+  --info: #2196f3;
   --font-size-base: 16px;
-  --font-size-large: 18px;
+  --font-size-lg: 18px;
   --font-size-xl: 20px;
-  --font-size-heading: 24px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 28px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --shadow-sm: 0 1px 3px rgba(212, 175, 55, 0.1);
+  --shadow-md: 0 4px 12px rgba(212, 175, 55, 0.15);
+  --shadow-lg: 0 8px 24px rgba(212, 175, 55, 0.2);
+  --transition-fast: 150ms ease-in-out;
+  --transition-base: 250ms ease-in-out;
 }
 ```
 *, *::before, *::after { box-sizing: border-box; }
@@ -73,7 +96,7 @@ canvas { display:block; max-height:280px !important; }
 <body>
 <header class="top-bar">
   <span class="app-name">バックオフィサー</span>
-    <a href="./scr-1781954440904.html" class="sys-tab" data-aivic-nav-system="itg-3">契約・提案資料管理システム</a>
+    <a href="./scr-1781954055121.html" class="sys-tab" data-aivic-nav-system="itg-2">営業成果レポート自動生成・配信システム</a>
     <a href="./scr-1781956713866.html" class="sys-tab active" data-aivic-nav-system="itg-4">顧客企業向け契約・成果管理ポータル</a>
     <a href="./scr-1781957451550.html" class="sys-tab" data-aivic-nav-system="itg-5">契約変更・請求検証管理システム</a>
     <a href="./scr-1781953462575.html" class="sys-tab" data-aivic-nav-system="itg-1">営業データ品質管理・請求自動化システム</a>
@@ -97,243 +120,239 @@ canvas { display:block; max-height:280px !important; }
   </aside>
   <main class="main">
     <section class="card" data-aivic-panel="scr-1781957290638" style="margin-top:0">
-<div style="padding: 1rem; background: var(--bg-main); color: var(--text);">
-  <!-- ヘッダー: ユーザー情報 -->
-  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1);">
-    <div>
-      <h1 style="margin: 0; font-size: 1.75rem; font-weight: 700;">ポータル確認画面</h1>
-      <p style="margin: 0.5rem 0 0 0; font-size: 0.9rem; color: var(--text-muted);">契約・成果・請求情報を一元管理</p>
+<div style="display: flex; flex-direction: column; height: 100%; background: var(--bg-main); color: var(--text);">
+  
+  <!-- ヘッダー: ユーザー情報 + KPI -->
+  <div style="padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.08); background: var(--bg-card);">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+      <div>
+        <h1 style="margin: 0; font-size: 18px; font-weight: 600;">ポータル確認</h1>
+        <p style="margin: 2px 0 0 0; font-size: 12px; color: var(--text-muted);" data-testid="user-info">
+          ユーザー: <span id="user-name">読込中...</span> | 企業: <span id="company-name">読込中...</span>
+        </p>
+      </div>
+      <button class="action-btn" data-testid="logout-button" style="background: var(--primary); color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-size: 12px;">
+        ログアウト
+      </button>
     </div>
-    <div style="text-align: right;">
-      <div style="font-size: 0.95rem; color: var(--text-muted);">ログインユーザー</div>
-      <div style="font-size: 1.1rem; font-weight: 600;" data-testid="login-user-name">-</div>
-      <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.25rem;" data-testid="login-user-email">-</div>
-    </div>
-  </div>
-
-  <!-- KPI カード群 -->
-  <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-    <div class="card" style="padding: 1rem; border-left: 4px solid #d4af37;">
-      <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">契約件数</div>
-      <div style="font-size: 1.8rem; font-weight: 700; color: var(--primary);" data-testid="kpi-contract-count">0</div>
-    </div>
-    <div class="card" style="padding: 1rem; border-left: 4px solid #d4af37;">
-      <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">成果物（進行中）</div>
-      <div style="font-size: 1.8rem; font-weight: 700; color: var(--primary);" data-testid="kpi-deliverable-progress">0</div>
-    </div>
-    <div class="card" style="padding: 1rem; border-left: 4px solid #d4af37;">
-      <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">請求書（未支払）</div>
-      <div style="font-size: 1.8rem; font-weight: 700; color: var(--primary);" data-testid="kpi-invoice-unpaid">0</div>
-    </div>
-    <div class="card" style="padding: 1rem; border-left: 4px solid #d4af37;">
-      <div style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.5rem;">納期遅延</div>
-      <div style="font-size: 1.8rem; font-weight: 700; color: #ff6a00;" data-testid="kpi-delivery-delay">0</div>
+    
+    <!-- KPI カード -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 8px;">
+      <div style="background: rgba(255,107,53,0.1); border-left: 3px solid #ff6b35; padding: 8px; border-radius: 4px;">
+        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 2px;">契約数</div>
+        <div style="font-size: 18px; font-weight: 700; color: #ff6b35;" data-testid="kpi-contracts">0</div>
+      </div>
+      <div style="background: rgba(255,193,7,0.1); border-left: 3px solid #ffc107; padding: 8px; border-radius: 4px;">
+        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 2px;">納期予定</div>
+        <div style="font-size: 18px; font-weight: 700; color: #ffc107;" data-testid="kpi-deliverables">0</div>
+      </div>
+      <div style="background: rgba(76,175,80,0.1); border-left: 3px solid #4caf50; padding: 8px; border-radius: 4px;">
+        <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 2px;">請求待ち</div>
+        <div style="font-size: 18px; font-weight: 700; color: #4caf50;" data-testid="kpi-invoices">0</div>
+      </div>
     </div>
   </div>
 
   <!-- タブナビゲーション -->
-  <div style="display: flex; gap: 0.5rem; margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); overflow-x: auto;">
-    <button class="tab-btn" data-tab="contracts" style="padding: 0.75rem 1rem; background: transparent; border: none; border-bottom: 2px solid var(--primary); color: var(--primary); font-weight: 600; cursor: pointer; font-size: 0.95rem;" data-testid="tab-contracts">契約一覧</button>
-    <button class="tab-btn" data-tab="deliverables" style="padding: 0.75rem 1rem; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; font-size: 0.95rem;" data-testid="tab-deliverables">成果物納期</button>
-    <button class="tab-btn" data-tab="invoices" style="padding: 0.75rem 1rem; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; font-size: 0.95rem;" data-testid="tab-invoices">請求書</button>
-    <button class="tab-btn" data-tab="emails" style="padding: 0.75rem 1rem; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; font-size: 0.95rem;" data-testid="tab-emails">メール履歴</button>
-    <button class="tab-btn" data-tab="notifications" style="padding: 0.75rem 1rem; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; font-size: 0.95rem;" data-testid="tab-notifications">通知</button>
-    <button class="tab-btn" data-tab="changes" style="padding: 0.75rem 1rem; background: transparent; border: none; border-bottom: 2px solid transparent; color: var(--text-muted); font-weight: 600; cursor: pointer; font-size: 0.95rem;" data-testid="tab-changes">変更履歴</button>
+  <div style="display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.08); background: var(--bg-card); padding: 0 16px;">
+    <button class="tab-btn active" data-tab="contracts" data-testid="tab-contracts" style="padding: 10px 12px; border: none; background: transparent; color: var(--text); cursor: pointer; border-bottom: 2px solid var(--primary); font-size: 13px; font-weight: 500;">
+      契約一覧
+    </button>
+    <button class="tab-btn" data-tab="deliverables" data-testid="tab-deliverables" style="padding: 10px 12px; border: none; background: transparent; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; font-size: 13px; font-weight: 500;">
+      成果物納期
+    </button>
+    <button class="tab-btn" data-tab="invoices" data-testid="tab-invoices" style="padding: 10px 12px; border: none; background: transparent; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; font-size: 13px; font-weight: 500;">
+      請求書
+    </button>
+    <button class="tab-btn" data-tab="history" data-testid="tab-history" style="padding: 10px 12px; border: none; background: transparent; color: var(--text-muted); cursor: pointer; border-bottom: 2px solid transparent; font-size: 13px; font-weight: 500;">
+      履歴
+    </button>
   </div>
 
-  <!-- タブ: 契約一覧 -->
-  <div id="tab-contracts" class="tab-content" style="display: block;">
-    <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
-      <select data-testid="contract-status-filter" style="padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.9rem;">
-        <option value="">ステータス: すべて</option>
-        <option value="提案中">提案中</option>
-        <option value="承認待ち">承認待ち</option>
-        <option value="契約済">契約済</option>
-        <option value="完了">完了</option>
-        <option value="終了">終了</option>
-      </select>
-      <button data-testid="contract-search-btn" class="action-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">検索</button>
-      <button data-testid="contract-export-btn" class="action-btn secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">CSV出力</button>
-    </div>
-    <div class="table-wrap">
-      <table data-testid="contract-list">
-        <thead>
-          <tr>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">契約名</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">契約種別</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">ステータス</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">開始日</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">終了日</th>
-            <th style="text-align: right; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">金額</th>
-            <th style="text-align: center; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">操作</th>
-          </tr>
-        </thead>
-        <tbody id="contract-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- タブ: 成果物納期 -->
-  <div id="tab-deliverables" class="tab-content" style="display: none;">
-    <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
-      <select data-testid="deliverable-status-filter" style="padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.9rem;">
-        <option value="">納期ステータス: すべて</option>
-        <option value="予定通り">予定通り</option>
-        <option value="遅延">遅延</option>
-        <option value="完了">完了</option>
-      </select>
-      <button data-testid="deliverable-search-btn" class="action-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">検索</button>
-      <button data-testid="deliverable-export-btn" class="action-btn secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">CSV出力</button>
-    </div>
-    <div class="table-wrap">
-      <table data-testid="deliverable-list">
-        <thead>
-          <tr>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">成果物名</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">契約名</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">予定納期</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">実績納期</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">ステータス</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">顧客承認</th>
-            <th style="text-align: center; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">操作</th>
-          </tr>
-        </thead>
-        <tbody id="deliverable-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- タブ: 請求書 -->
-  <div id="tab-invoices" class="tab-content" style="display: none;">
-    <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
-      <select data-testid="invoice-status-filter" style="padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.9rem;">
-        <option value="">請求ステータス: すべて</option>
-        <option value="未送付">未送付</option>
-        <option value="送付済">送付済</option>
-        <option value="支払済">支払済</option>
-        <option value="期限超過">期限超過</option>
-      </select>
-      <button data-testid="invoice-search-btn" class="action-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">検索</button>
-      <button data-testid="invoice-export-btn" class="action-btn secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">CSV出力</button>
-    </div>
-    <div class="table-wrap">
-      <table data-testid="invoice-list">
-        <thead>
-          <tr>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">請求書番号</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">契約名</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">請求日</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">支払期限</th>
-            <th style="text-align: right; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">請求金額</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">ステータス</th>
-            <th style="text-align: center; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">操作</th>
-          </tr>
-        </thead>
-        <tbody id="invoice-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- タブ: メール履歴 -->
-  <div id="tab-emails" class="tab-content" style="display: none;">
-    <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
-      <select data-testid="email-type-filter" style="padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.9rem;">
-        <option value="">メール種別: すべて</option>
-        <option value="提案">提案</option>
-        <option value="契約確認">契約確認</option>
-        <option value="成果物納期通知">成果物納期通知</option>
-        <option value="請求書送付">請求書送付</option>
-        <option value="変更通知">変更通知</option>
-      </select>
-      <button data-testid="email-search-btn" class="action-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">検索</button>
-      <button data-testid="email-export-btn" class="action-btn secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">CSV出力</button>
-    </div>
-    <div class="table-wrap">
-      <table data-testid="email-list">
-        <thead>
-          <tr>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">送受信日時</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">件名</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">送信者</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">受信者</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">種別</th>
-            <th style="text-align: center; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">操作</th>
-          </tr>
-        </thead>
-        <tbody id="email-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- タブ: 通知 -->
-  <div id="tab-notifications" class="tab-content" style="display: none;">
-    <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
-      <select data-testid="notification-type-filter" style="padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.9rem;">
-        <option value="">通知タイプ: すべて</option>
-        <option value="契約更新">契約更新</option>
-        <option value="成果物納期">成果物納期</option>
-        <option value="請求書発行">請求書発行</option>
-        <option value="契約変更">契約変更</option>
-      </select>
-      <button data-testid="notification-search-btn" class="action-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">検索</button>
-      <button data-testid="notification-export-btn" class="action-btn secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">CSV出力</button>
-    </div>
-    <div class="table-wrap">
-      <table data-testid="notification-list">
-        <thead>
-          <tr>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">送信日時</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">タイトル</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">通知タイプ</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">送信方法</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">既読</th>
-            <th style="text-align: center; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">操作</th>
-          </tr>
-        </thead>
-        <tbody id="notification-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- タブ: 変更履歴 -->
-  <div id="tab-changes" class="tab-content" style="display: none;">
-    <div style="display: flex; gap: 0.75rem; margin-bottom: 1rem; flex-wrap: wrap;">
-      <select data-testid="change-type-filter" style="padding: 0.5rem 0.75rem; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 0.25rem; font-size: 0.9rem;">
-        <option value="">変更種別: すべて</option>
-        <option value="金額変更">金額変更</option>
-        <option value="期間延長">期間延長</option>
-        <option value="条件変更">条件変更</option>
-        <option value="解除">解除</option>
-      </select>
-      <button data-testid="change-search-btn" class="action-btn" style="padding: 0.5rem 1rem; font-size: 0.9rem;">検索</button>
-      <button data-testid="change-export-btn" class="action-btn secondary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">CSV出力</button>
-    </div>
-    <div class="table-wrap">
-      <table data-testid="change-list">
-        <thead>
-          <tr>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">契約名</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">変更種別</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">変更前</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">変更後</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">ステータス</th>
-            <th style="text-align: left; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">申請日</th>
-            <th style="text-align: center; padding: 0.75rem; font-weight: 600; font-size: 0.9rem;">操作</th>
-          </tr>
-        </thead>
-        <tbody id="change-tbody"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- 詳細モーダル -->
-  <div id="detail-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; overflow-y: auto;">
-    <div class="card" style="margin: 2rem auto; max-width: 600px; padding: 1.5rem;">
-      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-        <h2 style="margin: 0; font-size: 1.3rem; font-weight: 700;" id="modal-title">詳細</h2>
-        <button id="modal-close-btn" class="action-btn secondary" style="padding: 0.4rem 0.8rem; font-size: 0.85rem;">閉じる</button>
+  <!-- コンテンツエリア -->
+  <div style="flex: 1; overflow-y: auto; padding: 12px 16px;">
+    
+    <!-- タブ 1: 契約一覧 -->
+    <div id="tab-contracts-panel" class="tab-panel" style="display: block;">
+      <div style="margin-bottom: 12px; display: flex; gap: 8px; align-items: center;">
+        <label style="font-size: 12px; color: var(--text-muted);">ステータス:</label>
+        <select id="contract-status-filter" data-testid="contract-status-filter" style="padding: 4px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 12px;">
+          <option value="">すべて</option>
+          <option value="提案中">提案中</option>
+          <option value="承認待ち">承認待ち</option>
+          <option value="契約済">契約済</option>
+          <option value="完了">完了</option>
+          <option value="終了">終了</option>
+        </select>
+        <button id="btn-contract-filter" data-testid="btn-contract-filter" class="action-btn" style="padding: 4px 10px; font-size: 12px;">フィルター</button>
+        <button id="btn-contract-export" data-testid="btn-contract-export" class="action-btn secondary" style="padding: 4px 10px; font-size: 12px; margin-left: auto;">CSVエクスポート</button>
       </div>
-      <div id="modal-content" style="font-size: 0.9rem; line-height: 1.6;"></div>
+      <div class="table-wrap" style="border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden;">
+        <table data-testid="contracts-list" style="width: 100%; font-size: 12px;">
+          <thead style="background: rgba(255,255,255,0.04);">
+            <tr>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">契約名</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">ステータス</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">開始日</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">終了日</th>
+              <th style="padding: 8px; text-align: right; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">金額</th>
+              <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">アクション</th>
+            </tr>
+          </thead>
+          <tbody id="contracts-tbody">
+            <tr style="background: rgba(255,255,255,0.02);">
+              <td colspan="6" style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 12px;">読込中...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- タブ 2: 成果物納期 -->
+    <div id="tab-deliverables-panel" class="tab-panel" style="display: none;">
+      <div style="margin-bottom: 12px; display: flex; gap: 8px; align-items: center;">
+        <label style="font-size: 12px; color: var(--text-muted);">納期ステータス:</label>
+        <select id="deliverable-status-filter" data-testid="deliverable-status-filter" style="padding: 4px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 12px;">
+          <option value="">すべて</option>
+          <option value="予定通り">予定通り</option>
+          <option value="遅延">遅延</option>
+          <option value="完了">完了</option>
+        </select>
+        <button id="btn-deliverable-filter" data-testid="btn-deliverable-filter" class="action-btn" style="padding: 4px 10px; font-size: 12px;">フィルター</button>
+        <button id="btn-deliverable-export" data-testid="btn-deliverable-export" class="action-btn secondary" style="padding: 4px 10px; font-size: 12px; margin-left: auto;">CSVエクスポート</button>
+      </div>
+      <div class="table-wrap" style="border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden;">
+        <table data-testid="deliverables-list" style="width: 100%; font-size: 12px;">
+          <thead style="background: rgba(255,255,255,0.04);">
+            <tr>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">成果物名</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">予定納期</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">実績納期</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">ステータス</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">顧客承認</th>
+              <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">アクション</th>
+            </tr>
+          </thead>
+          <tbody id="deliverables-tbody">
+            <tr style="background: rgba(255,255,255,0.02);">
+              <td colspan="6" style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 12px;">読込中...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- タブ 3: 請求書 -->
+    <div id="tab-invoices-panel" class="tab-panel" style="display: none;">
+      <div style="margin-bottom: 12px; display: flex; gap: 8px; align-items: center;">
+        <label style="font-size: 12px; color: var(--text-muted);">請求ステータス:</label>
+        <select id="invoice-status-filter" data-testid="invoice-status-filter" style="padding: 4px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 12px;">
+          <option value="">すべて</option>
+          <option value="未送付">未送付</option>
+          <option value="送付済">送付済</option>
+          <option value="支払済">支払済</option>
+          <option value="期限超過">期限超過</option>
+        </select>
+        <button id="btn-invoice-filter" data-testid="btn-invoice-filter" class="action-btn" style="padding: 4px 10px; font-size: 12px;">フィルター</button>
+        <button id="btn-invoice-export" data-testid="btn-invoice-export" class="action-btn secondary" style="padding: 4px 10px; font-size: 12px; margin-left: auto;">CSVエクスポート</button>
+      </div>
+      <div class="table-wrap" style="border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden;">
+        <table data-testid="invoices-list" style="width: 100%; font-size: 12px;">
+          <thead style="background: rgba(255,255,255,0.04);">
+            <tr>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">請求書番号</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">請求日</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">期間</th>
+              <th style="padding: 8px; text-align: right; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">金額</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">ステータス</th>
+              <th style="padding: 8px; text-align: left; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">支払期限</th>
+              <th style="padding: 8px; text-align: center; color: var(--text); font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.08);">アクション</th>
+            </tr>
+          </thead>
+          <tbody id="invoices-tbody">
+            <tr style="background: rgba(255,255,255,0.02);">
+              <td colspan="7" style="padding: 20px; text-align: center; color: var(--text-muted); font-size: 12px;">読込中...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- タブ 4: 履歴 -->
+    <div id="tab-history-panel" class="tab-panel" style="display: none;">
+      <div style="margin-bottom: 12px; display: flex; gap: 8px; align-items: center;">
+        <label style="font-size: 12px; color: var(--text-muted);">履歴種別:</label>
+        <select id="history-type-filter" data-testid="history-type-filter" style="padding: 4px 8px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 12px;">
+          <option value="">すべて</option>
+          <option value="メール">メール</option>
+          <option value="通知">通知</option>
+          <option value="契約変更">契約変更</option>
+          <option value="納期変更">納期変更</option>
+        </select>
+        <button id="btn-history-filter" data-testid="btn-history-filter" class="action-btn" style="padding: 4px 10px; font-size: 12px;">フィルター</button>
+        <button id="btn-history-export" data-testid="btn-history-export" class="action-btn secondary" style="padding: 4px 10px; font-size: 12px; margin-left: auto;">CSVエクスポート</button>
+      </div>
+      <div style="border: 1px solid rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden;">
+        <div id="history-timeline" style="padding: 12px; background: rgba(255,255,255,0.02);">
+          <div style="text-align: center; color: var(--text-muted); font-size: 12px; padding: 20px;">読込中...</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- モーダル: 契約詳細 -->
+<div id="modal-contract-detail" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+  <div style="background: var(--bg-card); border-radius: 6px; padding: 16px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+      <h2 style="margin: 0; font-size: 14px; font-weight: 600;">契約詳細</h2>
+      <button id="modal-contract-close" class="action-btn secondary" style="padding: 4px 8px; font-size: 12px;">閉じる</button>
+    </div>
+    <div id="modal-contract-content" style="font-size: 12px; line-height: 1.6;">
+      <!-- 動的に入力される -->
+    </div>
+  </div>
+</div>
+
+<!-- モーダル: 納期変更申請 -->
+<div id="modal-deliverable-change" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+  <div style="background: var(--bg-card); border-radius: 6px; padding: 16px; max-width: 500px; width: 90%;">
+    <h2 style="margin: 0 0 12px 0; font-size: 14px; font-weight: 600;">納期変更申請</h2>
+    <div style="margin-bottom: 12px;">
+      <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">成果物ID</label>
+      <input id="change-deliverable-id" type="hidden" />
+      <input id="change-deliverable-name" type="text" disabled style="width: 100%; padding: 6px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 12px;" />
+    </div>
+    <div style="margin-bottom: 12px;">
+      <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">変更前納期</label>
+      <input id="change-old-date" type="text" disabled style="width: 100%; padding: 6px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 12px;" />
+    </div>
+    <div style="margin-bottom: 12px;">
+      <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">変更後納期 *</label>
+      <input id="change-new-date" type="date" data-testid="change-new-date" style="width: 100%; padding: 6px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 12px;" />
+    </div>
+    <div style="margin-bottom: 12px;">
+      <label style="display: block; font-size: 11px; color: var(--text-muted); margin-bottom: 4px;">変更理由 *</label>
+      <textarea id="change-reason" data-testid="change-reason" style="width: 100%; padding: 6px; border: 1px solid rgba(255,255,255,0.18); background: rgba(0,0,0,0.25); color: var(--text); border-radius: 3px; font-size: 12px; min-height: 60px; resize: vertical;"></textarea>
+    </div>
+    <div style="display: flex; gap: 8px; justify-content: flex-end;">
+      <button id="modal-deliverable-cancel" class="action-btn secondary" style="padding: 6px 12px; font-size: 12px;">キャンセル</button>
+      <button id="modal-deliverable-submit" data-testid="modal-deliverable-submit" class="action-btn" style="padding: 6px 12px; font-size: 12px;">申請</button>
+    </div>
+  </div>
+</div>
+
+<!-- モーダル: 請求書詳細 -->
+<div id="modal-invoice-detail" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.5); z-index: 1000; align-items: center; justify-content: center;">
+  <div style="background: var(--bg-card); border-radius: 6px; padding: 16px; max-width: 600px; width: 90%; max-height: 80vh; overflow-y: auto;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+      <h2 style="margin: 0; font-size: 14px; font-weight: 600;">請求書詳細</h2>
+      <button id="modal-invoice-close" class="action-btn secondary" style="padding: 4px 8px; font-size: 12px;">閉じる</button>
+    </div>
+    <div id="modal-invoice-content" style="font-size: 12px; line-height: 1.6;">
+      <!-- 動的に入力される -->
     </div>
   </div>
 </div>
